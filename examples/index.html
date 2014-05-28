@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formarble example</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <script src="bower_components/lodash/dist/lodash.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="../formarble.js"></script>
+    <script src="schema.js"></script>
+    <script src="app.js"></script>
+</head>
+<body ng-app="FormarbleExample">
+<div class="container">
+    <h1>Formarble example</h1>
+    <button ng-click="show = !show">Show form</button>
+
+    <div class="row">
+        <div class="col-md-6" ng-if="show">
+            <form class="form-horizontal"
+                  fm-form fm-schema="schema" fm-model="model"></form>
+        </div>
+        <div class="col-md-6">
+            Model: <pre>{{model | json}}</pre>
+            Filtered: <pre>{{modelFiltered | json}}</pre>
+        </div>
+    </div>
+
+</div>
+</body>
+<script>
+//    $('body').on('click', '.nav-tabs a', function (e) {
+//        e.preventDefault()
+//        $(this).tab('show')
+//    })
+</script>
+
+<script id="formarble/group" type="text/ng-template">
+    <div>
+        <h2>Group: {{::$control.path}}</h2>
+
+        <div ng-repeat="c in ::$subControls | orderBy:'order'" fm-control="c"></div>
+
+    </div>
+</script>
+<script id="formarble/group:tab" type="text/ng-template">
+    <!-- Nav tabs -->
+    <ul class="nav nav-pills">
+        <li ng-class="{active: $first}"
+            ng-repeat="c in ::$subControls | orderBy:'order'">
+            <a href="#{{::c.path.split('.').join('-')}}" data-toggle="tab">{{::c.title || c.description || c.path}}</a>
+        </li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane"
+             ng-class="{active: $first}"
+             ng-repeat="c in ::$subControls | orderBy:'order'"
+             id="{{::c.path.split('.').join('-')}}"
+             fm-control="c"></div>
+    </div>
+
+
+</script>
+<script id="formarble/input" type="text/ng-template">
+    <div class="form-group" ng-class="{'has-error': $input.$invalid}">
+        <label class="control-label col-sm-4" fm-label="$control">{{:: $control.title || $control.path}}</label>
+
+        <div class="col-sm-8">
+            <pre>{{$id}} {{$model}}</pre>
+            <pre>{{$control.display}}</pre>
+            <pre>p {{$input.$pristine}}
+d {{$input.$dirty}}
+v {{$input.$valid}}
+i {{$input.$invalid}}</pre>
+
+            <input class="form-control" fm-input="$control"/>
+
+            <p class="help-block">{{:: $control.description}}</p>
+        </div>
+    </div>
+</script>
+<!--<script id="formarble/input:checkbox" type="text/ng-template">
+    <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-8">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" fm-input="$control"> {{:: $control.title || $control.path}}
+                </label>
+            </div>
+            <p class="help-block">{{:: $control.description}}</p>
+        </div>
+    </div>
+</script>-->
+<script id="formarble/input:checkbox" type="text/ng-template">
+    <div class="form-group">
+        <label class="control-label col-sm-4" fm-label="$control">{{:: $control.title || $control.path}}</label>
+
+        <div class="col-sm-8">
+            <select class="form-control" ng-model="$model">
+                <option value>default</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+        </div>
+    </div>
+</script>
+<script id="formarble/select" type="text/ng-template">
+    <div class="form-group">
+        <label class="control-label col-sm-4" fm-label="$control">{{:: $control.title || $control.path}}</label>
+
+        <div class="col-sm-8">
+            {{$id}} {{$model}}
+            <select class="form-control" fm-input="$control">
+                <option value>default</option>
+            </select>
+        </div>
+    </div>
+</script>
+</html>
