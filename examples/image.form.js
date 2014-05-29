@@ -18,10 +18,26 @@ module.exports = {
     display: 'group:tab',
 
     properties: {
-        customProp: {
+        testText: {
             type: 'string',
             maxLength: 255,
             order: 1
+        },
+
+        testRange: {
+            display: {
+                name: 'input',
+                type: 'range',
+                min: 0,
+                max: 1,
+                step: 0.01
+            },
+            order: 2
+        },
+
+        testCheckbox: {
+            type: 'boolean',
+            order: 2
         },
 
         vignette: {

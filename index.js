@@ -42,7 +42,11 @@ function resolveDisplayByType(schema) {
 
     if ('string' === schema.type) {
         if (schema.enum) {
-            return { name: 'select', options: schema.enum };
+            if(schema.enum.length > 3) {
+                return { name: 'select', options: schema.enum };
+            } else {
+                return { name: 'radio-list', options: schema.enum };
+            }
         } else if ('Color' === schema.format) {
             return { name: 'input', type: 'color' };
         } else {

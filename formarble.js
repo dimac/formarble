@@ -1,5 +1,36 @@
 "use strict";
 
+function objSet(obj, path, value) {
+    var segments = path.split('.'),
+        cursor = obj,
+        segment,
+        i;
+
+    for (i = 0; i < segments.length - 1; ++i) {
+        segment = segments[i];
+        cursor = cursor[segment] = cursor[segment] || {};
+    }
+
+    return cursor[segments[i]] = value;
+}
+//objGet2 in http://jsperf.com/get-value-by-path
+function objGet(obj, path) {
+    var segments = path.split('.'),
+        cursor = obj,
+        len = segments.length,
+        i;
+
+    for (i = 0; i < len; i++) {
+        cursor = cursor[segments[i]];
+
+        if (undefined === cursor) {
+            return;
+        }
+    }
+
+    return cursor;
+}
+
 
 angular.module('formarble', [])
     .service('fm', function () {
@@ -57,30 +88,28 @@ angular.module('formarble', [])
     .directive('fmForm', function (fmTemplate, $compile) {
         return {
             restrict: 'EA',
-            require: '^form',
+            require: 'ngModel',
+
+            controller: function ($scope, $attrs) {
+                var model = $scope.$eval($attrs.ngModel);
+
+                this.set = function (path, value) {
+                    objSet(model, path, value);
+                }
+
+                this.get = function (path) {
+                    return objGet(model, path);
+                }
+
+                this.watch = function (path, cb) {
+                    return $scope.$watch($attrs.ngModel + '.' + path, cb);
+                }
+            },
 
             compile: function () {
                 return function (_scope, elem, attrs) {
                     var schema = _scope.$eval(attrs.fmSchema);
-                    var model = _scope.$eval(attrs.fmModel);
                     var scope = _scope.$new(true);
-
-//                    scope.$model = {};
-//                    scope.$watch('$model', function () {
-//                        Object.keys(scope.$model).forEach(function (key) {
-//                            var quotedVal = JSON.stringify(scope.$model[key])
-//                            var expr = attrs.fmModel + '.' + key + '=' + quotedVal;
-//                            console.log(expr);
-//                            _scope.$eval(expr);
-//                        })
-//                    }, true);
-
-                    scope.pathChanged = function (path, value) {
-                        var quotedVal = JSON.stringify(value);
-                        var expr = attrs.fmModel + '.' + path + '=' + quotedVal;
-                        console.log(expr);
-                        _scope.$eval(expr);
-                    }
 
                     var template = fmTemplate.get(schema.display);
                     if (template) {
@@ -94,7 +123,6 @@ angular.module('formarble', [])
                                 return schema.properties[key];
                             });
                         }
-
                     }
                 }
             }
@@ -106,10 +134,16 @@ angular.module('formarble', [])
         }
 
         return {
+            require: '^fmForm',
             restrict: 'EA',
-            link: function (_scope, elem, attrs) {
+            link: function (_scope, elem, attrs, ctrl) {
                 var control = _scope.$eval(attrs.fmControl);
                 var scope = _scope.$new();
+
+                var origPathWatcher = function () {
+                    return ctrl.get(control.path)
+                }
+                var localPathWatcher = '$control.value';
 
                 var template = fmTemplate.get(control.display);
                 if (template) {
@@ -122,15 +156,18 @@ angular.module('formarble', [])
                             return control.properties[key];
                         });
                     } else {
-                        scope.$model = null;
-                        var pathModel = '$model';
-//                        elem.find('[fm-input],[fm-select]').attr('ng-model', pathModel);
-                        scope.$watch(pathModel, function (value, old) {
-//                            console.log(control.path, value, old);
-                            if (!isEmpty(value) || !isEmpty(old)) {
-                                scope.pathChanged(control.path, value, old);
-                            }
+                        control.value = ctrl.get(control.path);
+                        scope.$watch(origPathWatcher, function (value, old) {
+                            scope.$empty = isEmpty(value);
+                            scope.$control.value = value;
                         })
+                        scope.$watch(localPathWatcher, function (value, old) {
+                            scope.$empty = isEmpty(value);
+//                            if (!scope.$empty || !isEmpty(old)) {
+                            ctrl.set(control.path, value || null);
+//                            }
+                        })
+
                     }
 
                     $compile(elem.contents())(scope);
@@ -166,9 +203,9 @@ angular.module('formarble', [])
                 var controlModelName = tAttrs.fmInput;
 
                 tAttrs.$set('fmInput', null);
-                tAttrs.$set('ngModel', '$model');
+                tAttrs.$set('ngModel', '$control.value');
 
-                return function (scope, elem, attr) {
+                return function (scope, elem, attr, ctrl) {
                     var control = scope.$eval(controlModelName);
 
                     attr.$set('id', control.path.split('.').join('-'));
@@ -200,4 +237,25 @@ angular.module('formarble', [])
                     scope.$input = elem.controller('ngModel');
                 }
             }}
+    })
+    .directive('fmReset', function () {
+        return {
+            link: function (scope, elem, attrs) {
+                var input = scope.$eval(attrs.fmReset);
+
+                function onClick(e) {
+                    e.preventDefault();
+//                    elem.prop('value', '');
+                    input.$setViewValue(undefined);//reset ngModel value
+                    input.$setPristine();
+                    scope.$apply();
+                }
+
+                elem.bind('click', onClick);
+
+                scope.$on('destroy', function () {
+                    elem.unbind('click', onClick);
+                })
+            }
+        }
     })

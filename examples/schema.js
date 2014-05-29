@@ -21,7 +21,7 @@ window.schema = {
             "webp"
           ],
           "display": {
-            "name": "select",
+            "name": "radio-list",
             "options": [
               "png",
               "jpg",
@@ -295,7 +295,7 @@ window.schema = {
             "4:2:0"
           ],
           "display": {
-            "name": "select",
+            "name": "radio-list",
             "options": [
               "4:4:4",
               "4:2:2",
@@ -379,7 +379,7 @@ window.schema = {
                 "jpg"
               ],
               "display": {
-                "name": "select",
+                "name": "radio-list",
                 "options": [
                   "png",
                   "jpg"
@@ -560,7 +560,7 @@ window.schema = {
                 "none"
               ],
               "display": {
-                "name": "select",
+                "name": "radio-list",
                 "options": [
                   "simple",
                   "soft",
@@ -623,7 +623,7 @@ window.schema = {
                     "italic"
                   ],
                   "display": {
-                    "name": "select",
+                    "name": "radio-list",
                     "options": [
                       "normal",
                       "italic"
@@ -870,7 +870,7 @@ window.schema = {
           "level": 2,
           "order": 1057
         },
-        "customProp": {
+        "testText": {
           "type": "string",
           "maxLength": 255,
           "order": 1,
@@ -879,7 +879,29 @@ window.schema = {
             "type": "text",
             "maxlength": 255
           },
-          "path": "image.customProp",
+          "path": "image.testText",
+          "level": 2
+        },
+        "testRange": {
+          "display": {
+            "name": "input",
+            "type": "range",
+            "min": 0,
+            "max": 1,
+            "step": 0.01
+          },
+          "order": 2,
+          "path": "image.testRange",
+          "level": 2
+        },
+        "testCheckbox": {
+          "type": "boolean",
+          "order": 2,
+          "display": {
+            "name": "input",
+            "type": "checkbox"
+          },
+          "path": "image.testCheckbox",
           "level": 2
         }
       },
@@ -989,7 +1011,7 @@ window.schema = {
                 "click"
               ],
               "display": {
-                "name": "select",
+                "name": "radio-list",
                 "options": [
                   "load",
                   "hover",
@@ -1067,7 +1089,7 @@ window.schema = {
                 "hover"
               ],
               "display": {
-                "name": "select",
+                "name": "radio-list",
                 "options": [
                   "drag",
                   "hover"
@@ -1125,7 +1147,7 @@ window.schema = {
                 "never"
               ],
               "display": {
-                "name": "select",
+                "name": "radio-list",
                 "options": [
                   "click",
                   "hover",
@@ -1250,7 +1272,7 @@ window.schema = {
                 "webp"
               ],
               "display": {
-                "name": "select",
+                "name": "radio-list",
                 "options": [
                   "png",
                   "jpg",
@@ -1501,7 +1523,7 @@ window.schema = {
                 "4:2:0"
               ],
               "display": {
-                "name": "select",
+                "name": "radio-list",
                 "options": [
                   "4:4:4",
                   "4:2:2",
@@ -1585,7 +1607,7 @@ window.schema = {
                     "jpg"
                   ],
                   "display": {
-                    "name": "select",
+                    "name": "radio-list",
                     "options": [
                       "png",
                       "jpg"
@@ -1766,7 +1788,7 @@ window.schema = {
                     "none"
                   ],
                   "display": {
-                    "name": "select",
+                    "name": "radio-list",
                     "options": [
                       "simple",
                       "soft",
@@ -1829,7 +1851,7 @@ window.schema = {
                         "italic"
                       ],
                       "display": {
-                        "name": "select",
+                        "name": "radio-list",
                         "options": [
                           "normal",
                           "italic"
@@ -2102,7 +2124,7 @@ window.schema = {
                 "webp"
               ],
               "display": {
-                "name": "select",
+                "name": "radio-list",
                 "options": [
                   "png",
                   "jpg",
@@ -2353,7 +2375,7 @@ window.schema = {
                 "4:2:0"
               ],
               "display": {
-                "name": "select",
+                "name": "radio-list",
                 "options": [
                   "4:4:4",
                   "4:2:2",
@@ -2437,7 +2459,7 @@ window.schema = {
                     "jpg"
                   ],
                   "display": {
-                    "name": "select",
+                    "name": "radio-list",
                     "options": [
                       "png",
                       "jpg"
@@ -2618,7 +2640,7 @@ window.schema = {
                     "none"
                   ],
                   "display": {
-                    "name": "select",
+                    "name": "radio-list",
                     "options": [
                       "simple",
                       "soft",
@@ -2681,7 +2703,7 @@ window.schema = {
                         "italic"
                       ],
                       "display": {
-                        "name": "select",
+                        "name": "radio-list",
                         "options": [
                           "normal",
                           "italic"
@@ -2954,7 +2976,7 @@ window.schema = {
                 "webp"
               ],
               "display": {
-                "name": "select",
+                "name": "radio-list",
                 "options": [
                   "png",
                   "jpg",
@@ -3205,7 +3227,7 @@ window.schema = {
                 "4:2:0"
               ],
               "display": {
-                "name": "select",
+                "name": "radio-list",
                 "options": [
                   "4:4:4",
                   "4:2:2",
@@ -3289,7 +3311,7 @@ window.schema = {
                     "jpg"
                   ],
                   "display": {
-                    "name": "select",
+                    "name": "radio-list",
                     "options": [
                       "png",
                       "jpg"
@@ -3470,7 +3492,7 @@ window.schema = {
                     "none"
                   ],
                   "display": {
-                    "name": "select",
+                    "name": "radio-list",
                     "options": [
                       "simple",
                       "soft",
@@ -3533,7 +3555,7 @@ window.schema = {
                         "italic"
                       ],
                       "display": {
-                        "name": "select",
+                        "name": "radio-list",
                         "options": [
                           "normal",
                           "italic"

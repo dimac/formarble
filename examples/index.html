@@ -19,22 +19,22 @@
     <div class="row">
         <div class="col-md-6" ng-if="show">
             <form class="form-horizontal"
-                  fm-form fm-schema="schema" fm-model="model"></form>
+                  fm-form fm-schema="schema" ng-model="model"></form>
         </div>
         <div class="col-md-6">
-            Model: <pre>{{model | json}}</pre>
-            Filtered: <pre>{{modelFiltered | json}}</pre>
+            <input type="range" ng-model="model.image.testRange" step="0.01" min="0" max="1"/><br/>
+            <input type="text" ng-model="model.image.testText"/>
+            <hr/>
+            Filtered:
+            <pre>{{modelFiltered | json}}</pre>
+            Model:
+            <pre>{{model | json}}</pre>
+
         </div>
     </div>
 
 </div>
 </body>
-<script>
-//    $('body').on('click', '.nav-tabs a', function (e) {
-//        e.preventDefault()
-//        $(this).tab('show')
-//    })
-</script>
 
 <script id="formarble/group" type="text/ng-template">
     <div>
@@ -60,61 +60,81 @@
              id="{{::c.path.split('.').join('-')}}"
              fm-control="c"></div>
     </div>
-
-
 </script>
+<!--
 <script id="formarble/input" type="text/ng-template">
-    <div class="form-group" ng-class="{'has-error': $input.$invalid}">
+    <div class="form-group" ng-class="{'has-error': $input.$invalid, 'has-success': !$empty}">
         <label class="control-label col-sm-4" fm-label="$control">{{:: $control.title || $control.path}}</label>
 
         <div class="col-sm-8">
-            <pre>{{$id}} {{$model}}</pre>
-            <pre>{{$control.display}}</pre>
-            <pre>p {{$input.$pristine}}
-d {{$input.$dirty}}
-v {{$input.$valid}}
-i {{$input.$invalid}}</pre>
+            <input class="form-control" fm-input="$control" placeholder="Use default"/>
 
+            <p class="help-block">{{:: $control.description}}</p>
+        </div>
+    </div>
+</script>
+-->
+<script id="formarble/input" type="text/ng-template">
+    <div class="form-group" ng-class="{'has-error': $input.$invalid}">
+        <label class="control-label col-sm-4" fm-label="$control">
+            {{:: $control.title || $control.path}}
+        </label>
+
+        <div class="col-sm-8">
             <input class="form-control" fm-input="$control"/>
 
             <p class="help-block">{{:: $control.description}}</p>
         </div>
     </div>
 </script>
-<!--<script id="formarble/input:checkbox" type="text/ng-template">
+<script id="formarble/input:checkbox" type="text/ng-template">
     <div class="form-group">
-        <div class="col-sm-offset-4 col-sm-8">
+        <label class="control-label col-sm-4" fm-label="$control">
+            {{:: $control.title || $control.path}}
+        </label>
+        <div class="col-sm-8">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" fm-input="$control"> {{:: $control.title || $control.path}}
+                    <input type="checkbox" fm-input="$control"> {{:: $control.description}}
                 </label>
             </div>
-            <p class="help-block">{{:: $control.description}}</p>
         </div>
     </div>
-</script>-->
-<script id="formarble/input:checkbox" type="text/ng-template">
+</script>
+<script id="formarble/radio-list" type="text/ng-template">
+    <div class="form-group">
+        <label class="control-label col-sm-4">
+            {{:: $control.title || $control.path}}
+        </label>
+
+        <div class="col-sm-8">
+            <div class="radio" ng-repeat="li in $control.display.options">
+                <label>
+                    <input type="radio" name="{{$control.path}}" ng-model="$control.value" ng-value="li"/> {{:: li}}
+                </label>
+            </div>
+        </div>
+    </div>
+</script>
+<!-- <script id="formarble/input:checkbox" type="text/ng-template">
     <div class="form-group">
         <label class="control-label col-sm-4" fm-label="$control">{{:: $control.title || $control.path}}</label>
 
         <div class="col-sm-8">
             <select class="form-control" ng-model="$model">
-                <option value>default</option>
+                <option value>Use default</option>
                 <option value="true">Yes</option>
                 <option value="false">No</option>
             </select>
         </div>
     </div>
-</script>
+</script>-->
 <script id="formarble/select" type="text/ng-template">
     <div class="form-group">
         <label class="control-label col-sm-4" fm-label="$control">{{:: $control.title || $control.path}}</label>
 
         <div class="col-sm-8">
-            {{$id}} {{$model}}
-            <select class="form-control" fm-input="$control">
-                <option value>default</option>
-            </select>
+            <select class="form-control" fm-input="$control"></select>
         </div>
     </div>
 </script>
