@@ -30,14 +30,3 @@ angular.module('FormarbleExample', ['formarble'])
             $rootScope.modelFiltered = _.mapValues(value, modelFilter)
         }, true)
     })
-    .directive('ngIndeterminate', function () {
-        return {
-            restrict: 'A',
-            link: function (scope, elem, attrs) {
-                scope.$watch(attrs.ngIndeterminate, function (value) {
-                    console.log(value, elem.prop('indeterminate'), !!value);
-                    elem.prop('indeterminate', !!value);
-                });
-            }
-        };
-    });

@@ -4,9 +4,8 @@ angular.module('FormarbleExample', ['formarble'])
     .run(function ($rootScope, $window) {
         $rootScope.schema = $window.schema;
         $rootScope.model = {
-            image: {
-                testText: 'some test text'
-            }
+            issue: 'tech-support',
+            priority: 'low'
         };
 
         function modelFilter(value, key) {
@@ -29,15 +28,4 @@ angular.module('FormarbleExample', ['formarble'])
         $rootScope.$watch('model', function (value) {
             $rootScope.modelFiltered = _.mapValues(value, modelFilter)
         }, true)
-    })
-    .directive('ngIndeterminate', function () {
-        return {
-            restrict: 'A',
-            link: function (scope, elem, attrs) {
-                scope.$watch(attrs.ngIndeterminate, function (value) {
-                    console.log(value, elem.prop('indeterminate'), !!value);
-                    elem.prop('indeterminate', !!value);
-                });
-            }
-        };
     });
