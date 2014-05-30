@@ -229,7 +229,7 @@ angular.module('formarble', [])
                     }
 
                     if (isSelect) {
-                        attr.$set('ngOptions', 'o for o in ' + controlModelName + '.display.options');
+                        attr.$set('ngOptions', 'o.id as o.title for o in ' + controlModelName + '.display.options');
                     }
 
                     $compile(elem)(scope);

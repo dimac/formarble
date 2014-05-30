@@ -11,6 +11,14 @@ function isObjectNotArray(value) {
     return _.isObject(value) && !_.isArray(value);
 }
 
+function ucFirst(value){
+    return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function enumValueToTitle(value){
+    return ucFirst(value.replace(/[^\w\d]+/,' '));
+}
+
 function resolveDisplayByType(schema) {
     var input;
 
@@ -42,10 +50,15 @@ function resolveDisplayByType(schema) {
 
     if ('string' === schema.type) {
         if (schema.enum) {
+            var options = schema.enum.map(function(value){
+                return {id: value, title: enumValueToTitle(value)}
+            })
+
             if(schema.enum.length > 3) {
-                return { name: 'select', options: schema.enum };
+
+                return { name: 'select', options: options };
             } else {
-                return { name: 'radio-list', options: schema.enum };
+                return { name: 'radio-list', options: options };
             }
         } else if ('Color' === schema.format) {
             return { name: 'input', type: 'color' };
@@ -54,6 +67,12 @@ function resolveDisplayByType(schema) {
 
             if (isDefined(schema.maxLength)) {
                 input.maxlength = schema.maxLength;
+
+                if(input.maxlength > 255) {
+                    input.name = 'textarea';
+                    delete input.type;
+                }
+
             }
             if (isDefined(schema.minLength)) {
                 input.minlength = schema.minLength;
@@ -89,10 +108,12 @@ function walkSchema(schemaObj, transformFn, id, parent) {
     }
 }
 
-function createFormSchema(def, schema) {
+function createFormSchema(schema, def) {
     var formSchema = _.cloneDeep(schema);
 
-    _.merge(formSchema, def);
+    if(def){
+        _.merge(formSchema, def);
+    }
 
     var orderIndex = 1000;
 
@@ -100,6 +121,10 @@ function createFormSchema(def, schema) {
         //resolve display options
         if (!isDefined(prop.display)) {
             prop.display = resolveDisplay(prop);
+        }
+
+        if (!isDefined(prop.title)) {
+            prop.title = enumValueToTitle(id);
         }
 
         //resolve path to property in original schema (e.g. scale.width)
@@ -134,9 +159,16 @@ function createFormSchema(def, schema) {
 
     return formSchema;
 }
+
+exports.extend = function(schema, form){
+    return createFormSchema(schema, form);
+}
+
+return;
+
 var form = require('./examples/profile.form.js');
 var schema = require('./examples/profile.schema.js');
-var result = createFormSchema(form, schema);
+var result = createFormSchema(schema, form);
 
 result.properties.spin.display = 'group:tab';
 result.properties.spin.properties = {
