@@ -14,17 +14,16 @@
 <body ng-app="FormarbleExample">
 <div class="container">
     <h1>Formarble example</h1>
-    <div class="row">
-        <div class="col-md-6">
-            <form class="form-horizontal"
-                  fm-form fm-schema="schema" ng-model="model"></form>
-        </div>
-        <div class="col-md-6">
-            Filtered:
-            <pre>{{modelFiltered | json}}</pre>
-            Model:
-            <pre>{{model | json}}</pre>
-        </div>
+
+    <div>
+        <form class="form-horizontal"
+              fm-form fm-schema="schema" ng-model="model"></form>
+    </div>
+    <div>
+        Filtered:
+        <pre>{{modelFiltered | json}}</pre>
+        Model:
+        <pre>{{model | json}}</pre>
     </div>
 </div>
 </body>
@@ -36,36 +35,6 @@
         <div ng-repeat="c in ::$subControls | orderBy:'order'" fm-control="c"></div>
     </div>
 </script>
-<script id="formarble/group:tab" type="text/ng-template">
-    <!-- Nav tabs -->
-    <ul class="nav nav-pills">
-        <li ng-class="{active: $first}"
-            ng-repeat="c in ::$subControls | orderBy:'order'">
-            <a href="#{{::c.path.split('.').join('-')}}" data-toggle="tab">{{::c.title || c.description || c.path}}</a>
-        </li>
-    </ul>
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div class="tab-pane"
-             ng-class="{active: $first}"
-             ng-repeat="c in ::$subControls | orderBy:'order'"
-             id="{{::c.path.split('.').join('-')}}"
-             fm-control="c"></div>
-    </div>
-</script>
-<!--
-<script id="formarble/input" type="text/ng-template">
-    <div class="form-group" ng-class="{'has-error': $input.$invalid, 'has-success': !$empty}">
-        <label class="control-label col-sm-4" fm-label="$control">{{:: $control.title || $control.path}}</label>
-
-        <div class="col-sm-8">
-            <input class="form-control" fm-input="$control" placeholder="Use default"/>
-
-            <p class="help-block">{{:: $control.description}}</p>
-        </div>
-    </div>
-</script>
--->
 <script id="formarble/textarea" type="text/ng-template">
     <div class="form-group" ng-class="{'has-error': $input.$invalid}">
         <label class="control-label col-sm-4" fm-label="$control">
@@ -97,6 +66,7 @@
         <label class="control-label col-sm-4" fm-label="$control">
             {{:: $control.title || $control.path}}
         </label>
+
         <div class="col-sm-8">
             <div class="checkbox">
                 <label>
@@ -113,15 +83,16 @@
         </label>
 
         <div class="col-sm-8">
-            <div class="radio" ng-repeat="li in $control.display.options">
+            <div class="radio" ng-class="{'radio-inline': $control.display.inline}"
+                 ng-repeat="li in $control.display.options">
                 <label>
-                    <input type="radio" name="{{$control.path}}" ng-model="$control.value" ng-value="li.id"/> {{:: li.title}}
+                    <input type="radio" name="{{$control.path}}" ng-model="$control.value" ng-value="li.id"/> {{::
+                    li.title}}
                 </label>
             </div>
         </div>
     </div>
 </script>
-
 <script id="formarble/select" type="text/ng-template">
     <div class="form-group">
         <label class="control-label col-sm-4" fm-label="$control">{{:: $control.title || $control.path}}</label>

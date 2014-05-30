@@ -10,7 +10,8 @@ module.exports = {
             enum: ['tech-support', 'feature-request', 'bug-report'],
 
             display: {
-                name: 'radio-list'
+                name: 'radio-list',
+                inline: true
             }
         },
 

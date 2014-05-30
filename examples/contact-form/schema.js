@@ -10,6 +10,7 @@ window.schema = {
       ],
       "display": {
         "name": "radio-list",
+        "inline": true,
         "options": [
           {
             "id": "tech-support",
