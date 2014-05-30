@@ -14,10 +14,9 @@
 <body ng-app="FormarbleExample">
 <div class="container">
     <h1>Formarble example</h1>
-    <button ng-click="show = !show">Show form</button>
 
     <div class="row">
-        <div class="col-md-6" ng-if="show">
+        <div class="col-md-6">
             <form class="form-horizontal"
                   fm-form fm-schema="schema" ng-model="model"></form>
         </div>
@@ -110,7 +109,7 @@
         <div class="col-sm-8">
             <div class="radio" ng-repeat="li in $control.display.options">
                 <label>
-                    <input type="radio" name="{{$control.path}}" ng-model="$control.value" ng-value="li"/> {{:: li}}
+                    <input type="radio" name="{{$control.path}}" ng-model="$control.value" ng-value="li.id"/> {{:: li.title}}
                 </label>
             </div>
         </div>

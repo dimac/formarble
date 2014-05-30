@@ -39,7 +39,7 @@ window.schema = {
         "urgent"
       ],
       "display": {
-        "name": "select",
+        "name": "radio-list",
         "options": [
           {
             "id": "low",
@@ -90,7 +90,9 @@ window.schema = {
       "order": 1004
     }
   },
-  "display": "group",
+  "display": {
+    "name": "group"
+  },
   "level": 0,
   "order": 1000
 }

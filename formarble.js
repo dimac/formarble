@@ -123,6 +123,8 @@ angular.module('formarble', [])
                                 return schema.properties[key];
                             });
                         }
+                    } else {
+                        console.warn('fmForm: No template', template);
                     }
                 }
             }
@@ -171,6 +173,8 @@ angular.module('formarble', [])
                     }
 
                     $compile(elem.contents())(scope);
+                } else {
+                    console.warn('fmControl: No template', template);
                 }
             }
 

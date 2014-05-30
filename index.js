@@ -11,12 +11,21 @@ function isObjectNotArray(value) {
     return _.isObject(value) && !_.isArray(value);
 }
 
-function ucFirst(value){
+function ucFirst(value) {
     return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-function enumValueToTitle(value){
-    return ucFirst(value.replace(/[^\w\d]+/,' '));
+function humanize(value) {
+    if(value.match(/[a-z]/i)){
+        return ucFirst(value.replace(/[^\w]+/g, ' '));
+    }
+    return value;
+}
+
+function resolveDisplay(schema) {
+    return resolveDisplayByType(schema) ||
+        resolveDisplayByProperties(schema) ||
+        false;
 }
 
 function resolveDisplayByType(schema) {
@@ -27,48 +36,57 @@ function resolveDisplayByType(schema) {
     }
 
     if ('number' === schema.type || 'integer' === schema.type) {
-        input = { name: 'input', type: 'number' };
-
-        if (isDefined(schema.maximum)) {
-            input.max = schema.maximum;
-        }
-        if (isDefined(schema.minimum)) {
-            input.min = schema.minimum;
-        }
-        if (isDefined(schema.exclusiveMaximum)) {
-            input.max = schema.exclusiveMaximum - 1;
-        }
-        if (isDefined(schema.exclusiveMinimum)) {
-            input.min = schema.exclusiveMinimum + 1;
-        }
-        if (isDefined(schema.multipleOf)) {
-            input.step = schema.multipleOf;
-        }
-
-        return input;
+        return { name: 'input', type: 'number' };
     }
 
     if ('string' === schema.type) {
         if (schema.enum) {
-            var options = schema.enum.map(function(value){
-                return {id: value, title: enumValueToTitle(value)}
-            })
-
-            if(schema.enum.length > 3) {
-
-                return { name: 'select', options: options };
+            if (schema.enum.length > 3) {
+                return { name: 'select'};
             } else {
-                return { name: 'radio-list', options: options };
+                return { name: 'radio-list'};
             }
         } else if ('Color' === schema.format) {
             return { name: 'input', type: 'color' };
         } else {
-            input = { name: 'input', type: 'text' };
+            return { name: 'input', type: 'text' };
+        }
+    }
+}
 
+function resolveDisplayByProperties(schema) {
+    if (isObjectNotArray(schema.properties)) {
+        return { name: 'group' };
+    }
+}
+
+function extendDisplayInput(schema) {
+    var input = schema.display;
+
+    switch (input.type) {
+        case 'number':
+            if (isDefined(schema.maximum)) {
+                input.max = schema.maximum;
+            }
+            if (isDefined(schema.minimum)) {
+                input.min = schema.minimum;
+            }
+            if (isDefined(schema.exclusiveMaximum)) {
+                input.max = schema.exclusiveMaximum - 1;
+            }
+            if (isDefined(schema.exclusiveMinimum)) {
+                input.min = schema.exclusiveMinimum + 1;
+            }
+            if (isDefined(schema.multipleOf)) {
+                input.step = schema.multipleOf;
+            }
+            break;
+
+        case 'text':
             if (isDefined(schema.maxLength)) {
                 input.maxlength = schema.maxLength;
 
-                if(input.maxlength > 255) {
+                if (input.maxlength > 255) {
                     input.name = 'textarea';
                     delete input.type;
                 }
@@ -80,22 +98,42 @@ function resolveDisplayByType(schema) {
             if (isDefined(schema.pattern)) {
                 input.pattern = schema.pattern.toString();
             }
-
-            return input;
-        }
+            break;
     }
+    return input;
 }
 
-function resolveDisplayByProperties(schema) {
-    if (schema.properties) {
-        return 'group';
+function extendDisplaySelect(schema) {
+    var input = schema.display;
+
+    if(input.labels){
+        input.options = schema.enum.map(function (value) {
+            return {id: value, title: input.labels[value] || humanize(value)}
+        })
+    } else {
+        input.options = schema.enum.map(function (value) {
+            return {id: value, title: humanize(value)}
+        })
     }
+
+    return input;
 }
 
-function resolveDisplay(schema) {
-    return resolveDisplayByType(schema) ||
-        resolveDisplayByProperties(schema) ||
-        false;
+var extendDisplayRadioList = extendDisplaySelect;
+
+function extendDisplay(schema) {
+    switch (schema.display.name) {
+        case 'input':
+            return extendDisplayInput(schema);
+
+        case 'select':
+            return extendDisplaySelect(schema);
+
+        case 'radio-list':
+            return extendDisplayRadioList(schema);
+    }
+
+    return schema.display;
 }
 
 function walkSchema(schemaObj, transformFn, id, parent) {
@@ -111,7 +149,7 @@ function walkSchema(schemaObj, transformFn, id, parent) {
 function createFormSchema(schema, def) {
     var formSchema = _.cloneDeep(schema);
 
-    if(def){
+    if (def) {
         _.merge(formSchema, def);
     }
 
@@ -123,24 +161,32 @@ function createFormSchema(schema, def) {
             prop.display = resolveDisplay(prop);
         }
 
+        if (!isDefined(prop.display.name)) {
+            _.extend(prop.display, resolveDisplay(prop));
+        }
+
+        prop.display = extendDisplay(prop);
+
+
+        //add title
         if (!isDefined(prop.title)) {
-            prop.title = enumValueToTitle(id);
+            prop.title = humanize(id);
         }
 
         //resolve path to property in original schema (e.g. scale.width)
-        if(parent){
+        if (parent) {
             prop.path = _.compact([parent.path, id]).join('.');
         }
 
         //resolve display level
-        if(!parent){
+        if (!parent) {
             prop.level = 0;
         } else {
             prop.level = parent.level + 1;
         }
 
         //resolve display order
-        if(!isDefined(prop.order)){
+        if (!isDefined(prop.order)) {
             prop.order = orderIndex++;
         }
 
@@ -160,29 +206,9 @@ function createFormSchema(schema, def) {
     return formSchema;
 }
 
-exports.extend = function(schema, form){
+exports.extend = function (schema, form) {
     return createFormSchema(schema, form);
 }
 
 return;
 
-var form = require('./examples/profile.form.js');
-var schema = require('./examples/profile.schema.js');
-var result = createFormSchema(schema, form);
-
-result.properties.spin.display = 'group:tab';
-result.properties.spin.properties = {
-    general: {
-        title: 'General',
-        display: 'group',
-        path: 'spin.general',
-        order: 0,
-        properties: _.omit(result.properties.spin.properties, 'images')
-    },
-    main: result.properties.spin.properties.images.properties.main,
-    zoom: result.properties.spin.properties.images.properties.zoom,
-    fullscreen: result.properties.spin.properties.images.properties.fullscreen
-}
-
-//console.log(util.inspect(result, {depth: 10}));
-console.log('window.schema =', JSON.stringify(result, null, '  '));

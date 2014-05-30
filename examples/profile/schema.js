@@ -9,6 +9,7 @@ window.schema = {
             "name": "input",
             "type": "text"
           },
+          "title": "Profile",
           "path": "image.profile",
           "level": 2,
           "order": 1002
@@ -21,13 +22,28 @@ window.schema = {
             "webp"
           ],
           "display": {
+            "labels": {
+              "png": "PNG",
+              "webp": "WebP",
+              "jpg": "JPG"
+            },
             "name": "radio-list",
             "options": [
-              "png",
-              "jpg",
-              "webp"
+              {
+                "id": "png",
+                "title": "PNG"
+              },
+              {
+                "id": "jpg",
+                "title": "JPG"
+              },
+              {
+                "id": "webp",
+                "title": "WebP"
+              }
             ]
           },
+          "title": "Format",
           "path": "image.format",
           "level": 2,
           "order": 1003
@@ -51,6 +67,7 @@ window.schema = {
                 "type": "text",
                 "pattern": "/^\\d+(\\.\\d+)?(%|px)?$/"
               },
+              "title": "Width",
               "path": "image.scale.width",
               "level": 3,
               "order": 1005
@@ -72,6 +89,7 @@ window.schema = {
                 "type": "text",
                 "pattern": "/^\\d+(\\.\\d+)?(%|px)?$/"
               },
+              "title": "Height",
               "path": "image.scale.height",
               "level": 3,
               "order": 1006
@@ -86,13 +104,30 @@ window.schema = {
               ],
               "display": {
                 "name": "select",
+                "labels": {
+                  "ignore": "Ignore aspect ratio",
+                  "noup": "No upscale"
+                },
                 "options": [
-                  "fit",
-                  "fill",
-                  "ignore",
-                  "noup"
+                  {
+                    "id": "fit",
+                    "title": "Fit"
+                  },
+                  {
+                    "id": "fill",
+                    "title": "Fill"
+                  },
+                  {
+                    "id": "ignore",
+                    "title": "Ignore aspect ratio"
+                  },
+                  {
+                    "id": "noup",
+                    "title": "No upscale"
+                  }
                 ]
               },
+              "title": "Option",
               "path": "image.scale.option",
               "level": 3,
               "order": 1007
@@ -126,6 +161,7 @@ window.schema = {
                 "type": "text",
                 "pattern": "/^\\d+(\\.\\d+)?(%|px)?$/"
               },
+              "title": "Width",
               "path": "image.crop.width",
               "level": 3,
               "order": 1009
@@ -147,6 +183,7 @@ window.schema = {
                 "type": "text",
                 "pattern": "/^\\d+(\\.\\d+)?(%|px)?$/"
               },
+              "title": "Height",
               "path": "image.crop.height",
               "level": 3,
               "order": 1010
@@ -173,6 +210,7 @@ window.schema = {
                 "type": "text",
                 "pattern": "/^[\\+\\-]?\\d+(\\.\\d+)?(%|px)?|center$/"
               },
+              "title": "X",
               "path": "image.crop.x",
               "level": 3,
               "order": 1011
@@ -195,6 +233,7 @@ window.schema = {
               ],
               "description": "Y offset",
               "display": false,
+              "title": "Y",
               "path": "image.crop.y",
               "level": 3,
               "order": 1012
@@ -219,6 +258,7 @@ window.schema = {
             "max": 256,
             "min": 1
           },
+          "title": "Thumbnail",
           "path": "image.thumbnail",
           "level": 2,
           "order": 1013
@@ -235,6 +275,7 @@ window.schema = {
                 "type": "number",
                 "min": 1
               },
+              "title": "Width",
               "path": "image.tile.width",
               "level": 3,
               "order": 1015
@@ -248,6 +289,7 @@ window.schema = {
                 "type": "number",
                 "min": 1
               },
+              "title": "Height",
               "path": "image.tile.height",
               "level": 3,
               "order": 1016
@@ -260,6 +302,7 @@ window.schema = {
                 "type": "number",
                 "min": 0
               },
+              "title": "Number",
               "path": "image.tile.number",
               "level": 3,
               "order": 1017
@@ -267,7 +310,10 @@ window.schema = {
           },
           "description": "Tile the image",
           "additionalProperties": false,
-          "display": "group",
+          "display": {
+            "name": "group"
+          },
+          "title": "Tile",
           "path": "image.tile",
           "level": 2,
           "order": 1014
@@ -283,6 +329,7 @@ window.schema = {
             "max": 180,
             "min": -180
           },
+          "title": "Rotate",
           "path": "image.rotate",
           "level": 2,
           "order": 1018
@@ -297,11 +344,21 @@ window.schema = {
           "display": {
             "name": "radio-list",
             "options": [
-              "4:4:4",
-              "4:2:2",
-              "4:2:0"
+              {
+                "id": "4:4:4",
+                "title": "4:4:4"
+              },
+              {
+                "id": "4:2:2",
+                "title": "4:2:2"
+              },
+              {
+                "id": "4:2:0",
+                "title": "4:2:0"
+              }
             ]
           },
+          "title": "Subsampling",
           "path": "image.subsampling",
           "level": 2,
           "order": 1019
@@ -317,6 +374,7 @@ window.schema = {
             "max": 100,
             "min": 0
           },
+          "title": "Quality",
           "path": "image.quality",
           "level": 2,
           "order": 1020
@@ -334,6 +392,7 @@ window.schema = {
                 "max": 9,
                 "min": 0
               },
+              "title": "Compression",
               "path": "image.png.compression",
               "level": 3,
               "order": 1022
@@ -351,21 +410,43 @@ window.schema = {
               "display": {
                 "name": "select",
                 "options": [
-                  "none",
-                  "sub",
-                  "up",
-                  "average",
-                  "paeth",
-                  "adaptive"
+                  {
+                    "id": "none",
+                    "title": "None"
+                  },
+                  {
+                    "id": "sub",
+                    "title": "Sub"
+                  },
+                  {
+                    "id": "up",
+                    "title": "Up"
+                  },
+                  {
+                    "id": "average",
+                    "title": "Average"
+                  },
+                  {
+                    "id": "paeth",
+                    "title": "Paeth"
+                  },
+                  {
+                    "id": "adaptive",
+                    "title": "Adaptive"
+                  }
                 ]
               },
+              "title": "Filtering",
               "path": "image.png.filtering",
               "level": 3,
               "order": 1023
             }
           },
           "additionalProperties": false,
-          "display": "group",
+          "display": {
+            "name": "group"
+          },
+          "title": "Png",
           "path": "image.png",
           "level": 2,
           "order": 1021
@@ -381,17 +462,27 @@ window.schema = {
               "display": {
                 "name": "radio-list",
                 "options": [
-                  "png",
-                  "jpg"
+                  {
+                    "id": "png",
+                    "title": "Png"
+                  },
+                  {
+                    "id": "jpg",
+                    "title": "Jpg"
+                  }
                 ]
               },
+              "title": "Fallback",
               "path": "image.webp.fallback",
               "level": 3,
               "order": 1025
             }
           },
           "additionalProperties": false,
-          "display": "group",
+          "display": {
+            "name": "group"
+          },
+          "title": "Webp",
           "path": "image.webp",
           "level": 2,
           "order": 1024
@@ -403,6 +494,7 @@ window.schema = {
             "name": "input",
             "type": "checkbox"
           },
+          "title": "Progressive",
           "path": "image.progressive",
           "level": 2,
           "order": 1026
@@ -417,6 +509,7 @@ window.schema = {
             "max": 100,
             "min": -100
           },
+          "title": "Brightness",
           "path": "image.brightness",
           "level": 2,
           "order": 1027
@@ -431,6 +524,7 @@ window.schema = {
             "max": 100,
             "min": -100
           },
+          "title": "Contrast",
           "path": "image.contrast",
           "level": 2,
           "order": 1028
@@ -445,6 +539,7 @@ window.schema = {
             "max": 100,
             "min": -100
           },
+          "title": "Exposure",
           "path": "image.exposure",
           "level": 2,
           "order": 1029
@@ -456,6 +551,7 @@ window.schema = {
             "name": "input",
             "type": "checkbox"
           },
+          "title": "Grayscale",
           "path": "image.grayscale",
           "level": 2,
           "order": 1030
@@ -467,6 +563,7 @@ window.schema = {
             "name": "input",
             "type": "number"
           },
+          "title": "Blur",
           "path": "image.blur",
           "level": 2,
           "order": 1031
@@ -478,6 +575,7 @@ window.schema = {
             "name": "input",
             "type": "checkbox"
           },
+          "title": "Tiltshift",
           "path": "image.tiltshift",
           "level": 2,
           "order": 1032
@@ -496,13 +594,29 @@ window.schema = {
               "display": {
                 "name": "select",
                 "options": [
-                  "simple",
-                  "mirror",
-                  "edge",
-                  "deckled",
-                  "none"
+                  {
+                    "id": "simple",
+                    "title": "Simple"
+                  },
+                  {
+                    "id": "mirror",
+                    "title": "Mirror"
+                  },
+                  {
+                    "id": "edge",
+                    "title": "Edge"
+                  },
+                  {
+                    "id": "deckled",
+                    "title": "Deckled"
+                  },
+                  {
+                    "id": "none",
+                    "title": "None"
+                  }
                 ]
               },
+              "title": "Style",
               "path": "image.frame.style",
               "level": 3,
               "order": 1034
@@ -514,6 +628,7 @@ window.schema = {
                 "name": "input",
                 "type": "color"
               },
+              "title": "Color",
               "path": "image.frame.color",
               "level": 3,
               "order": 1035
@@ -524,6 +639,7 @@ window.schema = {
                 "name": "input",
                 "type": "number"
               },
+              "title": "Width",
               "path": "image.frame.width",
               "level": 3,
               "order": 1036
@@ -536,6 +652,7 @@ window.schema = {
                 "type": "number"
               },
               "display": false,
+              "title": "Rim",
               "path": "image.frame.rim",
               "level": 3,
               "order": 1037
@@ -545,7 +662,10 @@ window.schema = {
           "required": [
             "style"
           ],
-          "display": "group",
+          "display": {
+            "name": "group"
+          },
+          "title": "Frame",
           "path": "image.frame",
           "level": 2,
           "order": 1033
@@ -562,11 +682,21 @@ window.schema = {
               "display": {
                 "name": "radio-list",
                 "options": [
-                  "simple",
-                  "soft",
-                  "none"
+                  {
+                    "id": "simple",
+                    "title": "Simple"
+                  },
+                  {
+                    "id": "soft",
+                    "title": "Soft"
+                  },
+                  {
+                    "id": "none",
+                    "title": "None"
+                  }
                 ]
               },
+              "title": "Style",
               "path": "image.text.style",
               "level": 3,
               "order": 1039
@@ -579,6 +709,7 @@ window.schema = {
                     "name": "input",
                     "type": "text"
                   },
+                  "title": "Family",
                   "path": "image.text.font.family",
                   "level": 4,
                   "order": 1041
@@ -600,18 +731,49 @@ window.schema = {
                   "display": {
                     "name": "select",
                     "options": [
-                      "light",
-                      "normal",
-                      "semi-bold",
-                      "bold",
-                      "extra-bold",
-                      "300",
-                      "400",
-                      "600",
-                      "700",
-                      "800"
+                      {
+                        "id": "light",
+                        "title": "Light"
+                      },
+                      {
+                        "id": "normal",
+                        "title": "Normal"
+                      },
+                      {
+                        "id": "semi-bold",
+                        "title": "Semi bold"
+                      },
+                      {
+                        "id": "bold",
+                        "title": "Bold"
+                      },
+                      {
+                        "id": "extra-bold",
+                        "title": "Extra bold"
+                      },
+                      {
+                        "id": "300",
+                        "title": "300"
+                      },
+                      {
+                        "id": "400",
+                        "title": "400"
+                      },
+                      {
+                        "id": "600",
+                        "title": "600"
+                      },
+                      {
+                        "id": "700",
+                        "title": "700"
+                      },
+                      {
+                        "id": "800",
+                        "title": "800"
+                      }
                     ]
                   },
+                  "title": "Weight",
                   "path": "image.text.font.weight",
                   "level": 4,
                   "order": 1042
@@ -625,10 +787,17 @@ window.schema = {
                   "display": {
                     "name": "radio-list",
                     "options": [
-                      "normal",
-                      "italic"
+                      {
+                        "id": "normal",
+                        "title": "Normal"
+                      },
+                      {
+                        "id": "italic",
+                        "title": "Italic"
+                      }
                     ]
                   },
+                  "title": "Style",
                   "path": "image.text.font.style",
                   "level": 4,
                   "order": 1043
@@ -645,12 +814,16 @@ window.schema = {
                     }
                   ],
                   "display": false,
+                  "title": "Size",
                   "path": "image.text.font.size",
                   "level": 4,
                   "order": 1044
                 }
               },
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Font",
               "path": "image.text.font",
               "level": 3,
               "order": 1040
@@ -663,6 +836,7 @@ window.schema = {
                 "type": "text",
                 "maxlength": 100
               },
+              "title": "Text",
               "path": "image.text.text",
               "level": 3,
               "order": 1045
@@ -674,6 +848,7 @@ window.schema = {
                 "name": "input",
                 "type": "color"
               },
+              "title": "Color",
               "path": "image.text.color",
               "level": 3,
               "order": 1046
@@ -688,6 +863,7 @@ window.schema = {
                 "max": 100,
                 "min": 0
               },
+              "title": "Opacity",
               "path": "image.text.opacity",
               "level": 3,
               "order": 1047
@@ -701,6 +877,7 @@ window.schema = {
                     "name": "input",
                     "type": "color"
                   },
+                  "title": "Color",
                   "path": "image.text.background.color",
                   "level": 4,
                   "order": 1049
@@ -715,12 +892,16 @@ window.schema = {
                     "max": 100,
                     "min": 0
                   },
+                  "title": "Opacity",
                   "path": "image.text.background.opacity",
                   "level": 4,
                   "order": 1050
                 }
               },
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Background",
               "path": "image.text.background",
               "level": 3,
               "order": 1048
@@ -734,6 +915,7 @@ window.schema = {
                     "name": "input",
                     "type": "color"
                   },
+                  "title": "Color",
                   "path": "image.text.outline.color",
                   "level": 4,
                   "order": 1052
@@ -746,12 +928,16 @@ window.schema = {
                     "type": "number",
                     "min": 0
                   },
+                  "title": "Width",
                   "path": "image.text.outline.width",
                   "level": 4,
                   "order": 1053
                 }
               },
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Outline",
               "path": "image.text.outline",
               "level": 3,
               "order": 1051
@@ -763,6 +949,7 @@ window.schema = {
                 "name": "input",
                 "type": "text"
               },
+              "title": "Size",
               "path": "image.text.size",
               "level": 3,
               "order": 1054
@@ -783,17 +970,45 @@ window.schema = {
               "display": {
                 "name": "select",
                 "options": [
-                  "north",
-                  "northeast",
-                  "northwest",
-                  "center",
-                  "south",
-                  "southeast",
-                  "southwest",
-                  "east",
-                  "west"
+                  {
+                    "id": "north",
+                    "title": "North"
+                  },
+                  {
+                    "id": "northeast",
+                    "title": "Northeast"
+                  },
+                  {
+                    "id": "northwest",
+                    "title": "Northwest"
+                  },
+                  {
+                    "id": "center",
+                    "title": "Center"
+                  },
+                  {
+                    "id": "south",
+                    "title": "South"
+                  },
+                  {
+                    "id": "southeast",
+                    "title": "Southeast"
+                  },
+                  {
+                    "id": "southwest",
+                    "title": "Southwest"
+                  },
+                  {
+                    "id": "east",
+                    "title": "East"
+                  },
+                  {
+                    "id": "west",
+                    "title": "West"
+                  }
                 ]
               },
+              "title": "Position",
               "path": "image.text.position",
               "level": 3,
               "order": 1055
@@ -803,7 +1018,10 @@ window.schema = {
             "text"
           ],
           "additionalProperties": false,
-          "display": "group",
+          "display": {
+            "name": "group"
+          },
+          "title": "Text",
           "path": "image.text",
           "level": 2,
           "order": 1038
@@ -822,15 +1040,37 @@ window.schema = {
           "display": {
             "name": "select",
             "options": [
-              "sepia",
-              "warm",
-              "cold",
-              "sunset",
-              "purpletan",
-              "texas",
-              "none"
+              {
+                "id": "sepia",
+                "title": "Sepia"
+              },
+              {
+                "id": "warm",
+                "title": "Warm"
+              },
+              {
+                "id": "cold",
+                "title": "Cold"
+              },
+              {
+                "id": "sunset",
+                "title": "Sunset"
+              },
+              {
+                "id": "purpletan",
+                "title": "Purpletan"
+              },
+              {
+                "id": "texas",
+                "title": "Texas"
+              },
+              {
+                "id": "none",
+                "title": "None"
+              }
             ]
           },
+          "title": "Colortone",
           "path": "image.colortone",
           "level": 2,
           "order": 1056
@@ -844,6 +1084,7 @@ window.schema = {
                 "name": "input",
                 "type": "color"
               },
+              "title": "Color",
               "path": "image.vignette.color",
               "level": 3,
               "order": 1058
@@ -859,13 +1100,17 @@ window.schema = {
                 "max": 1,
                 "step": 0.01
               },
+              "title": "Value",
               "path": "image.vignette.value",
               "level": 3,
               "order": 1059
             }
           },
           "additionalProperties": false,
-          "display": "group",
+          "display": {
+            "name": "group"
+          },
+          "title": "Vignette",
           "path": "image.vignette",
           "level": 2,
           "order": 1057
@@ -879,6 +1124,7 @@ window.schema = {
             "type": "text",
             "maxlength": 255
           },
+          "title": "TestText",
           "path": "image.testText",
           "level": 2
         },
@@ -891,6 +1137,7 @@ window.schema = {
             "step": 0.01
           },
           "order": 2,
+          "title": "TestRange",
           "path": "image.testRange",
           "level": 2
         },
@@ -901,6 +1148,7 @@ window.schema = {
             "name": "input",
             "type": "checkbox"
           },
+          "title": "TestCheckbox",
           "path": "image.testCheckbox",
           "level": 2
         }
@@ -930,12 +1178,25 @@ window.schema = {
               "display": {
                 "name": "select",
                 "options": [
-                  "once",
-                  "twice",
-                  "infinite",
-                  "off"
+                  {
+                    "id": "once",
+                    "title": "Once"
+                  },
+                  {
+                    "id": "twice",
+                    "title": "Twice"
+                  },
+                  {
+                    "id": "infinite",
+                    "title": "Infinite"
+                  },
+                  {
+                    "id": "off",
+                    "title": "Off"
+                  }
                 ]
               },
+              "title": "Autospin",
               "path": "spin.autospin",
               "level": 2,
               "order": 1239
@@ -946,6 +1207,7 @@ window.schema = {
                 "name": "input",
                 "type": "number"
               },
+              "title": "AutospinSpeed",
               "path": "spin.autospinSpeed",
               "level": 2,
               "order": 1240
@@ -956,6 +1218,7 @@ window.schema = {
                 "name": "input",
                 "type": "text"
               },
+              "title": "AutospinStart",
               "path": "spin.autospinStart",
               "level": 2,
               "order": 1241
@@ -971,12 +1234,25 @@ window.schema = {
               "display": {
                 "name": "select",
                 "options": [
-                  "clockwise",
-                  "anticlockwise",
-                  "alternate-clockwise",
-                  "alternate-aniticlockwise"
+                  {
+                    "id": "clockwise",
+                    "title": "Clockwise"
+                  },
+                  {
+                    "id": "anticlockwise",
+                    "title": "Anticlockwise"
+                  },
+                  {
+                    "id": "alternate-clockwise",
+                    "title": "Alternate clockwise"
+                  },
+                  {
+                    "id": "alternate-aniticlockwise",
+                    "title": "Alternate aniticlockwise"
+                  }
                 ]
               },
+              "title": "AutospinDirection",
               "path": "spin.autospinDirection",
               "level": 2,
               "order": 1242
@@ -987,6 +1263,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
+              "title": "Fullscreen",
               "path": "spin.fullscreen",
               "level": 2,
               "order": 1243
@@ -999,6 +1276,7 @@ window.schema = {
                 "type": "number",
                 "min": 0
               },
+              "title": "Zoom",
               "path": "spin.zoom",
               "level": 2,
               "order": 1244
@@ -1013,11 +1291,21 @@ window.schema = {
               "display": {
                 "name": "radio-list",
                 "options": [
-                  "load",
-                  "hover",
-                  "click"
+                  {
+                    "id": "load",
+                    "title": "Load"
+                  },
+                  {
+                    "id": "hover",
+                    "title": "Hover"
+                  },
+                  {
+                    "id": "click",
+                    "title": "Click"
+                  }
                 ]
               },
+              "title": "InitializeOn",
               "path": "spin.initializeOn",
               "level": 2,
               "order": 1245
@@ -1032,6 +1320,7 @@ window.schema = {
                 "max": 100,
                 "min": 0
               },
+              "title": "Speed",
               "path": "spin.speed",
               "level": 2,
               "order": 1246
@@ -1042,6 +1331,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
+              "title": "Hint",
               "path": "spin.hint",
               "level": 2,
               "order": 1247
@@ -1060,6 +1350,7 @@ window.schema = {
                 }
               ],
               "display": false,
+              "title": "StartColumn",
               "path": "spin.startColumn",
               "level": 2,
               "order": 1248
@@ -1078,6 +1369,7 @@ window.schema = {
                 }
               ],
               "display": false,
+              "title": "StartRow",
               "path": "spin.startRow",
               "level": 2,
               "order": 1249
@@ -1091,10 +1383,17 @@ window.schema = {
               "display": {
                 "name": "radio-list",
                 "options": [
-                  "drag",
-                  "hover"
+                  {
+                    "id": "drag",
+                    "title": "Drag"
+                  },
+                  {
+                    "id": "hover",
+                    "title": "Hover"
+                  }
                 ]
               },
+              "title": "Spin",
               "path": "spin.spin",
               "level": 2,
               "order": 1250
@@ -1105,6 +1404,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
+              "title": "RightClick",
               "path": "spin.rightClick",
               "level": 2,
               "order": 1251
@@ -1115,6 +1415,7 @@ window.schema = {
                 "name": "input",
                 "type": "number"
               },
+              "title": "MousewheelStep",
               "path": "spin.mousewheelStep",
               "level": 2,
               "order": 1252
@@ -1125,6 +1426,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
+              "title": "LoopColumn",
               "path": "spin.loopColumn",
               "level": 2,
               "order": 1253
@@ -1135,6 +1437,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
+              "title": "LoopRow",
               "path": "spin.loopRow",
               "level": 2,
               "order": 1254
@@ -1149,11 +1452,21 @@ window.schema = {
               "display": {
                 "name": "radio-list",
                 "options": [
-                  "click",
-                  "hover",
-                  "never"
+                  {
+                    "id": "click",
+                    "title": "Click"
+                  },
+                  {
+                    "id": "hover",
+                    "title": "Hover"
+                  },
+                  {
+                    "id": "never",
+                    "title": "Never"
+                  }
                 ]
               },
+              "title": "AutospinStop",
               "path": "spin.autospinStop",
               "level": 2,
               "order": 1255
@@ -1164,6 +1477,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
+              "title": "SwapRowsColumns",
               "path": "spin.swapRowsColumns",
               "level": 2,
               "order": 1256
@@ -1174,6 +1488,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
+              "title": "Retina",
               "path": "spin.retina",
               "level": 2,
               "order": 1257
@@ -1184,6 +1499,7 @@ window.schema = {
                 "name": "input",
                 "type": "text"
               },
+              "title": "LoadingText",
               "path": "spin.loadingText",
               "level": 2,
               "order": 1258
@@ -1194,6 +1510,7 @@ window.schema = {
                 "name": "input",
                 "type": "text"
               },
+              "title": "FullscreenLoadingText",
               "path": "spin.fullscreenLoadingText",
               "level": 2,
               "order": 1259
@@ -1204,6 +1521,7 @@ window.schema = {
                 "name": "input",
                 "type": "text"
               },
+              "title": "HintText",
               "path": "spin.hintText",
               "level": 2,
               "order": 1260
@@ -1214,6 +1532,7 @@ window.schema = {
                 "name": "input",
                 "type": "text"
               },
+              "title": "MobileHintText",
               "path": "spin.mobileHintText",
               "level": 2,
               "order": 1261
@@ -1229,12 +1548,25 @@ window.schema = {
               "display": {
                 "name": "select",
                 "options": [
-                  "row",
-                  "column",
-                  "both",
-                  "off"
+                  {
+                    "id": "row",
+                    "title": "Row"
+                  },
+                  {
+                    "id": "column",
+                    "title": "Column"
+                  },
+                  {
+                    "id": "both",
+                    "title": "Both"
+                  },
+                  {
+                    "id": "off",
+                    "title": "Off"
+                  }
                 ]
               },
+              "title": "ReverseRotation",
               "path": "spin.reverseRotation",
               "level": 2,
               "order": 1262
@@ -1245,6 +1577,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
+              "title": "Emulate3D",
               "path": "spin.emulate3D",
               "level": 2,
               "order": 1263
@@ -1260,6 +1593,7 @@ window.schema = {
                 "name": "input",
                 "type": "text"
               },
+              "title": "Profile",
               "path": "spin.images.main.profile",
               "level": 4,
               "order": 1063
@@ -1274,11 +1608,21 @@ window.schema = {
               "display": {
                 "name": "radio-list",
                 "options": [
-                  "png",
-                  "jpg",
-                  "webp"
+                  {
+                    "id": "png",
+                    "title": "Png"
+                  },
+                  {
+                    "id": "jpg",
+                    "title": "Jpg"
+                  },
+                  {
+                    "id": "webp",
+                    "title": "Webp"
+                  }
                 ]
               },
+              "title": "Format",
               "path": "spin.images.main.format",
               "level": 4,
               "order": 1064
@@ -1298,6 +1642,7 @@ window.schema = {
                   ],
                   "description": "Width",
                   "display": false,
+                  "title": "Width",
                   "path": "spin.images.main.scale.width",
                   "level": 5,
                   "order": 1066
@@ -1315,6 +1660,7 @@ window.schema = {
                   ],
                   "description": "Height",
                   "display": false,
+                  "title": "Height",
                   "path": "spin.images.main.scale.height",
                   "level": 5,
                   "order": 1067
@@ -1330,12 +1676,25 @@ window.schema = {
                   "display": {
                     "name": "select",
                     "options": [
-                      "fit",
-                      "fill",
-                      "ignore",
-                      "noup"
+                      {
+                        "id": "fit",
+                        "title": "Fit"
+                      },
+                      {
+                        "id": "fill",
+                        "title": "Fill"
+                      },
+                      {
+                        "id": "ignore",
+                        "title": "Ignore"
+                      },
+                      {
+                        "id": "noup",
+                        "title": "Noup"
+                      }
                     ]
                   },
+                  "title": "Option",
                   "path": "spin.images.main.scale.option",
                   "level": 5,
                   "order": 1068
@@ -1343,7 +1702,10 @@ window.schema = {
               },
               "description": "Scale the image to specified width and height",
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Scale",
               "path": "spin.images.main.scale",
               "level": 4,
               "order": 1065
@@ -1363,6 +1725,7 @@ window.schema = {
                   ],
                   "description": "Width",
                   "display": false,
+                  "title": "Width",
                   "path": "spin.images.main.crop.width",
                   "level": 5,
                   "order": 1070
@@ -1380,6 +1743,7 @@ window.schema = {
                   ],
                   "description": "Height",
                   "display": false,
+                  "title": "Height",
                   "path": "spin.images.main.crop.height",
                   "level": 5,
                   "order": 1071
@@ -1402,6 +1766,7 @@ window.schema = {
                   ],
                   "description": "X offset",
                   "display": false,
+                  "title": "X",
                   "path": "spin.images.main.crop.x",
                   "level": 5,
                   "order": 1072
@@ -1424,6 +1789,7 @@ window.schema = {
                   ],
                   "description": "Y offset",
                   "display": false,
+                  "title": "Y",
                   "path": "spin.images.main.crop.y",
                   "level": 5,
                   "order": 1073
@@ -1431,7 +1797,10 @@ window.schema = {
               },
               "description": "Crop the image",
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Crop",
               "path": "spin.images.main.crop",
               "level": 4,
               "order": 1069
@@ -1447,6 +1816,7 @@ window.schema = {
                 "max": 256,
                 "min": 1
               },
+              "title": "Thumbnail",
               "path": "spin.images.main.thumbnail",
               "level": 4,
               "order": 1074
@@ -1463,6 +1833,7 @@ window.schema = {
                     "type": "number",
                     "min": 1
                   },
+                  "title": "Width",
                   "path": "spin.images.main.tile.width",
                   "level": 5,
                   "order": 1076
@@ -1476,6 +1847,7 @@ window.schema = {
                     "type": "number",
                     "min": 1
                   },
+                  "title": "Height",
                   "path": "spin.images.main.tile.height",
                   "level": 5,
                   "order": 1077
@@ -1488,6 +1860,7 @@ window.schema = {
                     "type": "number",
                     "min": 0
                   },
+                  "title": "Number",
                   "path": "spin.images.main.tile.number",
                   "level": 5,
                   "order": 1078
@@ -1495,7 +1868,10 @@ window.schema = {
               },
               "description": "Tile the image",
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Tile",
               "path": "spin.images.main.tile",
               "level": 4,
               "order": 1075
@@ -1511,6 +1887,7 @@ window.schema = {
                 "max": 180,
                 "min": -180
               },
+              "title": "Rotate",
               "path": "spin.images.main.rotate",
               "level": 4,
               "order": 1079
@@ -1525,11 +1902,21 @@ window.schema = {
               "display": {
                 "name": "radio-list",
                 "options": [
-                  "4:4:4",
-                  "4:2:2",
-                  "4:2:0"
+                  {
+                    "id": "4:4:4",
+                    "title": "4:4:4"
+                  },
+                  {
+                    "id": "4:2:2",
+                    "title": "4:2:2"
+                  },
+                  {
+                    "id": "4:2:0",
+                    "title": "4:2:0"
+                  }
                 ]
               },
+              "title": "Subsampling",
               "path": "spin.images.main.subsampling",
               "level": 4,
               "order": 1080
@@ -1545,6 +1932,7 @@ window.schema = {
                 "max": 100,
                 "min": 0
               },
+              "title": "Quality",
               "path": "spin.images.main.quality",
               "level": 4,
               "order": 1081
@@ -1562,6 +1950,7 @@ window.schema = {
                     "max": 9,
                     "min": 0
                   },
+                  "title": "Compression",
                   "path": "spin.images.main.png.compression",
                   "level": 5,
                   "order": 1083
@@ -1579,21 +1968,43 @@ window.schema = {
                   "display": {
                     "name": "select",
                     "options": [
-                      "none",
-                      "sub",
-                      "up",
-                      "average",
-                      "paeth",
-                      "adaptive"
+                      {
+                        "id": "none",
+                        "title": "None"
+                      },
+                      {
+                        "id": "sub",
+                        "title": "Sub"
+                      },
+                      {
+                        "id": "up",
+                        "title": "Up"
+                      },
+                      {
+                        "id": "average",
+                        "title": "Average"
+                      },
+                      {
+                        "id": "paeth",
+                        "title": "Paeth"
+                      },
+                      {
+                        "id": "adaptive",
+                        "title": "Adaptive"
+                      }
                     ]
                   },
+                  "title": "Filtering",
                   "path": "spin.images.main.png.filtering",
                   "level": 5,
                   "order": 1084
                 }
               },
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Png",
               "path": "spin.images.main.png",
               "level": 4,
               "order": 1082
@@ -1609,17 +2020,27 @@ window.schema = {
                   "display": {
                     "name": "radio-list",
                     "options": [
-                      "png",
-                      "jpg"
+                      {
+                        "id": "png",
+                        "title": "Png"
+                      },
+                      {
+                        "id": "jpg",
+                        "title": "Jpg"
+                      }
                     ]
                   },
+                  "title": "Fallback",
                   "path": "spin.images.main.webp.fallback",
                   "level": 5,
                   "order": 1086
                 }
               },
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Webp",
               "path": "spin.images.main.webp",
               "level": 4,
               "order": 1085
@@ -1631,6 +2052,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
+              "title": "Progressive",
               "path": "spin.images.main.progressive",
               "level": 4,
               "order": 1087
@@ -1645,6 +2067,7 @@ window.schema = {
                 "max": 100,
                 "min": -100
               },
+              "title": "Brightness",
               "path": "spin.images.main.brightness",
               "level": 4,
               "order": 1088
@@ -1659,6 +2082,7 @@ window.schema = {
                 "max": 100,
                 "min": -100
               },
+              "title": "Contrast",
               "path": "spin.images.main.contrast",
               "level": 4,
               "order": 1089
@@ -1673,6 +2097,7 @@ window.schema = {
                 "max": 100,
                 "min": -100
               },
+              "title": "Exposure",
               "path": "spin.images.main.exposure",
               "level": 4,
               "order": 1090
@@ -1684,6 +2109,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
+              "title": "Grayscale",
               "path": "spin.images.main.grayscale",
               "level": 4,
               "order": 1091
@@ -1695,6 +2121,7 @@ window.schema = {
                 "name": "input",
                 "type": "number"
               },
+              "title": "Blur",
               "path": "spin.images.main.blur",
               "level": 4,
               "order": 1092
@@ -1706,6 +2133,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
+              "title": "Tiltshift",
               "path": "spin.images.main.tiltshift",
               "level": 4,
               "order": 1093
@@ -1724,13 +2152,29 @@ window.schema = {
                   "display": {
                     "name": "select",
                     "options": [
-                      "simple",
-                      "mirror",
-                      "edge",
-                      "deckled",
-                      "none"
+                      {
+                        "id": "simple",
+                        "title": "Simple"
+                      },
+                      {
+                        "id": "mirror",
+                        "title": "Mirror"
+                      },
+                      {
+                        "id": "edge",
+                        "title": "Edge"
+                      },
+                      {
+                        "id": "deckled",
+                        "title": "Deckled"
+                      },
+                      {
+                        "id": "none",
+                        "title": "None"
+                      }
                     ]
                   },
+                  "title": "Style",
                   "path": "spin.images.main.frame.style",
                   "level": 5,
                   "order": 1095
@@ -1742,6 +2186,7 @@ window.schema = {
                     "name": "input",
                     "type": "color"
                   },
+                  "title": "Color",
                   "path": "spin.images.main.frame.color",
                   "level": 5,
                   "order": 1096
@@ -1752,6 +2197,7 @@ window.schema = {
                     "name": "input",
                     "type": "number"
                   },
+                  "title": "Width",
                   "path": "spin.images.main.frame.width",
                   "level": 5,
                   "order": 1097
@@ -1764,6 +2210,7 @@ window.schema = {
                     "type": "number"
                   },
                   "display": false,
+                  "title": "Rim",
                   "path": "spin.images.main.frame.rim",
                   "level": 5,
                   "order": 1098
@@ -1773,7 +2220,10 @@ window.schema = {
               "required": [
                 "style"
               ],
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Frame",
               "path": "spin.images.main.frame",
               "level": 4,
               "order": 1094
@@ -1790,11 +2240,21 @@ window.schema = {
                   "display": {
                     "name": "radio-list",
                     "options": [
-                      "simple",
-                      "soft",
-                      "none"
+                      {
+                        "id": "simple",
+                        "title": "Simple"
+                      },
+                      {
+                        "id": "soft",
+                        "title": "Soft"
+                      },
+                      {
+                        "id": "none",
+                        "title": "None"
+                      }
                     ]
                   },
+                  "title": "Style",
                   "path": "spin.images.main.text.style",
                   "level": 5,
                   "order": 1100
@@ -1807,6 +2267,7 @@ window.schema = {
                         "name": "input",
                         "type": "text"
                       },
+                      "title": "Family",
                       "path": "spin.images.main.text.font.family",
                       "level": 6,
                       "order": 1102
@@ -1828,18 +2289,49 @@ window.schema = {
                       "display": {
                         "name": "select",
                         "options": [
-                          "light",
-                          "normal",
-                          "semi-bold",
-                          "bold",
-                          "extra-bold",
-                          "300",
-                          "400",
-                          "600",
-                          "700",
-                          "800"
+                          {
+                            "id": "light",
+                            "title": "Light"
+                          },
+                          {
+                            "id": "normal",
+                            "title": "Normal"
+                          },
+                          {
+                            "id": "semi-bold",
+                            "title": "Semi bold"
+                          },
+                          {
+                            "id": "bold",
+                            "title": "Bold"
+                          },
+                          {
+                            "id": "extra-bold",
+                            "title": "Extra bold"
+                          },
+                          {
+                            "id": "300",
+                            "title": "300"
+                          },
+                          {
+                            "id": "400",
+                            "title": "400"
+                          },
+                          {
+                            "id": "600",
+                            "title": "600"
+                          },
+                          {
+                            "id": "700",
+                            "title": "700"
+                          },
+                          {
+                            "id": "800",
+                            "title": "800"
+                          }
                         ]
                       },
+                      "title": "Weight",
                       "path": "spin.images.main.text.font.weight",
                       "level": 6,
                       "order": 1103
@@ -1853,10 +2345,17 @@ window.schema = {
                       "display": {
                         "name": "radio-list",
                         "options": [
-                          "normal",
-                          "italic"
+                          {
+                            "id": "normal",
+                            "title": "Normal"
+                          },
+                          {
+                            "id": "italic",
+                            "title": "Italic"
+                          }
                         ]
                       },
+                      "title": "Style",
                       "path": "spin.images.main.text.font.style",
                       "level": 6,
                       "order": 1104
@@ -1873,12 +2372,16 @@ window.schema = {
                         }
                       ],
                       "display": false,
+                      "title": "Size",
                       "path": "spin.images.main.text.font.size",
                       "level": 6,
                       "order": 1105
                     }
                   },
-                  "display": "group",
+                  "display": {
+                    "name": "group"
+                  },
+                  "title": "Font",
                   "path": "spin.images.main.text.font",
                   "level": 5,
                   "order": 1101
@@ -1891,6 +2394,7 @@ window.schema = {
                     "type": "text",
                     "maxlength": 100
                   },
+                  "title": "Text",
                   "path": "spin.images.main.text.text",
                   "level": 5,
                   "order": 1106
@@ -1902,6 +2406,7 @@ window.schema = {
                     "name": "input",
                     "type": "color"
                   },
+                  "title": "Color",
                   "path": "spin.images.main.text.color",
                   "level": 5,
                   "order": 1107
@@ -1916,6 +2421,7 @@ window.schema = {
                     "max": 100,
                     "min": 0
                   },
+                  "title": "Opacity",
                   "path": "spin.images.main.text.opacity",
                   "level": 5,
                   "order": 1108
@@ -1929,6 +2435,7 @@ window.schema = {
                         "name": "input",
                         "type": "color"
                       },
+                      "title": "Color",
                       "path": "spin.images.main.text.background.color",
                       "level": 6,
                       "order": 1110
@@ -1943,12 +2450,16 @@ window.schema = {
                         "max": 100,
                         "min": 0
                       },
+                      "title": "Opacity",
                       "path": "spin.images.main.text.background.opacity",
                       "level": 6,
                       "order": 1111
                     }
                   },
-                  "display": "group",
+                  "display": {
+                    "name": "group"
+                  },
+                  "title": "Background",
                   "path": "spin.images.main.text.background",
                   "level": 5,
                   "order": 1109
@@ -1962,6 +2473,7 @@ window.schema = {
                         "name": "input",
                         "type": "color"
                       },
+                      "title": "Color",
                       "path": "spin.images.main.text.outline.color",
                       "level": 6,
                       "order": 1113
@@ -1974,12 +2486,16 @@ window.schema = {
                         "type": "number",
                         "min": 0
                       },
+                      "title": "Width",
                       "path": "spin.images.main.text.outline.width",
                       "level": 6,
                       "order": 1114
                     }
                   },
-                  "display": "group",
+                  "display": {
+                    "name": "group"
+                  },
+                  "title": "Outline",
                   "path": "spin.images.main.text.outline",
                   "level": 5,
                   "order": 1112
@@ -1991,6 +2507,7 @@ window.schema = {
                     "name": "input",
                     "type": "text"
                   },
+                  "title": "Size",
                   "path": "spin.images.main.text.size",
                   "level": 5,
                   "order": 1115
@@ -2011,17 +2528,45 @@ window.schema = {
                   "display": {
                     "name": "select",
                     "options": [
-                      "north",
-                      "northeast",
-                      "northwest",
-                      "center",
-                      "south",
-                      "southeast",
-                      "southwest",
-                      "east",
-                      "west"
+                      {
+                        "id": "north",
+                        "title": "North"
+                      },
+                      {
+                        "id": "northeast",
+                        "title": "Northeast"
+                      },
+                      {
+                        "id": "northwest",
+                        "title": "Northwest"
+                      },
+                      {
+                        "id": "center",
+                        "title": "Center"
+                      },
+                      {
+                        "id": "south",
+                        "title": "South"
+                      },
+                      {
+                        "id": "southeast",
+                        "title": "Southeast"
+                      },
+                      {
+                        "id": "southwest",
+                        "title": "Southwest"
+                      },
+                      {
+                        "id": "east",
+                        "title": "East"
+                      },
+                      {
+                        "id": "west",
+                        "title": "West"
+                      }
                     ]
                   },
+                  "title": "Position",
                   "path": "spin.images.main.text.position",
                   "level": 5,
                   "order": 1116
@@ -2031,7 +2576,10 @@ window.schema = {
                 "text"
               ],
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Text",
               "path": "spin.images.main.text",
               "level": 4,
               "order": 1099
@@ -2050,15 +2598,37 @@ window.schema = {
               "display": {
                 "name": "select",
                 "options": [
-                  "sepia",
-                  "warm",
-                  "cold",
-                  "sunset",
-                  "purpletan",
-                  "texas",
-                  "none"
+                  {
+                    "id": "sepia",
+                    "title": "Sepia"
+                  },
+                  {
+                    "id": "warm",
+                    "title": "Warm"
+                  },
+                  {
+                    "id": "cold",
+                    "title": "Cold"
+                  },
+                  {
+                    "id": "sunset",
+                    "title": "Sunset"
+                  },
+                  {
+                    "id": "purpletan",
+                    "title": "Purpletan"
+                  },
+                  {
+                    "id": "texas",
+                    "title": "Texas"
+                  },
+                  {
+                    "id": "none",
+                    "title": "None"
+                  }
                 ]
               },
+              "title": "Colortone",
               "path": "spin.images.main.colortone",
               "level": 4,
               "order": 1117
@@ -2072,6 +2642,7 @@ window.schema = {
                     "name": "input",
                     "type": "color"
                   },
+                  "title": "Color",
                   "path": "spin.images.main.vignette.color",
                   "level": 5,
                   "order": 1119
@@ -2086,19 +2657,25 @@ window.schema = {
                     "max": 1,
                     "min": 0
                   },
+                  "title": "Value",
                   "path": "spin.images.main.vignette.value",
                   "level": 5,
                   "order": 1120
                 }
               },
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Vignette",
               "path": "spin.images.main.vignette",
               "level": 4,
               "order": 1118
             }
           },
-          "display": "group",
+          "display": {
+            "name": "group"
+          },
           "path": "spin.images.main",
           "level": 3,
           "order": 1062
@@ -2112,6 +2689,7 @@ window.schema = {
                 "name": "input",
                 "type": "text"
               },
+              "title": "Profile",
               "path": "spin.images.zoom.profile",
               "level": 4,
               "order": 1122
@@ -2126,11 +2704,21 @@ window.schema = {
               "display": {
                 "name": "radio-list",
                 "options": [
-                  "png",
-                  "jpg",
-                  "webp"
+                  {
+                    "id": "png",
+                    "title": "Png"
+                  },
+                  {
+                    "id": "jpg",
+                    "title": "Jpg"
+                  },
+                  {
+                    "id": "webp",
+                    "title": "Webp"
+                  }
                 ]
               },
+              "title": "Format",
               "path": "spin.images.zoom.format",
               "level": 4,
               "order": 1123
@@ -2150,6 +2738,7 @@ window.schema = {
                   ],
                   "description": "Width",
                   "display": false,
+                  "title": "Width",
                   "path": "spin.images.zoom.scale.width",
                   "level": 5,
                   "order": 1125
@@ -2167,6 +2756,7 @@ window.schema = {
                   ],
                   "description": "Height",
                   "display": false,
+                  "title": "Height",
                   "path": "spin.images.zoom.scale.height",
                   "level": 5,
                   "order": 1126
@@ -2182,12 +2772,25 @@ window.schema = {
                   "display": {
                     "name": "select",
                     "options": [
-                      "fit",
-                      "fill",
-                      "ignore",
-                      "noup"
+                      {
+                        "id": "fit",
+                        "title": "Fit"
+                      },
+                      {
+                        "id": "fill",
+                        "title": "Fill"
+                      },
+                      {
+                        "id": "ignore",
+                        "title": "Ignore"
+                      },
+                      {
+                        "id": "noup",
+                        "title": "Noup"
+                      }
                     ]
                   },
+                  "title": "Option",
                   "path": "spin.images.zoom.scale.option",
                   "level": 5,
                   "order": 1127
@@ -2195,7 +2798,10 @@ window.schema = {
               },
               "description": "Scale the image to specified width and height",
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Scale",
               "path": "spin.images.zoom.scale",
               "level": 4,
               "order": 1124
@@ -2215,6 +2821,7 @@ window.schema = {
                   ],
                   "description": "Width",
                   "display": false,
+                  "title": "Width",
                   "path": "spin.images.zoom.crop.width",
                   "level": 5,
                   "order": 1129
@@ -2232,6 +2839,7 @@ window.schema = {
                   ],
                   "description": "Height",
                   "display": false,
+                  "title": "Height",
                   "path": "spin.images.zoom.crop.height",
                   "level": 5,
                   "order": 1130
@@ -2254,6 +2862,7 @@ window.schema = {
                   ],
                   "description": "X offset",
                   "display": false,
+                  "title": "X",
                   "path": "spin.images.zoom.crop.x",
                   "level": 5,
                   "order": 1131
@@ -2276,6 +2885,7 @@ window.schema = {
                   ],
                   "description": "Y offset",
                   "display": false,
+                  "title": "Y",
                   "path": "spin.images.zoom.crop.y",
                   "level": 5,
                   "order": 1132
@@ -2283,7 +2893,10 @@ window.schema = {
               },
               "description": "Crop the image",
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Crop",
               "path": "spin.images.zoom.crop",
               "level": 4,
               "order": 1128
@@ -2299,6 +2912,7 @@ window.schema = {
                 "max": 256,
                 "min": 1
               },
+              "title": "Thumbnail",
               "path": "spin.images.zoom.thumbnail",
               "level": 4,
               "order": 1133
@@ -2315,6 +2929,7 @@ window.schema = {
                     "type": "number",
                     "min": 1
                   },
+                  "title": "Width",
                   "path": "spin.images.zoom.tile.width",
                   "level": 5,
                   "order": 1135
@@ -2328,6 +2943,7 @@ window.schema = {
                     "type": "number",
                     "min": 1
                   },
+                  "title": "Height",
                   "path": "spin.images.zoom.tile.height",
                   "level": 5,
                   "order": 1136
@@ -2340,6 +2956,7 @@ window.schema = {
                     "type": "number",
                     "min": 0
                   },
+                  "title": "Number",
                   "path": "spin.images.zoom.tile.number",
                   "level": 5,
                   "order": 1137
@@ -2347,7 +2964,10 @@ window.schema = {
               },
               "description": "Tile the image",
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Tile",
               "path": "spin.images.zoom.tile",
               "level": 4,
               "order": 1134
@@ -2363,6 +2983,7 @@ window.schema = {
                 "max": 180,
                 "min": -180
               },
+              "title": "Rotate",
               "path": "spin.images.zoom.rotate",
               "level": 4,
               "order": 1138
@@ -2377,11 +2998,21 @@ window.schema = {
               "display": {
                 "name": "radio-list",
                 "options": [
-                  "4:4:4",
-                  "4:2:2",
-                  "4:2:0"
+                  {
+                    "id": "4:4:4",
+                    "title": "4:4:4"
+                  },
+                  {
+                    "id": "4:2:2",
+                    "title": "4:2:2"
+                  },
+                  {
+                    "id": "4:2:0",
+                    "title": "4:2:0"
+                  }
                 ]
               },
+              "title": "Subsampling",
               "path": "spin.images.zoom.subsampling",
               "level": 4,
               "order": 1139
@@ -2397,6 +3028,7 @@ window.schema = {
                 "max": 100,
                 "min": 0
               },
+              "title": "Quality",
               "path": "spin.images.zoom.quality",
               "level": 4,
               "order": 1140
@@ -2414,6 +3046,7 @@ window.schema = {
                     "max": 9,
                     "min": 0
                   },
+                  "title": "Compression",
                   "path": "spin.images.zoom.png.compression",
                   "level": 5,
                   "order": 1142
@@ -2431,21 +3064,43 @@ window.schema = {
                   "display": {
                     "name": "select",
                     "options": [
-                      "none",
-                      "sub",
-                      "up",
-                      "average",
-                      "paeth",
-                      "adaptive"
+                      {
+                        "id": "none",
+                        "title": "None"
+                      },
+                      {
+                        "id": "sub",
+                        "title": "Sub"
+                      },
+                      {
+                        "id": "up",
+                        "title": "Up"
+                      },
+                      {
+                        "id": "average",
+                        "title": "Average"
+                      },
+                      {
+                        "id": "paeth",
+                        "title": "Paeth"
+                      },
+                      {
+                        "id": "adaptive",
+                        "title": "Adaptive"
+                      }
                     ]
                   },
+                  "title": "Filtering",
                   "path": "spin.images.zoom.png.filtering",
                   "level": 5,
                   "order": 1143
                 }
               },
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Png",
               "path": "spin.images.zoom.png",
               "level": 4,
               "order": 1141
@@ -2461,17 +3116,27 @@ window.schema = {
                   "display": {
                     "name": "radio-list",
                     "options": [
-                      "png",
-                      "jpg"
+                      {
+                        "id": "png",
+                        "title": "Png"
+                      },
+                      {
+                        "id": "jpg",
+                        "title": "Jpg"
+                      }
                     ]
                   },
+                  "title": "Fallback",
                   "path": "spin.images.zoom.webp.fallback",
                   "level": 5,
                   "order": 1145
                 }
               },
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Webp",
               "path": "spin.images.zoom.webp",
               "level": 4,
               "order": 1144
@@ -2483,6 +3148,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
+              "title": "Progressive",
               "path": "spin.images.zoom.progressive",
               "level": 4,
               "order": 1146
@@ -2497,6 +3163,7 @@ window.schema = {
                 "max": 100,
                 "min": -100
               },
+              "title": "Brightness",
               "path": "spin.images.zoom.brightness",
               "level": 4,
               "order": 1147
@@ -2511,6 +3178,7 @@ window.schema = {
                 "max": 100,
                 "min": -100
               },
+              "title": "Contrast",
               "path": "spin.images.zoom.contrast",
               "level": 4,
               "order": 1148
@@ -2525,6 +3193,7 @@ window.schema = {
                 "max": 100,
                 "min": -100
               },
+              "title": "Exposure",
               "path": "spin.images.zoom.exposure",
               "level": 4,
               "order": 1149
@@ -2536,6 +3205,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
+              "title": "Grayscale",
               "path": "spin.images.zoom.grayscale",
               "level": 4,
               "order": 1150
@@ -2547,6 +3217,7 @@ window.schema = {
                 "name": "input",
                 "type": "number"
               },
+              "title": "Blur",
               "path": "spin.images.zoom.blur",
               "level": 4,
               "order": 1151
@@ -2558,6 +3229,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
+              "title": "Tiltshift",
               "path": "spin.images.zoom.tiltshift",
               "level": 4,
               "order": 1152
@@ -2576,13 +3248,29 @@ window.schema = {
                   "display": {
                     "name": "select",
                     "options": [
-                      "simple",
-                      "mirror",
-                      "edge",
-                      "deckled",
-                      "none"
+                      {
+                        "id": "simple",
+                        "title": "Simple"
+                      },
+                      {
+                        "id": "mirror",
+                        "title": "Mirror"
+                      },
+                      {
+                        "id": "edge",
+                        "title": "Edge"
+                      },
+                      {
+                        "id": "deckled",
+                        "title": "Deckled"
+                      },
+                      {
+                        "id": "none",
+                        "title": "None"
+                      }
                     ]
                   },
+                  "title": "Style",
                   "path": "spin.images.zoom.frame.style",
                   "level": 5,
                   "order": 1154
@@ -2594,6 +3282,7 @@ window.schema = {
                     "name": "input",
                     "type": "color"
                   },
+                  "title": "Color",
                   "path": "spin.images.zoom.frame.color",
                   "level": 5,
                   "order": 1155
@@ -2604,6 +3293,7 @@ window.schema = {
                     "name": "input",
                     "type": "number"
                   },
+                  "title": "Width",
                   "path": "spin.images.zoom.frame.width",
                   "level": 5,
                   "order": 1156
@@ -2616,6 +3306,7 @@ window.schema = {
                     "type": "number"
                   },
                   "display": false,
+                  "title": "Rim",
                   "path": "spin.images.zoom.frame.rim",
                   "level": 5,
                   "order": 1157
@@ -2625,7 +3316,10 @@ window.schema = {
               "required": [
                 "style"
               ],
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Frame",
               "path": "spin.images.zoom.frame",
               "level": 4,
               "order": 1153
@@ -2642,11 +3336,21 @@ window.schema = {
                   "display": {
                     "name": "radio-list",
                     "options": [
-                      "simple",
-                      "soft",
-                      "none"
+                      {
+                        "id": "simple",
+                        "title": "Simple"
+                      },
+                      {
+                        "id": "soft",
+                        "title": "Soft"
+                      },
+                      {
+                        "id": "none",
+                        "title": "None"
+                      }
                     ]
                   },
+                  "title": "Style",
                   "path": "spin.images.zoom.text.style",
                   "level": 5,
                   "order": 1159
@@ -2659,6 +3363,7 @@ window.schema = {
                         "name": "input",
                         "type": "text"
                       },
+                      "title": "Family",
                       "path": "spin.images.zoom.text.font.family",
                       "level": 6,
                       "order": 1161
@@ -2680,18 +3385,49 @@ window.schema = {
                       "display": {
                         "name": "select",
                         "options": [
-                          "light",
-                          "normal",
-                          "semi-bold",
-                          "bold",
-                          "extra-bold",
-                          "300",
-                          "400",
-                          "600",
-                          "700",
-                          "800"
+                          {
+                            "id": "light",
+                            "title": "Light"
+                          },
+                          {
+                            "id": "normal",
+                            "title": "Normal"
+                          },
+                          {
+                            "id": "semi-bold",
+                            "title": "Semi bold"
+                          },
+                          {
+                            "id": "bold",
+                            "title": "Bold"
+                          },
+                          {
+                            "id": "extra-bold",
+                            "title": "Extra bold"
+                          },
+                          {
+                            "id": "300",
+                            "title": "300"
+                          },
+                          {
+                            "id": "400",
+                            "title": "400"
+                          },
+                          {
+                            "id": "600",
+                            "title": "600"
+                          },
+                          {
+                            "id": "700",
+                            "title": "700"
+                          },
+                          {
+                            "id": "800",
+                            "title": "800"
+                          }
                         ]
                       },
+                      "title": "Weight",
                       "path": "spin.images.zoom.text.font.weight",
                       "level": 6,
                       "order": 1162
@@ -2705,10 +3441,17 @@ window.schema = {
                       "display": {
                         "name": "radio-list",
                         "options": [
-                          "normal",
-                          "italic"
+                          {
+                            "id": "normal",
+                            "title": "Normal"
+                          },
+                          {
+                            "id": "italic",
+                            "title": "Italic"
+                          }
                         ]
                       },
+                      "title": "Style",
                       "path": "spin.images.zoom.text.font.style",
                       "level": 6,
                       "order": 1163
@@ -2725,12 +3468,16 @@ window.schema = {
                         }
                       ],
                       "display": false,
+                      "title": "Size",
                       "path": "spin.images.zoom.text.font.size",
                       "level": 6,
                       "order": 1164
                     }
                   },
-                  "display": "group",
+                  "display": {
+                    "name": "group"
+                  },
+                  "title": "Font",
                   "path": "spin.images.zoom.text.font",
                   "level": 5,
                   "order": 1160
@@ -2743,6 +3490,7 @@ window.schema = {
                     "type": "text",
                     "maxlength": 100
                   },
+                  "title": "Text",
                   "path": "spin.images.zoom.text.text",
                   "level": 5,
                   "order": 1165
@@ -2754,6 +3502,7 @@ window.schema = {
                     "name": "input",
                     "type": "color"
                   },
+                  "title": "Color",
                   "path": "spin.images.zoom.text.color",
                   "level": 5,
                   "order": 1166
@@ -2768,6 +3517,7 @@ window.schema = {
                     "max": 100,
                     "min": 0
                   },
+                  "title": "Opacity",
                   "path": "spin.images.zoom.text.opacity",
                   "level": 5,
                   "order": 1167
@@ -2781,6 +3531,7 @@ window.schema = {
                         "name": "input",
                         "type": "color"
                       },
+                      "title": "Color",
                       "path": "spin.images.zoom.text.background.color",
                       "level": 6,
                       "order": 1169
@@ -2795,12 +3546,16 @@ window.schema = {
                         "max": 100,
                         "min": 0
                       },
+                      "title": "Opacity",
                       "path": "spin.images.zoom.text.background.opacity",
                       "level": 6,
                       "order": 1170
                     }
                   },
-                  "display": "group",
+                  "display": {
+                    "name": "group"
+                  },
+                  "title": "Background",
                   "path": "spin.images.zoom.text.background",
                   "level": 5,
                   "order": 1168
@@ -2814,6 +3569,7 @@ window.schema = {
                         "name": "input",
                         "type": "color"
                       },
+                      "title": "Color",
                       "path": "spin.images.zoom.text.outline.color",
                       "level": 6,
                       "order": 1172
@@ -2826,12 +3582,16 @@ window.schema = {
                         "type": "number",
                         "min": 0
                       },
+                      "title": "Width",
                       "path": "spin.images.zoom.text.outline.width",
                       "level": 6,
                       "order": 1173
                     }
                   },
-                  "display": "group",
+                  "display": {
+                    "name": "group"
+                  },
+                  "title": "Outline",
                   "path": "spin.images.zoom.text.outline",
                   "level": 5,
                   "order": 1171
@@ -2843,6 +3603,7 @@ window.schema = {
                     "name": "input",
                     "type": "text"
                   },
+                  "title": "Size",
                   "path": "spin.images.zoom.text.size",
                   "level": 5,
                   "order": 1174
@@ -2863,17 +3624,45 @@ window.schema = {
                   "display": {
                     "name": "select",
                     "options": [
-                      "north",
-                      "northeast",
-                      "northwest",
-                      "center",
-                      "south",
-                      "southeast",
-                      "southwest",
-                      "east",
-                      "west"
+                      {
+                        "id": "north",
+                        "title": "North"
+                      },
+                      {
+                        "id": "northeast",
+                        "title": "Northeast"
+                      },
+                      {
+                        "id": "northwest",
+                        "title": "Northwest"
+                      },
+                      {
+                        "id": "center",
+                        "title": "Center"
+                      },
+                      {
+                        "id": "south",
+                        "title": "South"
+                      },
+                      {
+                        "id": "southeast",
+                        "title": "Southeast"
+                      },
+                      {
+                        "id": "southwest",
+                        "title": "Southwest"
+                      },
+                      {
+                        "id": "east",
+                        "title": "East"
+                      },
+                      {
+                        "id": "west",
+                        "title": "West"
+                      }
                     ]
                   },
+                  "title": "Position",
                   "path": "spin.images.zoom.text.position",
                   "level": 5,
                   "order": 1175
@@ -2883,7 +3672,10 @@ window.schema = {
                 "text"
               ],
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Text",
               "path": "spin.images.zoom.text",
               "level": 4,
               "order": 1158
@@ -2902,15 +3694,37 @@ window.schema = {
               "display": {
                 "name": "select",
                 "options": [
-                  "sepia",
-                  "warm",
-                  "cold",
-                  "sunset",
-                  "purpletan",
-                  "texas",
-                  "none"
+                  {
+                    "id": "sepia",
+                    "title": "Sepia"
+                  },
+                  {
+                    "id": "warm",
+                    "title": "Warm"
+                  },
+                  {
+                    "id": "cold",
+                    "title": "Cold"
+                  },
+                  {
+                    "id": "sunset",
+                    "title": "Sunset"
+                  },
+                  {
+                    "id": "purpletan",
+                    "title": "Purpletan"
+                  },
+                  {
+                    "id": "texas",
+                    "title": "Texas"
+                  },
+                  {
+                    "id": "none",
+                    "title": "None"
+                  }
                 ]
               },
+              "title": "Colortone",
               "path": "spin.images.zoom.colortone",
               "level": 4,
               "order": 1176
@@ -2924,6 +3738,7 @@ window.schema = {
                     "name": "input",
                     "type": "color"
                   },
+                  "title": "Color",
                   "path": "spin.images.zoom.vignette.color",
                   "level": 5,
                   "order": 1178
@@ -2938,19 +3753,25 @@ window.schema = {
                     "max": 1,
                     "min": 0
                   },
+                  "title": "Value",
                   "path": "spin.images.zoom.vignette.value",
                   "level": 5,
                   "order": 1179
                 }
               },
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Vignette",
               "path": "spin.images.zoom.vignette",
               "level": 4,
               "order": 1177
             }
           },
-          "display": "group",
+          "display": {
+            "name": "group"
+          },
           "path": "spin.images.zoom",
           "level": 3,
           "order": 1121
@@ -2964,6 +3785,7 @@ window.schema = {
                 "name": "input",
                 "type": "text"
               },
+              "title": "Profile",
               "path": "spin.images.fullscreen.profile",
               "level": 4,
               "order": 1181
@@ -2978,11 +3800,21 @@ window.schema = {
               "display": {
                 "name": "radio-list",
                 "options": [
-                  "png",
-                  "jpg",
-                  "webp"
+                  {
+                    "id": "png",
+                    "title": "Png"
+                  },
+                  {
+                    "id": "jpg",
+                    "title": "Jpg"
+                  },
+                  {
+                    "id": "webp",
+                    "title": "Webp"
+                  }
                 ]
               },
+              "title": "Format",
               "path": "spin.images.fullscreen.format",
               "level": 4,
               "order": 1182
@@ -3002,6 +3834,7 @@ window.schema = {
                   ],
                   "description": "Width",
                   "display": false,
+                  "title": "Width",
                   "path": "spin.images.fullscreen.scale.width",
                   "level": 5,
                   "order": 1184
@@ -3019,6 +3852,7 @@ window.schema = {
                   ],
                   "description": "Height",
                   "display": false,
+                  "title": "Height",
                   "path": "spin.images.fullscreen.scale.height",
                   "level": 5,
                   "order": 1185
@@ -3034,12 +3868,25 @@ window.schema = {
                   "display": {
                     "name": "select",
                     "options": [
-                      "fit",
-                      "fill",
-                      "ignore",
-                      "noup"
+                      {
+                        "id": "fit",
+                        "title": "Fit"
+                      },
+                      {
+                        "id": "fill",
+                        "title": "Fill"
+                      },
+                      {
+                        "id": "ignore",
+                        "title": "Ignore"
+                      },
+                      {
+                        "id": "noup",
+                        "title": "Noup"
+                      }
                     ]
                   },
+                  "title": "Option",
                   "path": "spin.images.fullscreen.scale.option",
                   "level": 5,
                   "order": 1186
@@ -3047,7 +3894,10 @@ window.schema = {
               },
               "description": "Scale the image to specified width and height",
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Scale",
               "path": "spin.images.fullscreen.scale",
               "level": 4,
               "order": 1183
@@ -3067,6 +3917,7 @@ window.schema = {
                   ],
                   "description": "Width",
                   "display": false,
+                  "title": "Width",
                   "path": "spin.images.fullscreen.crop.width",
                   "level": 5,
                   "order": 1188
@@ -3084,6 +3935,7 @@ window.schema = {
                   ],
                   "description": "Height",
                   "display": false,
+                  "title": "Height",
                   "path": "spin.images.fullscreen.crop.height",
                   "level": 5,
                   "order": 1189
@@ -3106,6 +3958,7 @@ window.schema = {
                   ],
                   "description": "X offset",
                   "display": false,
+                  "title": "X",
                   "path": "spin.images.fullscreen.crop.x",
                   "level": 5,
                   "order": 1190
@@ -3128,6 +3981,7 @@ window.schema = {
                   ],
                   "description": "Y offset",
                   "display": false,
+                  "title": "Y",
                   "path": "spin.images.fullscreen.crop.y",
                   "level": 5,
                   "order": 1191
@@ -3135,7 +3989,10 @@ window.schema = {
               },
               "description": "Crop the image",
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Crop",
               "path": "spin.images.fullscreen.crop",
               "level": 4,
               "order": 1187
@@ -3151,6 +4008,7 @@ window.schema = {
                 "max": 256,
                 "min": 1
               },
+              "title": "Thumbnail",
               "path": "spin.images.fullscreen.thumbnail",
               "level": 4,
               "order": 1192
@@ -3167,6 +4025,7 @@ window.schema = {
                     "type": "number",
                     "min": 1
                   },
+                  "title": "Width",
                   "path": "spin.images.fullscreen.tile.width",
                   "level": 5,
                   "order": 1194
@@ -3180,6 +4039,7 @@ window.schema = {
                     "type": "number",
                     "min": 1
                   },
+                  "title": "Height",
                   "path": "spin.images.fullscreen.tile.height",
                   "level": 5,
                   "order": 1195
@@ -3192,6 +4052,7 @@ window.schema = {
                     "type": "number",
                     "min": 0
                   },
+                  "title": "Number",
                   "path": "spin.images.fullscreen.tile.number",
                   "level": 5,
                   "order": 1196
@@ -3199,7 +4060,10 @@ window.schema = {
               },
               "description": "Tile the image",
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Tile",
               "path": "spin.images.fullscreen.tile",
               "level": 4,
               "order": 1193
@@ -3215,6 +4079,7 @@ window.schema = {
                 "max": 180,
                 "min": -180
               },
+              "title": "Rotate",
               "path": "spin.images.fullscreen.rotate",
               "level": 4,
               "order": 1197
@@ -3229,11 +4094,21 @@ window.schema = {
               "display": {
                 "name": "radio-list",
                 "options": [
-                  "4:4:4",
-                  "4:2:2",
-                  "4:2:0"
+                  {
+                    "id": "4:4:4",
+                    "title": "4:4:4"
+                  },
+                  {
+                    "id": "4:2:2",
+                    "title": "4:2:2"
+                  },
+                  {
+                    "id": "4:2:0",
+                    "title": "4:2:0"
+                  }
                 ]
               },
+              "title": "Subsampling",
               "path": "spin.images.fullscreen.subsampling",
               "level": 4,
               "order": 1198
@@ -3249,6 +4124,7 @@ window.schema = {
                 "max": 100,
                 "min": 0
               },
+              "title": "Quality",
               "path": "spin.images.fullscreen.quality",
               "level": 4,
               "order": 1199
@@ -3266,6 +4142,7 @@ window.schema = {
                     "max": 9,
                     "min": 0
                   },
+                  "title": "Compression",
                   "path": "spin.images.fullscreen.png.compression",
                   "level": 5,
                   "order": 1201
@@ -3283,21 +4160,43 @@ window.schema = {
                   "display": {
                     "name": "select",
                     "options": [
-                      "none",
-                      "sub",
-                      "up",
-                      "average",
-                      "paeth",
-                      "adaptive"
+                      {
+                        "id": "none",
+                        "title": "None"
+                      },
+                      {
+                        "id": "sub",
+                        "title": "Sub"
+                      },
+                      {
+                        "id": "up",
+                        "title": "Up"
+                      },
+                      {
+                        "id": "average",
+                        "title": "Average"
+                      },
+                      {
+                        "id": "paeth",
+                        "title": "Paeth"
+                      },
+                      {
+                        "id": "adaptive",
+                        "title": "Adaptive"
+                      }
                     ]
                   },
+                  "title": "Filtering",
                   "path": "spin.images.fullscreen.png.filtering",
                   "level": 5,
                   "order": 1202
                 }
               },
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Png",
               "path": "spin.images.fullscreen.png",
               "level": 4,
               "order": 1200
@@ -3313,17 +4212,27 @@ window.schema = {
                   "display": {
                     "name": "radio-list",
                     "options": [
-                      "png",
-                      "jpg"
+                      {
+                        "id": "png",
+                        "title": "Png"
+                      },
+                      {
+                        "id": "jpg",
+                        "title": "Jpg"
+                      }
                     ]
                   },
+                  "title": "Fallback",
                   "path": "spin.images.fullscreen.webp.fallback",
                   "level": 5,
                   "order": 1204
                 }
               },
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Webp",
               "path": "spin.images.fullscreen.webp",
               "level": 4,
               "order": 1203
@@ -3335,6 +4244,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
+              "title": "Progressive",
               "path": "spin.images.fullscreen.progressive",
               "level": 4,
               "order": 1205
@@ -3349,6 +4259,7 @@ window.schema = {
                 "max": 100,
                 "min": -100
               },
+              "title": "Brightness",
               "path": "spin.images.fullscreen.brightness",
               "level": 4,
               "order": 1206
@@ -3363,6 +4274,7 @@ window.schema = {
                 "max": 100,
                 "min": -100
               },
+              "title": "Contrast",
               "path": "spin.images.fullscreen.contrast",
               "level": 4,
               "order": 1207
@@ -3377,6 +4289,7 @@ window.schema = {
                 "max": 100,
                 "min": -100
               },
+              "title": "Exposure",
               "path": "spin.images.fullscreen.exposure",
               "level": 4,
               "order": 1208
@@ -3388,6 +4301,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
+              "title": "Grayscale",
               "path": "spin.images.fullscreen.grayscale",
               "level": 4,
               "order": 1209
@@ -3399,6 +4313,7 @@ window.schema = {
                 "name": "input",
                 "type": "number"
               },
+              "title": "Blur",
               "path": "spin.images.fullscreen.blur",
               "level": 4,
               "order": 1210
@@ -3410,6 +4325,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
+              "title": "Tiltshift",
               "path": "spin.images.fullscreen.tiltshift",
               "level": 4,
               "order": 1211
@@ -3428,13 +4344,29 @@ window.schema = {
                   "display": {
                     "name": "select",
                     "options": [
-                      "simple",
-                      "mirror",
-                      "edge",
-                      "deckled",
-                      "none"
+                      {
+                        "id": "simple",
+                        "title": "Simple"
+                      },
+                      {
+                        "id": "mirror",
+                        "title": "Mirror"
+                      },
+                      {
+                        "id": "edge",
+                        "title": "Edge"
+                      },
+                      {
+                        "id": "deckled",
+                        "title": "Deckled"
+                      },
+                      {
+                        "id": "none",
+                        "title": "None"
+                      }
                     ]
                   },
+                  "title": "Style",
                   "path": "spin.images.fullscreen.frame.style",
                   "level": 5,
                   "order": 1213
@@ -3446,6 +4378,7 @@ window.schema = {
                     "name": "input",
                     "type": "color"
                   },
+                  "title": "Color",
                   "path": "spin.images.fullscreen.frame.color",
                   "level": 5,
                   "order": 1214
@@ -3456,6 +4389,7 @@ window.schema = {
                     "name": "input",
                     "type": "number"
                   },
+                  "title": "Width",
                   "path": "spin.images.fullscreen.frame.width",
                   "level": 5,
                   "order": 1215
@@ -3468,6 +4402,7 @@ window.schema = {
                     "type": "number"
                   },
                   "display": false,
+                  "title": "Rim",
                   "path": "spin.images.fullscreen.frame.rim",
                   "level": 5,
                   "order": 1216
@@ -3477,7 +4412,10 @@ window.schema = {
               "required": [
                 "style"
               ],
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Frame",
               "path": "spin.images.fullscreen.frame",
               "level": 4,
               "order": 1212
@@ -3494,11 +4432,21 @@ window.schema = {
                   "display": {
                     "name": "radio-list",
                     "options": [
-                      "simple",
-                      "soft",
-                      "none"
+                      {
+                        "id": "simple",
+                        "title": "Simple"
+                      },
+                      {
+                        "id": "soft",
+                        "title": "Soft"
+                      },
+                      {
+                        "id": "none",
+                        "title": "None"
+                      }
                     ]
                   },
+                  "title": "Style",
                   "path": "spin.images.fullscreen.text.style",
                   "level": 5,
                   "order": 1218
@@ -3511,6 +4459,7 @@ window.schema = {
                         "name": "input",
                         "type": "text"
                       },
+                      "title": "Family",
                       "path": "spin.images.fullscreen.text.font.family",
                       "level": 6,
                       "order": 1220
@@ -3532,18 +4481,49 @@ window.schema = {
                       "display": {
                         "name": "select",
                         "options": [
-                          "light",
-                          "normal",
-                          "semi-bold",
-                          "bold",
-                          "extra-bold",
-                          "300",
-                          "400",
-                          "600",
-                          "700",
-                          "800"
+                          {
+                            "id": "light",
+                            "title": "Light"
+                          },
+                          {
+                            "id": "normal",
+                            "title": "Normal"
+                          },
+                          {
+                            "id": "semi-bold",
+                            "title": "Semi bold"
+                          },
+                          {
+                            "id": "bold",
+                            "title": "Bold"
+                          },
+                          {
+                            "id": "extra-bold",
+                            "title": "Extra bold"
+                          },
+                          {
+                            "id": "300",
+                            "title": "300"
+                          },
+                          {
+                            "id": "400",
+                            "title": "400"
+                          },
+                          {
+                            "id": "600",
+                            "title": "600"
+                          },
+                          {
+                            "id": "700",
+                            "title": "700"
+                          },
+                          {
+                            "id": "800",
+                            "title": "800"
+                          }
                         ]
                       },
+                      "title": "Weight",
                       "path": "spin.images.fullscreen.text.font.weight",
                       "level": 6,
                       "order": 1221
@@ -3557,10 +4537,17 @@ window.schema = {
                       "display": {
                         "name": "radio-list",
                         "options": [
-                          "normal",
-                          "italic"
+                          {
+                            "id": "normal",
+                            "title": "Normal"
+                          },
+                          {
+                            "id": "italic",
+                            "title": "Italic"
+                          }
                         ]
                       },
+                      "title": "Style",
                       "path": "spin.images.fullscreen.text.font.style",
                       "level": 6,
                       "order": 1222
@@ -3577,12 +4564,16 @@ window.schema = {
                         }
                       ],
                       "display": false,
+                      "title": "Size",
                       "path": "spin.images.fullscreen.text.font.size",
                       "level": 6,
                       "order": 1223
                     }
                   },
-                  "display": "group",
+                  "display": {
+                    "name": "group"
+                  },
+                  "title": "Font",
                   "path": "spin.images.fullscreen.text.font",
                   "level": 5,
                   "order": 1219
@@ -3595,6 +4586,7 @@ window.schema = {
                     "type": "text",
                     "maxlength": 100
                   },
+                  "title": "Text",
                   "path": "spin.images.fullscreen.text.text",
                   "level": 5,
                   "order": 1224
@@ -3606,6 +4598,7 @@ window.schema = {
                     "name": "input",
                     "type": "color"
                   },
+                  "title": "Color",
                   "path": "spin.images.fullscreen.text.color",
                   "level": 5,
                   "order": 1225
@@ -3620,6 +4613,7 @@ window.schema = {
                     "max": 100,
                     "min": 0
                   },
+                  "title": "Opacity",
                   "path": "spin.images.fullscreen.text.opacity",
                   "level": 5,
                   "order": 1226
@@ -3633,6 +4627,7 @@ window.schema = {
                         "name": "input",
                         "type": "color"
                       },
+                      "title": "Color",
                       "path": "spin.images.fullscreen.text.background.color",
                       "level": 6,
                       "order": 1228
@@ -3647,12 +4642,16 @@ window.schema = {
                         "max": 100,
                         "min": 0
                       },
+                      "title": "Opacity",
                       "path": "spin.images.fullscreen.text.background.opacity",
                       "level": 6,
                       "order": 1229
                     }
                   },
-                  "display": "group",
+                  "display": {
+                    "name": "group"
+                  },
+                  "title": "Background",
                   "path": "spin.images.fullscreen.text.background",
                   "level": 5,
                   "order": 1227
@@ -3666,6 +4665,7 @@ window.schema = {
                         "name": "input",
                         "type": "color"
                       },
+                      "title": "Color",
                       "path": "spin.images.fullscreen.text.outline.color",
                       "level": 6,
                       "order": 1231
@@ -3678,12 +4678,16 @@ window.schema = {
                         "type": "number",
                         "min": 0
                       },
+                      "title": "Width",
                       "path": "spin.images.fullscreen.text.outline.width",
                       "level": 6,
                       "order": 1232
                     }
                   },
-                  "display": "group",
+                  "display": {
+                    "name": "group"
+                  },
+                  "title": "Outline",
                   "path": "spin.images.fullscreen.text.outline",
                   "level": 5,
                   "order": 1230
@@ -3695,6 +4699,7 @@ window.schema = {
                     "name": "input",
                     "type": "text"
                   },
+                  "title": "Size",
                   "path": "spin.images.fullscreen.text.size",
                   "level": 5,
                   "order": 1233
@@ -3715,17 +4720,45 @@ window.schema = {
                   "display": {
                     "name": "select",
                     "options": [
-                      "north",
-                      "northeast",
-                      "northwest",
-                      "center",
-                      "south",
-                      "southeast",
-                      "southwest",
-                      "east",
-                      "west"
+                      {
+                        "id": "north",
+                        "title": "North"
+                      },
+                      {
+                        "id": "northeast",
+                        "title": "Northeast"
+                      },
+                      {
+                        "id": "northwest",
+                        "title": "Northwest"
+                      },
+                      {
+                        "id": "center",
+                        "title": "Center"
+                      },
+                      {
+                        "id": "south",
+                        "title": "South"
+                      },
+                      {
+                        "id": "southeast",
+                        "title": "Southeast"
+                      },
+                      {
+                        "id": "southwest",
+                        "title": "Southwest"
+                      },
+                      {
+                        "id": "east",
+                        "title": "East"
+                      },
+                      {
+                        "id": "west",
+                        "title": "West"
+                      }
                     ]
                   },
+                  "title": "Position",
                   "path": "spin.images.fullscreen.text.position",
                   "level": 5,
                   "order": 1234
@@ -3735,7 +4768,10 @@ window.schema = {
                 "text"
               ],
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Text",
               "path": "spin.images.fullscreen.text",
               "level": 4,
               "order": 1217
@@ -3754,15 +4790,37 @@ window.schema = {
               "display": {
                 "name": "select",
                 "options": [
-                  "sepia",
-                  "warm",
-                  "cold",
-                  "sunset",
-                  "purpletan",
-                  "texas",
-                  "none"
+                  {
+                    "id": "sepia",
+                    "title": "Sepia"
+                  },
+                  {
+                    "id": "warm",
+                    "title": "Warm"
+                  },
+                  {
+                    "id": "cold",
+                    "title": "Cold"
+                  },
+                  {
+                    "id": "sunset",
+                    "title": "Sunset"
+                  },
+                  {
+                    "id": "purpletan",
+                    "title": "Purpletan"
+                  },
+                  {
+                    "id": "texas",
+                    "title": "Texas"
+                  },
+                  {
+                    "id": "none",
+                    "title": "None"
+                  }
                 ]
               },
+              "title": "Colortone",
               "path": "spin.images.fullscreen.colortone",
               "level": 4,
               "order": 1235
@@ -3776,6 +4834,7 @@ window.schema = {
                     "name": "input",
                     "type": "color"
                   },
+                  "title": "Color",
                   "path": "spin.images.fullscreen.vignette.color",
                   "level": 5,
                   "order": 1237
@@ -3790,25 +4849,34 @@ window.schema = {
                     "max": 1,
                     "min": 0
                   },
+                  "title": "Value",
                   "path": "spin.images.fullscreen.vignette.value",
                   "level": 5,
                   "order": 1238
                 }
               },
               "additionalProperties": false,
-              "display": "group",
+              "display": {
+                "name": "group"
+              },
+              "title": "Vignette",
               "path": "spin.images.fullscreen.vignette",
               "level": 4,
               "order": 1236
             }
           },
-          "display": "group",
+          "display": {
+            "name": "group"
+          },
           "path": "spin.images.fullscreen",
           "level": 3,
           "order": 1180
         }
       },
-      "display": "group:tab",
+      "display": {
+        "name": "group",
+        "type": "tab"
+      },
       "path": "spin",
       "level": 1,
       "order": 1060

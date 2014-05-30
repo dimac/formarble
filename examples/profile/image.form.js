@@ -40,6 +40,12 @@ module.exports = {
             order: 2
         },
 
+        format: {
+            display: {
+                labels: { png:'PNG', webp:'WebP', jpg:'JPG' }
+            }
+        },
+
         vignette: {
             properties: {
                 value: {
@@ -65,6 +71,15 @@ module.exports = {
                 },
                 height: {
                     display: formats.size
+                },
+                option: {
+                    display: {
+                        name: 'select',
+                        labels: {
+                            ignore: 'Ignore aspect ratio',
+                            noup: 'No upscale'
+                        }
+                    }
                 }
             },
 //            order: 2,
