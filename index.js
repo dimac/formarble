@@ -169,7 +169,7 @@ function createFormSchema(schema, def) {
 
 
         //add title
-        if (!isDefined(prop.title)) {
+        if (!isDefined(prop.title) && 'group' !== prop.display.name) {
             prop.title = humanize(id);
         }
 

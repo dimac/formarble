@@ -1,69 +1,79 @@
 window.schema = {
   "title": "How can we help?",
   "properties": {
-    "issue": {
-      "type": "string",
-      "enum": [
-        "tech-support",
-        "feature-request",
-        "bug-report"
-      ],
-      "display": {
-        "name": "radio-list",
-        "inline": true,
-        "options": [
-          {
-            "id": "tech-support",
-            "title": "Tech support"
+    "options": {
+      "properties": {
+        "issue": {
+          "type": "string",
+          "enum": [
+            "tech-support",
+            "feature-request",
+            "bug-report"
+          ],
+          "display": {
+            "name": "radio-list",
+            "inline": true,
+            "options": [
+              {
+                "id": "tech-support",
+                "title": "Tech support"
+              },
+              {
+                "id": "feature-request",
+                "title": "Feature request"
+              },
+              {
+                "id": "bug-report",
+                "title": "Bug report"
+              }
+            ]
           },
-          {
-            "id": "feature-request",
-            "title": "Feature request"
+          "title": "Issue",
+          "path": "options.issue",
+          "level": 2,
+          "order": 1002
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "low",
+            "normal",
+            "high",
+            "urgent"
+          ],
+          "display": {
+            "name": "radio-list",
+            "options": [
+              {
+                "id": "low",
+                "title": "Low"
+              },
+              {
+                "id": "normal",
+                "title": "Normal"
+              },
+              {
+                "id": "high",
+                "title": "High"
+              },
+              {
+                "id": "urgent",
+                "title": "Urgent"
+              }
+            ]
           },
-          {
-            "id": "bug-report",
-            "title": "Bug report"
-          }
-        ]
+          "title": "Priority",
+          "path": "options.priority",
+          "level": 2,
+          "order": 1003
+        }
       },
-      "title": "Issue",
-      "path": "issue",
+      "display": {
+        "name": "group"
+      },
+      "path": "options",
       "level": 1,
       "order": 1001
-    },
-    "priority": {
-      "type": "string",
-      "enum": [
-        "low",
-        "normal",
-        "high",
-        "urgent"
-      ],
-      "display": {
-        "name": "radio-list",
-        "options": [
-          {
-            "id": "low",
-            "title": "Low"
-          },
-          {
-            "id": "normal",
-            "title": "Normal"
-          },
-          {
-            "id": "high",
-            "title": "High"
-          },
-          {
-            "id": "urgent",
-            "title": "Urgent"
-          }
-        ]
-      },
-      "title": "Priority",
-      "path": "priority",
-      "level": 1,
-      "order": 1002
     },
     "summary": {
       "type": "string",
@@ -76,7 +86,7 @@ window.schema = {
       "title": "Summary",
       "path": "summary",
       "level": 1,
-      "order": 1003
+      "order": 1004
     },
     "message": {
       "type": "string",
@@ -88,7 +98,7 @@ window.schema = {
       "title": "Message",
       "path": "message",
       "level": 1,
-      "order": 1004
+      "order": 1005
     }
   },
   "display": {

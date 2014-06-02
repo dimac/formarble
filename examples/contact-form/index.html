@@ -15,9 +15,23 @@
 <div class="container">
     <h1>Formarble example</h1>
 
-    <div>
-        <form class="form-horizontal"
-              fm-form fm-schema="schema" ng-model="model"></form>
+    <div class="row">
+        <div class="col-md-8">
+            <form class="form-horizontal">
+                <div fm-form fm-schema="schema" ng-model="model"></div>
+                <div class="form-group">
+                    <div class="col-sm-push-4 col-sm-8">
+                        <button class="btn btn-primary" ng-click="send()">Send</button>
+                        <button class="btn" ng-click="reset()">Reset</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-4">
+            <form class="form-horizontal">
+                <input type="text" ng-model="model.summary"/>
+            </form>
+        </div>
     </div>
     <div>
         Filtered:
@@ -29,11 +43,8 @@
 </body>
 
 <script id="formarble/group" type="text/ng-template">
-    <div>
-        <h2>{{:: $control.title || $control.path}}</h2>
-
-        <div ng-repeat="c in ::$subControls | orderBy:'order'" fm-control="c"></div>
-    </div>
+    <h2 ng-if="::$control.title" ng-bind="::$control.title"></h2>
+    <div ng-repeat="c in ::$subControls | orderBy:'order'" fm-control="c"></div>
 </script>
 <script id="formarble/textarea" type="text/ng-template">
     <div class="form-group" ng-class="{'has-error': $input.$invalid}">
@@ -86,7 +97,7 @@
             <div class="radio" ng-class="{'radio-inline': $control.display.inline}"
                  ng-repeat="li in $control.display.options">
                 <label>
-                    <input type="radio" name="{{$control.path}}" ng-model="$control.value" ng-value="li.id"/> {{::
+                    <input type="radio" fm-input="$control" ng-value="li.id"/> {{::
                     li.title}}
                 </label>
             </div>

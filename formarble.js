@@ -13,7 +13,7 @@ function objSet(obj, path, value) {
 
     return cursor[segments[i]] = value;
 }
-//objGet2 in http://jsperf.com/get-value-by-path
+
 function objGet(obj, path) {
     var segments = path.split('.'),
         cursor = obj,
@@ -62,13 +62,10 @@ angular.module('formarble', [])
         function getTemplateId(display, fallback) {
             display = fm.getDisplay(display);
             if (display) {
-//                return theme + '/' + display.name + (display.type ? ':' + display.type : '');
                 return theme + '/' + display.name + ((!fallback && display.type) ? ':' + display.type : '');
             }
             return false;
         }
-
-        var compiled = {};
 
         return {
             get: function (display) {
@@ -90,33 +87,34 @@ angular.module('formarble', [])
             restrict: 'EA',
             require: 'ngModel',
 
-            controller: function ($scope, $attrs) {
-                var model = $scope.$eval($attrs.ngModel);
+            scope: {
+                '$model': '=ngModel',
+                '$control': '=fmSchema'
+            },
 
+            controller: function ($scope) {
                 this.set = function (path, value) {
-                    objSet(model, path, value);
+                    objSet($scope.$model, path, value);
                 }
 
                 this.get = function (path) {
-                    return objGet(model, path);
-                }
-
-                this.watch = function (path, cb) {
-                    return $scope.$watch($attrs.ngModel + '.' + path, cb);
+                    return objGet($scope.$model, path);
                 }
             },
 
             compile: function () {
-                return function (_scope, elem, attrs) {
-                    var schema = _scope.$eval(attrs.fmSchema);
-                    var scope = _scope.$new(true);
+                return function (scope, elem, attrs) {
+                    var schema = scope.$control;
+
+                    if(!scope.$model) {
+                        // ??? Populate base model
+                        scope.$model = {};
+                    }
 
                     var template = fmTemplate.get(schema.display);
                     if (template) {
                         elem.html(template);
                         $compile(elem.contents())(scope);
-
-                        scope.$control = schema;
 
                         if (angular.isObject(schema.properties)) {
                             scope.$subControls = Object.keys(schema.properties).map(function (key) {
@@ -131,21 +129,13 @@ angular.module('formarble', [])
         }
     })
     .directive('fmControl', function (fmTemplate, $compile) {
-        function isEmpty(value) {
-            return undefined === value || null === value || '' === value;
-        }
-
         return {
             require: '^fmForm',
             restrict: 'EA',
-            link: function (_scope, elem, attrs, ctrl) {
-                var control = _scope.$eval(attrs.fmControl);
-                var scope = _scope.$new();
-
-                var origPathWatcher = function () {
-                    return ctrl.get(control.path)
-                }
-                var localPathWatcher = '$control.value';
+            scope: true,
+            link: function (scope, elem, attrs, ctrl) {
+                var control = scope.$eval(attrs.fmControl);
+                control.$bindTo = ['$model', control.path].join('.');
 
                 var template = fmTemplate.get(control.display);
                 if (template) {
@@ -157,19 +147,6 @@ angular.module('formarble', [])
                         scope.$subControls = Object.keys(control.properties).map(function (key) {
                             return control.properties[key];
                         });
-                    } else {
-                        control.value = ctrl.get(control.path);
-                        scope.$watch(origPathWatcher, function (value, old) {
-                            scope.$empty = isEmpty(value);
-                            scope.$control.value = value;
-                        })
-                        scope.$watch(localPathWatcher, function (value, old) {
-                            scope.$empty = isEmpty(value);
-//                            if (!scope.$empty || !isEmpty(old)) {
-                            ctrl.set(control.path, value || null);
-//                            }
-                        })
-
                     }
 
                     $compile(elem.contents())(scope);
@@ -207,15 +184,19 @@ angular.module('formarble', [])
                 var controlModelName = tAttrs.fmInput;
 
                 tAttrs.$set('fmInput', null);
-                tAttrs.$set('ngModel', '$control.value');
+
 
                 return function (scope, elem, attr, ctrl) {
                     var control = scope.$eval(controlModelName);
 
+                    attr.$set('ngModel', control.$bindTo);
+
                     attr.$set('id', control.path.split('.').join('-'));
 
                     if (isInput) {
-                        attr.$set('type', control.display.type)
+                        if(!attr.type){
+                            attr.$set('type', control.display.type)
+                        }
 
                         ngInputPlugins.forEach(function (name) {
                             var value = control.display[name];

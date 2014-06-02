@@ -3,10 +3,18 @@
 angular.module('FormarbleExample', ['formarble'])
     .run(function ($rootScope, $window) {
         $rootScope.schema = $window.schema;
-        $rootScope.model = {
-            issue: 'tech-support',
-            priority: 'low'
+        $rootScope.model = {};
+
+        var DEFAULTS = {
+            options: {
+                issue: 'tech-support',
+                priority: 'low'
+            }
         };
+
+        $rootScope.reset = function () {
+            $rootScope.model = angular.copy(DEFAULTS);
+        }
 
         function modelFilter(value, key) {
             if (_.isArray(value) || _.isString(value)) {
@@ -28,4 +36,6 @@ angular.module('FormarbleExample', ['formarble'])
         $rootScope.$watch('model', function (value) {
             $rootScope.modelFiltered = _.mapValues(value, modelFilter)
         }, true)
+
+        $rootScope.reset();
     });
