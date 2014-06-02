@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-md-8">
             <form class="form-horizontal">
-                <div fm-form fm-schema="schema" ng-model="model"></div>
+                <div fm-form fm-schema="schema" fm-theme="bs" ng-model="model"></div>
                 <div class="form-group">
                     <div class="col-sm-push-4 col-sm-8">
                         <button class="btn btn-primary" ng-click="send()">Send</button>
@@ -42,11 +42,11 @@
 </div>
 </body>
 
-<script id="formarble/group" type="text/ng-template">
+<script id="bs/group" type="text/ng-template">
     <h2 ng-if="::$control.title" ng-bind="::$control.title"></h2>
     <div ng-repeat="c in ::$subControls" fm-control="c"></div>
 </script>
-<script id="formarble/textarea" type="text/ng-template">
+<script id="bs/textarea" type="text/ng-template">
     <div class="form-group" ng-class="{'has-error': $input.$invalid}">
         <label class="control-label col-sm-4" fm-label="$control">
             {{:: $control.title || $control.path}}
@@ -59,7 +59,7 @@
         </div>
     </div>
 </script>
-<script id="formarble/input" type="text/ng-template">
+<script id="bs/input" type="text/ng-template">
     <div class="form-group" ng-class="{'has-error': $input.$invalid}">
         <label class="control-label col-sm-4" fm-label="$control">
             {{:: $control.title || $control.path}}
@@ -72,7 +72,7 @@
         </div>
     </div>
 </script>
-<script id="formarble/input:checkbox" type="text/ng-template">
+<script id="bs/input:checkbox" type="text/ng-template">
     <div class="form-group">
         <label class="control-label col-sm-4" fm-label="$control">
             {{:: $control.title || $control.path}}
@@ -87,7 +87,7 @@
         </div>
     </div>
 </script>
-<script id="formarble/radio-list" type="text/ng-template">
+<script id="bs/radio-list" type="text/ng-template">
     <div class="form-group">
         <label class="control-label col-sm-4">
             {{:: $control.title || $control.path}}
@@ -104,7 +104,7 @@
         </div>
     </div>
 </script>
-<script id="formarble/select" type="text/ng-template">
+<script id="bs/select" type="text/ng-template">
     <div class="form-group">
         <label class="control-label col-sm-4" fm-label="$control">{{:: $control.title || $control.path}}</label>
 

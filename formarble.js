@@ -65,9 +65,7 @@ angular.module('formarble', [])
         }
     })
     .service('fmTemplate', function (fm, $templateCache) {
-        var theme = 'formarble';
-
-        function getTemplateId(display, fallback) {
+        function getTemplateId(theme, display, fallback) {
             display = fm.getDisplay(display);
             if (display) {
                 return theme + '/' + display.name + ((!fallback && display.type) ? ':' + display.type : '');
@@ -76,12 +74,12 @@ angular.module('formarble', [])
         }
 
         return {
-            get: function (display) {
+            get: function (theme, display) {
                 var tid, template;
-                if (tid = getTemplateId(display)) {
+                if (tid = getTemplateId(theme, display)) {
                     template = $templateCache.get(tid);
                     if (!template) {
-                        if (tid = getTemplateId(display, true)) {
+                        if (tid = getTemplateId(theme, display, true)) {
                             template = $templateCache.get(tid);
                         }
                     }
@@ -93,14 +91,16 @@ angular.module('formarble', [])
     .directive('fmForm', function (fmTemplate, $compile) {
         return {
             restrict: 'EA',
-            require: 'ngModel',
+            require: ['ngModel', 'fmForm'],
 
             scope: {
                 '$model': '=ngModel',
                 '$control': '=fmSchema'
             },
 
-            controller: function ($scope) {
+            controller: function ($scope, $attrs) {
+                var theme = $attrs.fmTheme || 'formarble';
+
                 this.set = function (path, value) {
                     objSet($scope.$model, path, value);
                 }
@@ -108,23 +108,30 @@ angular.module('formarble', [])
                 this.get = function (path) {
                     return objGet($scope.$model, path);
                 }
+
+                this.getTemplate = function(display) {
+                    return fmTemplate.get(theme, display);
+                }
             },
 
             compile: function () {
-                return function (scope, elem, attrs) {
-                    var schema = scope.$control;
+                return function (scope, elem, attrs, ctrls) {
+                    var fmForm = ctrls[1];
+
+                    var control = scope.$control;
 
                     if(!scope.$model) {
+                        // ??? Populate basic model
                         scope.$model = {};
                     }
 
-                    var template = fmTemplate.get(schema.display);
+                    var template = fmForm.getTemplate(control.display);
                     if (template) {
                         elem.html(template);
                         $compile(elem.contents())(scope);
 
-                        if (angular.isObject(schema.properties)) {
-                            scope.$subControls = schemaGetProperties(schema)
+                        if (angular.isObject(control.properties)) {
+                            scope.$subControls = schemaGetProperties(control)
                         }
                     } else {
                         console.warn('fmForm: No template', template);
@@ -142,7 +149,7 @@ angular.module('formarble', [])
                 var control = scope.$eval(attrs.fmControl);
                 control.$bindTo = ['$model', control.path].join('.');
 
-                var template = fmTemplate.get(control.display);
+                var template = ctrl.getTemplate(control.display);
                 if (template) {
                     elem.html(template);
 
