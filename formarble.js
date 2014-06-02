@@ -39,6 +39,10 @@ function schemaGetProperties(schema) {
     })
 }
 
+function pathToId(path){
+    return path.split('.').join('-');
+}
+
 
 angular.module('formarble', [])
     .service('fm', function () {
@@ -91,7 +95,7 @@ angular.module('formarble', [])
     .directive('fmForm', function (fmTemplate, $compile) {
         return {
             restrict: 'EA',
-            require: ['ngModel', 'fmForm'],
+            require: 'fmForm',
 
             scope: {
                 '$model': '=ngModel',
@@ -115,9 +119,7 @@ angular.module('formarble', [])
             },
 
             compile: function () {
-                return function (scope, elem, attrs, ctrls) {
-                    var fmForm = ctrls[1];
-
+                return function (scope, elem, attrs, ctrl) {
                     var control = scope.$control;
 
                     if(!scope.$model) {
@@ -125,7 +127,7 @@ angular.module('formarble', [])
                         scope.$model = {};
                     }
 
-                    var template = fmForm.getTemplate(control.display);
+                    var template = ctrl.getTemplate(control.display);
                     if (template) {
                         elem.html(template);
                         $compile(elem.contents())(scope);
@@ -171,7 +173,7 @@ angular.module('formarble', [])
         return function (scope, elem, attr) {
             var control = scope.$eval(attr.fmLabel);
             elem.attr({
-                for: control.path.split('.').join('-')
+                for: pathToId(control.path)
             })
         }
     })
@@ -195,13 +197,12 @@ angular.module('formarble', [])
 
                 tAttrs.$set('fmInput', null);
 
-
                 return function (scope, elem, attr, ctrl) {
                     var control = scope.$eval(controlModelName);
 
                     attr.$set('ngModel', control.$bindTo);
 
-                    attr.$set('id', control.path.split('.').join('-'));
+                    attr.$set('id', pathToId(control.path));
 
                     if (isInput) {
                         if(!attr.type){
