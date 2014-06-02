@@ -44,7 +44,7 @@
 
 <script id="formarble/group" type="text/ng-template">
     <h2 ng-if="::$control.title" ng-bind="::$control.title"></h2>
-    <div ng-repeat="c in ::$subControls | orderBy:'order'" fm-control="c"></div>
+    <div ng-repeat="c in ::$subControls" fm-control="c"></div>
 </script>
 <script id="formarble/textarea" type="text/ng-template">
     <div class="form-group" ng-class="{'has-error': $input.$invalid}">

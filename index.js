@@ -64,6 +64,7 @@ function extendDisplayInput(schema) {
     var input = schema.display;
 
     switch (input.type) {
+        case 'range':
         case 'number':
             if (isDefined(schema.maximum)) {
                 input.max = schema.maximum;

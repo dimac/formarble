@@ -31,6 +31,14 @@ function objGet(obj, path) {
     return cursor;
 }
 
+function schemaGetProperties(schema) {
+    return Object.keys(schema.properties).map(function (key) {
+        return schema.properties[key];
+    }).sort(function(a, b){
+        return a.order - b.order;
+    })
+}
+
 
 angular.module('formarble', [])
     .service('fm', function () {
@@ -107,7 +115,6 @@ angular.module('formarble', [])
                     var schema = scope.$control;
 
                     if(!scope.$model) {
-                        // ??? Populate base model
                         scope.$model = {};
                     }
 
@@ -117,9 +124,7 @@ angular.module('formarble', [])
                         $compile(elem.contents())(scope);
 
                         if (angular.isObject(schema.properties)) {
-                            scope.$subControls = Object.keys(schema.properties).map(function (key) {
-                                return schema.properties[key];
-                            });
+                            scope.$subControls = schemaGetProperties(schema)
                         }
                     } else {
                         console.warn('fmForm: No template', template);
@@ -144,9 +149,7 @@ angular.module('formarble', [])
                     scope.$control = control;
 
                     if (angular.isObject(control.properties)) {
-                        scope.$subControls = Object.keys(control.properties).map(function (key) {
-                            return control.properties[key];
-                        });
+                        scope.$subControls = schemaGetProperties(control);
                     }
 
                     $compile(elem.contents())(scope);
