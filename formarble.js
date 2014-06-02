@@ -191,7 +191,7 @@ angular.module('formarble', [])
             compile: function (tElem, tAttrs) {
                 var tag = tElem.prop('tagName');
                 var isSelect = 'SELECT' === tag;
-                var isInput = 'INPUT' === tag;
+                var isInput = 'INPUT' === tag || 'TEXTAREA' === tag;
 
                 var controlModelName = tAttrs.fmInput;
 

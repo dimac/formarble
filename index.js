@@ -91,13 +91,13 @@ function extendDisplayInput(schema) {
         case 'text':
             if (isDefined(schema.maxLength)) {
                 input.maxlength = schema.maxLength;
-
-                if (input.maxlength > 255) {
-                    input.name = 'textarea';
-                    delete input.type;
-                }
-
             }
+
+            if (!input.maxlength || input.maxlength > 255) {
+                input.name = 'textarea';
+                delete input.type;
+            }
+
             if (isDefined(schema.minLength)) {
                 input.minlength = schema.minLength;
             }
@@ -169,6 +169,10 @@ function createFormSchema(schema, def) {
 
         if (!isDefined(prop.display.name)) {
             _.extend(prop.display, resolveDisplay(prop));
+        }
+
+        if (parent && parent.required && parent.required.indexOf(id) > -1) {
+            prop.display.required = true;
         }
 
         prop.display = extendDisplay(prop);

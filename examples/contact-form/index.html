@@ -47,7 +47,7 @@
     <div ng-repeat="c in ::$subControls" fm-control="c"></div>
 </script>
 <script id="bs/textarea" type="text/ng-template">
-    <div class="form-group" ng-class="{'has-error': $input.$invalid}">
+    <div class="form-group" ng-class="{'has-error': $input.$dirty && $input.$invalid}">
         <label class="control-label col-sm-4" fm-label="$control">
             {{:: $control.title || $control.path}}
         </label>
@@ -60,7 +60,7 @@
     </div>
 </script>
 <script id="bs/input" type="text/ng-template">
-    <div class="form-group" ng-class="{'has-error': $input.$invalid}">
+    <div class="form-group" ng-class="{'has-error': $input.$dirty && $input.$invalid}">
         <label class="control-label col-sm-4" fm-label="$control">
             {{:: $control.title || $control.path}}
         </label>

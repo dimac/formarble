@@ -77,11 +77,12 @@ window.schema = {
     },
     "summary": {
       "type": "string",
-      "maxLength": 255,
+      "maxLength": 100,
       "display": {
         "name": "input",
         "type": "text",
-        "maxlength": 255
+        "required": true,
+        "maxlength": 100
       },
       "title": "Summary",
       "path": "summary",
@@ -93,6 +94,7 @@ window.schema = {
       "maxLength": 2048,
       "display": {
         "name": "textarea",
+        "required": true,
         "maxlength": 2048
       },
       "title": "Message",
@@ -101,6 +103,10 @@ window.schema = {
       "order": 1005
     }
   },
+  "required": [
+    "summary",
+    "message"
+  ],
   "display": {
     "name": "group"
   },

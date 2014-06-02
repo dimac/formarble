@@ -29,12 +29,13 @@ module.exports = {
 
         summary: {
             type: 'string',
-            maxLength: 255
+            maxLength: 100
         },
 
         message: {
             type: 'string',
             maxLength: 2048
         }
-    }
+    },
+    required: ['summary', 'message']
 };
