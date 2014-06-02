@@ -17,8 +17,13 @@ function ucFirst(value) {
 
 function humanize(value) {
     if(value.match(/[a-z]/i)){
-        return ucFirst(value.replace(/[^\w]+/g, ' '));
+        value = value.replace(/([a-z])[\W]+/g, '$1 ');
+        value = value.replace(/([a-z])([A-Z]+)/g, function (matched, low, high) {
+            return low + ' ' + (1 === high.length ? high.toLowerCase() : high);
+        });
+        return ucFirst(value);
     }
+
     return value;
 }
 

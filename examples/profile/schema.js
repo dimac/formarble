@@ -313,7 +313,6 @@ window.schema = {
           "display": {
             "name": "group"
           },
-          "title": "Tile",
           "path": "image.tile",
           "level": 2,
           "order": 1014
@@ -446,7 +445,6 @@ window.schema = {
           "display": {
             "name": "group"
           },
-          "title": "Png",
           "path": "image.png",
           "level": 2,
           "order": 1021
@@ -482,7 +480,6 @@ window.schema = {
           "display": {
             "name": "group"
           },
-          "title": "Webp",
           "path": "image.webp",
           "level": 2,
           "order": 1024
@@ -665,7 +662,6 @@ window.schema = {
           "display": {
             "name": "group"
           },
-          "title": "Frame",
           "path": "image.frame",
           "level": 2,
           "order": 1033
@@ -823,7 +819,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Font",
               "path": "image.text.font",
               "level": 3,
               "order": 1040
@@ -901,7 +896,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Background",
               "path": "image.text.background",
               "level": 3,
               "order": 1048
@@ -937,7 +931,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Outline",
               "path": "image.text.outline",
               "level": 3,
               "order": 1051
@@ -1021,7 +1014,6 @@ window.schema = {
           "display": {
             "name": "group"
           },
-          "title": "Text",
           "path": "image.text",
           "level": 2,
           "order": 1038
@@ -1110,7 +1102,6 @@ window.schema = {
           "display": {
             "name": "group"
           },
-          "title": "Vignette",
           "path": "image.vignette",
           "level": 2,
           "order": 1057
@@ -1124,7 +1115,7 @@ window.schema = {
             "type": "text",
             "maxlength": 255
           },
-          "title": "TestText",
+          "title": "Test text",
           "path": "image.testText",
           "level": 2
         },
@@ -1137,7 +1128,7 @@ window.schema = {
             "step": 0.01
           },
           "order": 2,
-          "title": "TestRange",
+          "title": "Test range",
           "path": "image.testRange",
           "level": 2
         },
@@ -1148,7 +1139,7 @@ window.schema = {
             "name": "input",
             "type": "checkbox"
           },
-          "title": "TestCheckbox",
+          "title": "Test checkbox",
           "path": "image.testCheckbox",
           "level": 2
         }
@@ -1207,7 +1198,7 @@ window.schema = {
                 "name": "input",
                 "type": "number"
               },
-              "title": "AutospinSpeed",
+              "title": "Autospin speed",
               "path": "spin.autospinSpeed",
               "level": 2,
               "order": 1240
@@ -1218,7 +1209,7 @@ window.schema = {
                 "name": "input",
                 "type": "text"
               },
-              "title": "AutospinStart",
+              "title": "Autospin start",
               "path": "spin.autospinStart",
               "level": 2,
               "order": 1241
@@ -1252,7 +1243,7 @@ window.schema = {
                   }
                 ]
               },
-              "title": "AutospinDirection",
+              "title": "Autospin direction",
               "path": "spin.autospinDirection",
               "level": 2,
               "order": 1242
@@ -1305,7 +1296,7 @@ window.schema = {
                   }
                 ]
               },
-              "title": "InitializeOn",
+              "title": "Initialize on",
               "path": "spin.initializeOn",
               "level": 2,
               "order": 1245
@@ -1350,7 +1341,7 @@ window.schema = {
                 }
               ],
               "display": false,
-              "title": "StartColumn",
+              "title": "Start column",
               "path": "spin.startColumn",
               "level": 2,
               "order": 1248
@@ -1369,7 +1360,7 @@ window.schema = {
                 }
               ],
               "display": false,
-              "title": "StartRow",
+              "title": "Start row",
               "path": "spin.startRow",
               "level": 2,
               "order": 1249
@@ -1404,7 +1395,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
-              "title": "RightClick",
+              "title": "Right click",
               "path": "spin.rightClick",
               "level": 2,
               "order": 1251
@@ -1415,7 +1406,7 @@ window.schema = {
                 "name": "input",
                 "type": "number"
               },
-              "title": "MousewheelStep",
+              "title": "Mousewheel step",
               "path": "spin.mousewheelStep",
               "level": 2,
               "order": 1252
@@ -1426,7 +1417,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
-              "title": "LoopColumn",
+              "title": "Loop column",
               "path": "spin.loopColumn",
               "level": 2,
               "order": 1253
@@ -1437,7 +1428,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
-              "title": "LoopRow",
+              "title": "Loop row",
               "path": "spin.loopRow",
               "level": 2,
               "order": 1254
@@ -1466,7 +1457,7 @@ window.schema = {
                   }
                 ]
               },
-              "title": "AutospinStop",
+              "title": "Autospin stop",
               "path": "spin.autospinStop",
               "level": 2,
               "order": 1255
@@ -1477,7 +1468,7 @@ window.schema = {
                 "name": "input",
                 "type": "checkbox"
               },
-              "title": "SwapRowsColumns",
+              "title": "Swap rows columns",
               "path": "spin.swapRowsColumns",
               "level": 2,
               "order": 1256
@@ -1499,7 +1490,7 @@ window.schema = {
                 "name": "input",
                 "type": "text"
               },
-              "title": "LoadingText",
+              "title": "Loading text",
               "path": "spin.loadingText",
               "level": 2,
               "order": 1258
@@ -1510,7 +1501,7 @@ window.schema = {
                 "name": "input",
                 "type": "text"
               },
-              "title": "FullscreenLoadingText",
+              "title": "Fullscreen loading text",
               "path": "spin.fullscreenLoadingText",
               "level": 2,
               "order": 1259
@@ -1521,7 +1512,7 @@ window.schema = {
                 "name": "input",
                 "type": "text"
               },
-              "title": "HintText",
+              "title": "Hint text",
               "path": "spin.hintText",
               "level": 2,
               "order": 1260
@@ -1532,7 +1523,7 @@ window.schema = {
                 "name": "input",
                 "type": "text"
               },
-              "title": "MobileHintText",
+              "title": "Mobile hint text",
               "path": "spin.mobileHintText",
               "level": 2,
               "order": 1261
@@ -1566,7 +1557,7 @@ window.schema = {
                   }
                 ]
               },
-              "title": "ReverseRotation",
+              "title": "Reverse rotation",
               "path": "spin.reverseRotation",
               "level": 2,
               "order": 1262
@@ -1705,7 +1696,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Scale",
               "path": "spin.images.main.scale",
               "level": 4,
               "order": 1065
@@ -1800,7 +1790,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Crop",
               "path": "spin.images.main.crop",
               "level": 4,
               "order": 1069
@@ -1871,7 +1860,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Tile",
               "path": "spin.images.main.tile",
               "level": 4,
               "order": 1075
@@ -2004,7 +1992,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Png",
               "path": "spin.images.main.png",
               "level": 4,
               "order": 1082
@@ -2040,7 +2027,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Webp",
               "path": "spin.images.main.webp",
               "level": 4,
               "order": 1085
@@ -2223,7 +2209,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Frame",
               "path": "spin.images.main.frame",
               "level": 4,
               "order": 1094
@@ -2381,7 +2366,6 @@ window.schema = {
                   "display": {
                     "name": "group"
                   },
-                  "title": "Font",
                   "path": "spin.images.main.text.font",
                   "level": 5,
                   "order": 1101
@@ -2459,7 +2443,6 @@ window.schema = {
                   "display": {
                     "name": "group"
                   },
-                  "title": "Background",
                   "path": "spin.images.main.text.background",
                   "level": 5,
                   "order": 1109
@@ -2495,7 +2478,6 @@ window.schema = {
                   "display": {
                     "name": "group"
                   },
-                  "title": "Outline",
                   "path": "spin.images.main.text.outline",
                   "level": 5,
                   "order": 1112
@@ -2579,7 +2561,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Text",
               "path": "spin.images.main.text",
               "level": 4,
               "order": 1099
@@ -2667,7 +2648,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Vignette",
               "path": "spin.images.main.vignette",
               "level": 4,
               "order": 1118
@@ -2801,7 +2781,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Scale",
               "path": "spin.images.zoom.scale",
               "level": 4,
               "order": 1124
@@ -2896,7 +2875,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Crop",
               "path": "spin.images.zoom.crop",
               "level": 4,
               "order": 1128
@@ -2967,7 +2945,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Tile",
               "path": "spin.images.zoom.tile",
               "level": 4,
               "order": 1134
@@ -3100,7 +3077,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Png",
               "path": "spin.images.zoom.png",
               "level": 4,
               "order": 1141
@@ -3136,7 +3112,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Webp",
               "path": "spin.images.zoom.webp",
               "level": 4,
               "order": 1144
@@ -3319,7 +3294,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Frame",
               "path": "spin.images.zoom.frame",
               "level": 4,
               "order": 1153
@@ -3477,7 +3451,6 @@ window.schema = {
                   "display": {
                     "name": "group"
                   },
-                  "title": "Font",
                   "path": "spin.images.zoom.text.font",
                   "level": 5,
                   "order": 1160
@@ -3555,7 +3528,6 @@ window.schema = {
                   "display": {
                     "name": "group"
                   },
-                  "title": "Background",
                   "path": "spin.images.zoom.text.background",
                   "level": 5,
                   "order": 1168
@@ -3591,7 +3563,6 @@ window.schema = {
                   "display": {
                     "name": "group"
                   },
-                  "title": "Outline",
                   "path": "spin.images.zoom.text.outline",
                   "level": 5,
                   "order": 1171
@@ -3675,7 +3646,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Text",
               "path": "spin.images.zoom.text",
               "level": 4,
               "order": 1158
@@ -3763,7 +3733,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Vignette",
               "path": "spin.images.zoom.vignette",
               "level": 4,
               "order": 1177
@@ -3897,7 +3866,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Scale",
               "path": "spin.images.fullscreen.scale",
               "level": 4,
               "order": 1183
@@ -3992,7 +3960,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Crop",
               "path": "spin.images.fullscreen.crop",
               "level": 4,
               "order": 1187
@@ -4063,7 +4030,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Tile",
               "path": "spin.images.fullscreen.tile",
               "level": 4,
               "order": 1193
@@ -4196,7 +4162,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Png",
               "path": "spin.images.fullscreen.png",
               "level": 4,
               "order": 1200
@@ -4232,7 +4197,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Webp",
               "path": "spin.images.fullscreen.webp",
               "level": 4,
               "order": 1203
@@ -4415,7 +4379,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Frame",
               "path": "spin.images.fullscreen.frame",
               "level": 4,
               "order": 1212
@@ -4573,7 +4536,6 @@ window.schema = {
                   "display": {
                     "name": "group"
                   },
-                  "title": "Font",
                   "path": "spin.images.fullscreen.text.font",
                   "level": 5,
                   "order": 1219
@@ -4651,7 +4613,6 @@ window.schema = {
                   "display": {
                     "name": "group"
                   },
-                  "title": "Background",
                   "path": "spin.images.fullscreen.text.background",
                   "level": 5,
                   "order": 1227
@@ -4687,7 +4648,6 @@ window.schema = {
                   "display": {
                     "name": "group"
                   },
-                  "title": "Outline",
                   "path": "spin.images.fullscreen.text.outline",
                   "level": 5,
                   "order": 1230
@@ -4771,7 +4731,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Text",
               "path": "spin.images.fullscreen.text",
               "level": 4,
               "order": 1217
@@ -4859,7 +4818,6 @@ window.schema = {
               "display": {
                 "name": "group"
               },
-              "title": "Vignette",
               "path": "spin.images.fullscreen.vignette",
               "level": 4,
               "order": 1236
