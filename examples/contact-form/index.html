@@ -15,14 +15,18 @@
 <div class="container">
     <h1>Formarble example</h1>
 
-    <div class="row">
+    <div class="row" ng-init="resetLabel = 'Reset';">
         <div class="col-md-8">
-            <form class="form-horizontal">
-                <div fm-form fm-schema="schema" fm-theme="bs" ng-model="model"></div>
-                <div class="form-group">
-                    <div class="col-sm-push-4 col-sm-8">
-                        <button class="btn btn-primary" ng-click="send()">Send</button>
-                        <button class="btn" ng-click="reset()">Reset</button>
+            <form class="form-horizontal" novalidate>
+                <div fm-form="schema" fm-theme="bs" ng-model="model">
+                    <div fm-control="$control">
+                        {{'fm-control'}} {{$control.path || 'N/A'}}
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-push-4 col-sm-8">
+                            <button class="btn btn-primary" ng-click="$parent.send()">Send</button>
+                            <button class="btn" ng-click="$parent.reset()" fm-reset>{{$parent.resetLabel || 'N/A'}}</button>
+                        </div>
                     </div>
                 </div>
             </form>
