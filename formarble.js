@@ -31,12 +31,8 @@
 //    return cursor;
 //}
 
-function pathToId(path){
-    return path.split('.').join('-');
-}
-
 angular.module('formarble', [])
-    .service('fm', function () {
+    .service('fm', function ($templateCache) {
         function parseDisplay(display) {
             if (angular.isString(display)) {
                 var parts = display.split(':', 2);
@@ -53,29 +49,22 @@ angular.module('formarble', [])
             return false;
         }
 
-        return {
-            getDisplay: function (display) {
-                return parseDisplay(display);
-            }
-        }
-    })
-    .service('fmTemplate', function (fm, $templateCache) {
-        function getTemplateId(theme, display, fallback) {
-            display = fm.getDisplay(display);
+        function getTemplateId(display, fallback) {
+            display = parseDisplay(display);
             if (display) {
-                return theme + '/' + display.name + ((!fallback && display.type) ? ':' + display.type : '');
+                return display.name + ((!fallback && display.type) ? ':' + display.type : '');
             }
             return false;
         }
 
         return {
-            get: function (theme, display) {
+            getTemplate: function (theme, display) {
                 var tid, template;
-                if (tid = getTemplateId(theme, display)) {
-                    template = $templateCache.get(tid);
+                if (tid = getTemplateId(display)) {
+                    template = $templateCache.get(theme + '/' + tid);
                     if (!template) {
-                        if (tid = getTemplateId(theme, display, true)) {
-                            template = $templateCache.get(tid);
+                        if (tid = getTemplateId(display, true)) {
+                            template = $templateCache.get(theme + '/' + tid);
                         }
                     }
                 }
@@ -83,7 +72,7 @@ angular.module('formarble', [])
             }
         }
     })
-    .directive('fmForm', function (fmTemplate, $compile) {
+    .directive('fmForm', function (fm, $compile) {
         return {
             restrict: 'EA',
             require: 'fmForm',
@@ -97,7 +86,6 @@ angular.module('formarble', [])
 
             controller: function ($scope, $attrs) {
                 var theme = $attrs.fmTheme || 'formarble';
-
 //                this.set = function (path, value) {
 //                    objSet($scope.$model, path, value);
 //                }
@@ -107,11 +95,15 @@ angular.module('formarble', [])
 //                }
 
                 this.getTemplate = function(display) {
-                    return fmTemplate.get(theme, display);
+                    return fm.getTemplate(theme, display);
                 }
 
-                this.getBind = function (control) {
+                this.getControlModel = function (control) {
                     return ['$model', control.path].join('.')
+                }
+
+                this.getControlId = function (control){
+                    return control.path && control.path.split('.').join('-');
                 }
 
                 this.getProperties = function(control) {
@@ -125,46 +117,24 @@ angular.module('formarble', [])
                 }
             },
             link: function (scope, elem) {
-//                var controls = elem.children('[fm-control]');
-//                var notControls = elem.children('*').not(controls);
-//
-//                $compile(controls)(scope);
-//                $compile(notControls)(scope.$parent);
+                if(!elem.find('[fm-control]').length){
+                    elem.append('<div fm-control></div>');
+                }
+
                 $compile(elem.contents())(scope)
             }
-
-//            compile: function () {
-//                return function (scope, elem, attrs, ctrl) {
-//                    var control = scope.$control;
-//
-//                    if(!scope.$model) {
-//                        // ??? Populate basic model
-//                        scope.$model = {};
-//                    }
-//
-//                    var template = ctrl.getTemplate(control.display);
-//                    if (template) {
-//                        elem.html(template);
-//                        $compile(elem.contents())(scope);
-//
-//                        if (angular.isObject(control.properties)) {
-//                            scope.$subControls = schemaGetProperties(control)
-//                        }
-//                    } else {
-//                        console.warn('fmForm: No template', template);
-//                    }
-//                }
-//            }
         }
     })
-    .directive('fmControl', function (fmTemplate, $compile) {
+    .directive('fmControl', function ($compile) {
         return {
             require: '^fmForm',
             restrict: 'EA',
             scope: true,
             link: function (scope, elem, attrs, ctrl) {
-                var control = scope.$eval(attrs.fmControl);
-                control.$bindTo = ctrl.getBind(control);
+                var control = scope.$eval(attrs.fmControl || '$control');
+
+                control.$id = ctrl.getControlId(control);
+                control.$model = ctrl.getControlModel(control);
 
                 scope.$control = control;
                 scope.$subControls = ctrl.getProperties(control);
@@ -182,9 +152,9 @@ angular.module('formarble', [])
     })
     .directive('fmLabel', function () {
         return function (scope, elem, attr) {
-            var control = scope.$eval(attr.fmLabel);
+            var control = scope.$eval(attr.fmLabel || '$control');
             elem.attr({
-                for: pathToId(control.path)
+                for: control.$id
             })
         }
     })
@@ -197,6 +167,7 @@ angular.module('formarble', [])
         }
 
         return {
+            require: '^fmForm',
             priority: 200,
             terminal: true,
             compile: function (tElem, tAttrs) {
@@ -204,16 +175,15 @@ angular.module('formarble', [])
                 var isSelect = 'SELECT' === tag;
                 var isInput = 'INPUT' === tag || 'TEXTAREA' === tag;
 
-                var controlModelName = tAttrs.fmInput;
+                var controlModelName = tAttrs.fmInput || '$control';
 
                 tAttrs.$set('fmInput', null);
 
                 return function (scope, elem, attr, ctrl) {
                     var control = scope.$eval(controlModelName);
 
-                    attr.$set('ngModel', control.$bindTo);
-
-                    attr.$set('id', pathToId(control.path));
+                    attr.$set('ngModel', control.$model);
+                    attr.$set('id', control.$id);
 
                     if (isInput) {
                         if(!attr.type){
@@ -250,12 +220,14 @@ angular.module('formarble', [])
             require: '^form',
             link: function (scope, elem, attrs, ctrl) {
                 function onClick(e) {
-                    e.preventDefault();
+                    if(!attrs.ngClick){
+                        e.preventDefault();
+                    }
+
                     ctrl.$setPristine();
                 }
 
                 elem.bind('click', onClick);
-
                 scope.$on('destroy', function () {
                     elem.unbind('click', onClick);
                 })
