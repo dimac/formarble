@@ -1,51 +1,38 @@
 "use strict";
 
-function objSet(obj, path, value) {
-    var segments = path.split('.'),
-        cursor = obj,
-        segment,
-        i;
-
-    for (i = 0; i < segments.length - 1; ++i) {
-        segment = segments[i];
-        cursor = cursor[segment] = cursor[segment] || {};
-    }
-
-    return cursor[segments[i]] = value;
-}
-
-function objGet(obj, path) {
-    var segments = path.split('.'),
-        cursor = obj,
-        len = segments.length,
-        i;
-
-    for (i = 0; i < len; i++) {
-        cursor = cursor[segments[i]];
-
-        if (undefined === cursor) {
-            return;
-        }
-    }
-
-    return cursor;
-}
-
-function schemaGetProperties(schema) {
-    return Object.keys(schema.properties).map(function (key) {
-        return schema.properties[key];
-    }).sort(function(a, b){
-        return a.order - b.order;
-    })
-}
-
-function pathToId(path){
-    return path.split('.').join('-');
-}
-
+//function objSet(obj, path, value) {
+//    var segments = path.split('.'),
+//        cursor = obj,
+//        segment,
+//        i;
+//
+//    for (i = 0; i < segments.length - 1; ++i) {
+//        segment = segments[i];
+//        cursor = cursor[segment] = cursor[segment] || {};
+//    }
+//
+//    return cursor[segments[i]] = value;
+//}
+//
+//function objGet(obj, path) {
+//    var segments = path.split('.'),
+//        cursor = obj,
+//        len = segments.length,
+//        i;
+//
+//    for (i = 0; i < len; i++) {
+//        cursor = cursor[segments[i]];
+//
+//        if (undefined === cursor) {
+//            return;
+//        }
+//    }
+//
+//    return cursor;
+//}
 
 angular.module('formarble', [])
-    .service('fm', function () {
+    .service('fm', function ($templateCache) {
         function parseDisplay(display) {
             if (angular.isString(display)) {
                 var parts = display.split(':', 2);
@@ -62,29 +49,22 @@ angular.module('formarble', [])
             return false;
         }
 
-        return {
-            getDisplay: function (display) {
-                return parseDisplay(display);
-            }
-        }
-    })
-    .service('fmTemplate', function (fm, $templateCache) {
-        function getTemplateId(theme, display, fallback) {
-            display = fm.getDisplay(display);
+        function getTemplateId(display, fallback) {
+            display = parseDisplay(display);
             if (display) {
-                return theme + '/' + display.name + ((!fallback && display.type) ? ':' + display.type : '');
+                return display.name + ((!fallback && display.type) ? ':' + display.type : '');
             }
             return false;
         }
 
         return {
-            get: function (theme, display) {
+            getTemplate: function (theme, display) {
                 var tid, template;
-                if (tid = getTemplateId(theme, display)) {
-                    template = $templateCache.get(tid);
+                if (tid = getTemplateId(display)) {
+                    template = $templateCache.get(theme + '/' + tid);
                     if (!template) {
-                        if (tid = getTemplateId(theme, display, true)) {
-                            template = $templateCache.get(tid);
+                        if (tid = getTemplateId(display, true)) {
+                            template = $templateCache.get(theme + '/' + tid);
                         }
                     }
                 }
@@ -92,75 +72,76 @@ angular.module('formarble', [])
             }
         }
     })
-    .directive('fmForm', function (fmTemplate, $compile) {
+    .directive('fmForm', function (fm, $compile) {
         return {
             restrict: 'EA',
             require: 'fmForm',
 
             scope: {
-                '$model': '=ngModel',
-                '$control': '=fmSchema'
+                $control: '=fmForm',
+                $model: '=ngModel'
             },
+
+            terminal: true,
 
             controller: function ($scope, $attrs) {
                 var theme = $attrs.fmTheme || 'formarble';
-
-                this.set = function (path, value) {
-                    objSet($scope.$model, path, value);
-                }
-
-                this.get = function (path) {
-                    return objGet($scope.$model, path);
-                }
+//                this.set = function (path, value) {
+//                    objSet($scope.$model, path, value);
+//                }
+//
+//                this.get = function (path) {
+//                    return objGet($scope.$model, path);
+//                }
 
                 this.getTemplate = function(display) {
-                    return fmTemplate.get(theme, display);
+                    return fm.getTemplate(theme, display);
+                }
+
+                this.getControlModel = function (control) {
+                    return ['$model', control.path].join('.')
+                }
+
+                this.getControlId = function (control){
+                    return control.path && control.path.split('.').join('-');
+                }
+
+                this.getProperties = function(control) {
+                    if (angular.isObject(control.properties)) {
+                        return Object.keys(control.properties).map(function (key) {
+                            return control.properties[key];
+                        }).sort(function (a, b) {
+                            return a.order - b.order;
+                        })
+                    }
                 }
             },
-
-            compile: function () {
-                return function (scope, elem, attrs, ctrl) {
-                    var control = scope.$control;
-
-                    if(!scope.$model) {
-                        // ??? Populate basic model
-                        scope.$model = {};
-                    }
-
-                    var template = ctrl.getTemplate(control.display);
-                    if (template) {
-                        elem.html(template);
-                        $compile(elem.contents())(scope);
-
-                        if (angular.isObject(control.properties)) {
-                            scope.$subControls = schemaGetProperties(control)
-                        }
-                    } else {
-                        console.warn('fmForm: No template', template);
-                    }
+            link: function (scope, elem) {
+                if(!elem.find('[fm-control]').length){
+                    elem.append('<div fm-control></div>');
                 }
+
+                $compile(elem.contents())(scope)
             }
         }
     })
-    .directive('fmControl', function (fmTemplate, $compile) {
+    .directive('fmControl', function ($compile) {
         return {
             require: '^fmForm',
             restrict: 'EA',
             scope: true,
             link: function (scope, elem, attrs, ctrl) {
-                var control = scope.$eval(attrs.fmControl);
-                control.$bindTo = ['$model', control.path].join('.');
+                var control = scope.$eval(attrs.fmControl || '$control');
+
+                control.$id = ctrl.getControlId(control);
+                control.$model = ctrl.getControlModel(control);
+
+                scope.$control = control;
+                scope.$subControls = ctrl.getProperties(control);
 
                 var template = ctrl.getTemplate(control.display);
                 if (template) {
                     elem.html(template);
-
-                    scope.$control = control;
-
-                    if (angular.isObject(control.properties)) {
-                        scope.$subControls = schemaGetProperties(control);
-                    }
-
                     $compile(elem.contents())(scope);
                 } else {
                     console.warn('fmControl: No template', template);
@@ -171,9 +152,9 @@ angular.module('formarble', [])
     })
     .directive('fmLabel', function () {
         return function (scope, elem, attr) {
-            var control = scope.$eval(attr.fmLabel);
+            var control = scope.$eval(attr.fmLabel || '$control');
             elem.attr({
-                for: pathToId(control.path)
+                for: control.$id
             })
         }
     })
@@ -186,6 +167,7 @@ angular.module('formarble', [])
         }
 
         return {
+            require: '^fmForm',
             priority: 200,
             terminal: true,
             compile: function (tElem, tAttrs) {
@@ -193,16 +175,15 @@ angular.module('formarble', [])
                 var isSelect = 'SELECT' === tag;
                 var isInput = 'INPUT' === tag || 'TEXTAREA' === tag;
 
-                var controlModelName = tAttrs.fmInput;
+                var controlModelName = tAttrs.fmInput || '$control';
 
                 tAttrs.$set('fmInput', null);
 
                 return function (scope, elem, attr, ctrl) {
                     var control = scope.$eval(controlModelName);
 
-                    attr.$set('ngModel', control.$bindTo);
-
-                    attr.$set('id', pathToId(control.path));
+                    attr.$set('ngModel', control.$model);
+                    attr.$set('id', control.$id);
 
                     if (isInput) {
                         if(!attr.type){
@@ -236,19 +217,17 @@ angular.module('formarble', [])
     })
     .directive('fmReset', function () {
         return {
-            link: function (scope, elem, attrs) {
-                var input = scope.$eval(attrs.fmReset);
-
+            require: '^form',
+            link: function (scope, elem, attrs, ctrl) {
                 function onClick(e) {
-                    e.preventDefault();
-//                    elem.prop('value', '');
-                    input.$setViewValue(undefined);//reset ngModel value
-                    input.$setPristine();
-                    scope.$apply();
+                    if(!attrs.ngClick){
+                        e.preventDefault();
+                    }
+
+                    ctrl.$setPristine();
                 }
 
                 elem.bind('click', onClick);
-
                 scope.$on('destroy', function () {
                     elem.unbind('click', onClick);
                 })
