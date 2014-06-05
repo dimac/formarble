@@ -15,27 +15,40 @@
 <div class="container">
     <h1>Formarble example</h1>
 
-    <div class="row">
-        <div class="col-md-6">
-            <form class="form-horizontal" fm-form="schema" fm-theme="bs" ng-model="model">
+    <div>
+        <form class="form-horizontal" fm-form="schema" fm-theme="bs" ng-model="model">
             <div fm-control="$control"></div>
-            </form>
-        </div>
-        <div class="col-md-6">
-            <input type="range" ng-model="model.image.testRange" step="0.01" min="0" max="1"/><br/>
-            <input type="text" ng-model="model.image.testText"/>
-            <hr/>
-            Filtered:
-            <pre>{{modelFiltered | json}}</pre>
-            Model:
-            <pre>{{model | json}}</pre>
-
-        </div>
+        </form>
     </div>
+    <pre>
+        Model: {{model}}
+    </pre>
 
 </div>
 </body>
 
+<script id="bs/tree" type="text/ng-template">
+    <div class="row">
+        <div class="col-lg-3">
+            <ol>
+                <li ng-repeat="c in $subControls">
+                    {{c.title || c.path}}
+                    <ul>
+                        <li ng-repeat="cc in c.properties" ng-if="cc.properties">
+                            <a href ng-click="$control.selected = cc">{{cc.title || cc.path}}</a>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-9" ng-if="$control.selected">
+            Selected: {{$control.selected.title || $control.selected.path}}
+            <div fm-control="$control.selected"></div>
+        </div>
+        <div class="col-lg-9" ng-if="!$control.selected">
+            Select group in tree first
+        </div>
+    </div>
+</script>
 <script id="bs/group" type="text/ng-template">
     <div>
         <h2>Group: {{::$control.path}}</h2>

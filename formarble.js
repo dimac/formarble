@@ -131,37 +131,47 @@ angular.module('formarble', [])
             restrict: 'EA',
             scope: true,
             link: function (scope, elem, attrs, ctrl) {
-                var control = scope.$eval(attrs.fmControl || '$control');
+                var innerScope;
 
-                if(!control.display){
-                    return;
-                }
+                scope.$watchCollection(attrs.fmControl, function (control) {
+                    console.log('fmControl', control);
 
-                control.$id = ctrl.getControlId(control);
-                control.$model = ctrl.getControlModel(control);
-
-                scope.$control = control;
-                scope.$subControls = ctrl.getProperties(control);
-
-                scope.$watch(control.$model, function(value){
-                    scope.$value = value;
-                })
-
-                var template = ctrl.getTemplate(control.display);
-                if (!template) {
-                    //try fallback
-                    template = ctrl.getTemplate(control.display.fallback)
-                    if(template){
-                        angular.extend(control.display, angular.isString(control.display.fallback) ? {name:control.display.fallback} : control.display.fallback);
+                    if(innerScope) {
+                        innerScope.$destroy();
                     }
-                }
 
-                if (template) {
-                    elem.html(template);
-                    $compile(elem.contents())(scope);
-                } else {
-                    console.warn('fmControl: No template', template, control.display);
-                }
+                    if (!control || !control.display) {
+                        return;
+                    }
+
+                    innerScope = scope.$new();
+
+                    control.$id = ctrl.getControlId(control);
+                    control.$model = ctrl.getControlModel(control);
+
+                    innerScope.$control = control;
+                    innerScope.$subControls = ctrl.getProperties(control);
+
+                    innerScope.$watch(control.$model, function (value) {
+                        scope.$value = value;
+                    })
+
+                    var template = ctrl.getTemplate(control.display);
+                    if (!template) {
+                        //try fallback
+                        template = ctrl.getTemplate(control.display.fallback)
+                        if (template) {
+                            angular.extend(control.display, angular.isString(control.display.fallback) ? {name: control.display.fallback} : control.display.fallback);
+                        }
+                    }
+
+                    if (template) {
+                        elem.html(template);
+                        $compile(elem.contents())(innerScope);
+                    } else {
+                        console.warn('fmControl: No template', template, control.display);
+                    }
+                })
             }
 
         }
