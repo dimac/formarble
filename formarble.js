@@ -33,40 +33,40 @@
 
 angular.module('formarble', [])
     .service('fm', function ($templateCache) {
-        function parseDisplay(display) {
-            if (angular.isString(display)) {
-                var parts = display.split(':', 2);
-                return {
-                    name: parts[0],
-                    type: parts[1]
-                }
+//        function parseDisplay(display) {
+//            if (angular.isString(display)) {
+//                var parts = display.split(':', 2);
+//                return {
+//                    name: parts[0],
+//                    type: parts[1]
+//                }
+//            }
+//
+//            if (angular.isObject(display) && display.name) {
+//                return display;
+//            }
+//
+//            return false;
+//        }
+
+        function getTemplateId(display) {
+            if(!display) {
+                return false;
             }
 
-            if (angular.isObject(display) && display.name) {
+            if(angular.isString(display)) {
                 return display;
             }
 
-            return false;
-        }
-
-        function getTemplateId(display, fallback) {
-            display = parseDisplay(display);
-            if (display) {
-                return display.name + ((!fallback && display.type) ? ':' + display.type : '');
-            }
-            return false;
+            return display.name;
         }
 
         return {
             getTemplate: function (theme, display) {
-                var tid, template;
-                if (tid = getTemplateId(display)) {
-                    template = $templateCache.get(theme + '/' + tid);
-                    if (!template) {
-                        if (tid = getTemplateId(display, true)) {
-                            template = $templateCache.get(theme + '/' + tid);
-                        }
-                    }
+                var id, template;
+                if (id = getTemplateId(display)) {
+                    id = theme + '/' + id;
+                    template = $templateCache.get(id);
                 }
                 return template;
             }
@@ -133,18 +133,34 @@ angular.module('formarble', [])
             link: function (scope, elem, attrs, ctrl) {
                 var control = scope.$eval(attrs.fmControl || '$control');
 
+                if(!control.display){
+                    return;
+                }
+
                 control.$id = ctrl.getControlId(control);
                 control.$model = ctrl.getControlModel(control);
 
                 scope.$control = control;
                 scope.$subControls = ctrl.getProperties(control);
 
+                scope.$watch(control.$model, function(value){
+                    scope.$value = value;
+                })
+
                 var template = ctrl.getTemplate(control.display);
+                if (!template) {
+                    //try fallback
+                    template = ctrl.getTemplate(control.display.fallback)
+                    if(template){
+                        angular.extend(control.display, angular.isString(control.display.fallback) ? {name:control.display.fallback} : control.display.fallback);
+                    }
+                }
+
                 if (template) {
                     elem.html(template);
                     $compile(elem.contents())(scope);
                 } else {
-                    console.warn('fmControl: No template', template);
+                    console.warn('fmControl: No template', template, control.display);
                 }
             }
 

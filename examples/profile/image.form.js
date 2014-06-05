@@ -4,7 +4,8 @@ var formats = {
     offset: {
         name: 'input',
         type: 'text',
-        pattern: /^[\+\-]?\d+(\.\d+)?(%|px)?|center$/.toString()
+        pattern: /^([\+\-]?(100%|\d{1,2}%|\d{1,4}px)?|center)$/.toString(),
+        hint: '(+/-) 0-100% or 0-9999px or center'
     },
     size: {
         name: 'input',
@@ -15,7 +16,7 @@ var formats = {
 
 module.exports = {
     title: 'Image options',
-    display: 'group:tab',
+    display: {name: 'group:tab'},
 
     properties: {
         testText: {
@@ -26,8 +27,7 @@ module.exports = {
 
         testRange: {
             display: {
-                name: 'input',
-                type: 'range',
+                name: 'input/range',
                 min: 0,
                 max: 1,
                 step: 0.01
@@ -37,7 +37,8 @@ module.exports = {
 
         testCheckbox: {
             type: 'boolean',
-            order: 2
+            order: 2,
+            description: 'Check for true'
         },
 
         format: {
@@ -46,12 +47,31 @@ module.exports = {
             }
         },
 
+        subsampling: {
+            display: {
+                labels: {'4:4:4':'4:4:4 - Best quality'}
+            }
+        },
+
+        text: {
+            properties: {
+                background: {
+                    properties: {
+                        opacity: {
+                            display: {
+                                name: 'input/range'
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
         vignette: {
             properties: {
                 value: {
                     display: {
-                        name: 'input',
-                        type: 'range',
+                        name: 'input/range',
                         min: 0,
                         max: 1,
                         step: 0.01
@@ -63,7 +83,7 @@ module.exports = {
         //scale group
         scale: {
             title: 'Scaling options',
-            display: 'group:fieldset',
+            display: {name: 'fieldset'},
 
             properties: {
                 width: {
@@ -89,7 +109,7 @@ module.exports = {
         //crop group
         crop: {
             title: 'Crop options',
-            display: 'group:fieldset',
+            display: {name: 'fieldset'},
 //            order: 3,
 
             properties: {
@@ -100,6 +120,9 @@ module.exports = {
                     display: formats.size
                 },
                 x: {
+                    display: formats.offset
+                },
+                y: {
                     display: formats.offset
                 }
             }

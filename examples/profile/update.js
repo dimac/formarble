@@ -5,7 +5,7 @@ var form = require('./profile.form.js');
 var schema = require('./profile.schema.js');
 var result = formarble.extend(schema, form);
 
-result.properties.spin.display = {name: 'group', type: 'tab'};
+result.properties.spin.display = {name: 'group:tab'};
 result.properties.spin.properties = {
     general: {
         title: 'General',

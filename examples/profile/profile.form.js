@@ -2,7 +2,7 @@
 
 module.exports = {
     title: 'Profile',
-    display: 'group:tab',
+    display: {name: 'group:tab' },
 
     properties: {
         image: require('./image.form.js'),

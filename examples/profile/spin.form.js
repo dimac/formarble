@@ -5,7 +5,7 @@ module.exports = {
 
     properties: {
         images: {
-            display: 'group:tab',
+            display: { name:'group:tab' },
 
             properties: {
                 main: {

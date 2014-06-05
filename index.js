@@ -27,50 +27,86 @@ function humanize(value) {
     return value;
 }
 
-function resolveDisplay(schema) {
-    return resolveDisplayByType(schema) ||
-        resolveDisplayByProperties(schema) ||
-        false;
+function getInputName(value) {
+    if (value) {
+        return _.isString(value) ? value : value.name;
+    }
 }
 
-function resolveDisplayByType(schema) {
+function resolveDisplay(schema) {
     var input;
 
-    if ('boolean' === schema.type) {
-        return { name: 'input', type: 'checkbox' };
-    }
+    switch (schema.type) {
+        case 'boolean':
+            input = { name: 'checkbox'};
+            break;
 
-    if ('number' === schema.type || 'integer' === schema.type) {
-        return { name: 'input', type: 'number' };
-    }
-
-    if ('string' === schema.type) {
-        if (schema.enum) {
-            if (schema.enum.length > 3) {
-                return { name: 'select'};
-            } else {
-                return { name: 'radio-list'};
-            }
-        } else if ('Color' === schema.format) {
-            return { name: 'input', type: 'color' };
-        } else {
-            return { name: 'input', type: 'text' };
-        }
-    }
-}
-
-function resolveDisplayByProperties(schema) {
-    if (isObjectNotArray(schema.properties)) {
-        return { name: 'group' };
-    }
-}
-
-function extendDisplayInput(schema) {
-    var input = schema.display;
-
-    switch (input.type) {
-        case 'range':
         case 'number':
+            input = { name: 'input/number'};
+            break;
+
+        case 'string':
+            if (schema.enum) {
+                if (schema.enum.length > 3) {
+                    input = { name: 'select' };
+                } else {
+                    input = { name: 'radiolist' };
+                }
+            } else if ('Color' === schema.format) {
+                input = { name: 'input/color' };
+            } else {
+                input = { name: 'input', type: 'text' };
+            }
+            break;
+
+        default:
+            if (isObjectNotArray(schema.properties)) {
+                input = { name: 'group' };
+            }
+    }
+
+    if (input) {
+        resolveInputOptions(input, schema);
+    }
+
+    return input;
+}
+
+function resolveDisplayFallback(input, schema) {
+    switch (getInputName(input)) {
+        case 'input/range':
+            input.fallback = {name: 'input', type: 'range'};
+            break;
+
+        case 'input/number':
+            input.fallback = {name: 'input', type: 'number'};
+            break;
+
+        case 'input/color':
+            input.fallback = {name: 'input', type: 'color'};
+            break;
+
+        case 'textarea':
+            input.fallback = {name: 'input', type: 'text'};
+            break;
+
+        case 'radio-list':
+            input.fallback = {name: 'select'};
+            break;
+
+        case 'fieldset':
+            input.fallback = {name: 'group'};
+            break;
+
+    }
+    return schema;
+}
+
+function resolveInputOptions(input, schema) {
+
+    switch (getInputName(input)) {
+        case 'input/range':
+        case 'input/number':
             if (isDefined(schema.maximum)) {
                 input.max = schema.maximum;
             }
@@ -88,16 +124,10 @@ function extendDisplayInput(schema) {
             }
             break;
 
-        case 'text':
+        case 'input':
             if (isDefined(schema.maxLength)) {
                 input.maxlength = schema.maxLength;
             }
-
-            if (!input.maxlength || input.maxlength > 255) {
-                input.name = 'textarea';
-                delete input.type;
-            }
-
             if (isDefined(schema.minLength)) {
                 input.minlength = schema.minLength;
             }
@@ -105,41 +135,17 @@ function extendDisplayInput(schema) {
                 input.pattern = schema.pattern.toString();
             }
             break;
-    }
-    return input;
-}
 
-function extendDisplaySelect(schema) {
-    var input = schema.display;
-
-    if(input.labels){
-        input.options = schema.enum.map(function (value) {
-            return {id: value, title: input.labels[value] || humanize(value)}
-        })
-    } else {
-        input.options = schema.enum.map(function (value) {
-            return {id: value, title: humanize(value)}
-        })
-    }
-
-    return input;
-}
-
-var extendDisplayRadioList = extendDisplaySelect;
-
-function extendDisplay(schema) {
-    switch (schema.display.name) {
-        case 'input':
-            return extendDisplayInput(schema);
-
+        case 'radiolist':
         case 'select':
-            return extendDisplaySelect(schema);
+            input.options = schema.enum.map(function (value) {
+                var title = (schema.display && schema.display.labels && schema.display.labels[value]) || humanize(value);
+                return {id: value, title: title};
+            })
+            break;
 
-        case 'radio-list':
-            return extendDisplayRadioList(schema);
     }
-
-    return schema.display;
+    return input;
 }
 
 function walkSchema(schemaObj, transformFn, id, parent) {
@@ -162,37 +168,31 @@ function createFormSchema(schema, def) {
     var orderIndex = 1000;
 
     walkSchema(formSchema, function (prop, id, parent) {
+        var auto = resolveDisplay(prop);
+
         //resolve display options
-        if (!isDefined(prop.display)) {
-            prop.display = resolveDisplay(prop);
+        if (auto) {
+            if (prop.display) {
+                prop.display = _.merge(auto, prop.display);
+            } else {
+                prop.display = auto;
+            }
         }
 
-        if (!isDefined(prop.display.name)) {
-            _.extend(prop.display, resolveDisplay(prop));
+        if (prop.hidden) {
+            prop.display = false
         }
 
-        if (parent && parent.required && parent.required.indexOf(id) > -1) {
-            prop.display.required = true;
+        if (!prop.display) {
+            return;
         }
 
-        prop.display = extendDisplay(prop);
 
+        resolveDisplayFallback(prop.display, prop);
 
         //add title
         if (!isDefined(prop.title) && 'group' !== prop.display.name) {
             prop.title = humanize(id);
-        }
-
-        //resolve path to property in original schema (e.g. scale.width)
-        if (parent) {
-            prop.path = _.compact([parent.path, id]).join('.');
-        }
-
-        //resolve display level
-        if (!parent) {
-            prop.level = 0;
-        } else {
-            prop.level = parent.level + 1;
         }
 
         //resolve display order
@@ -200,17 +200,23 @@ function createFormSchema(schema, def) {
             prop.order = orderIndex++;
         }
 
+        if (parent) {
+            //resolve required
+            if (parent.required && parent.required.indexOf(id) > -1) {
+                prop.display.required = true;
+            }
+
+            //resolve path to property in original schema (e.g. scale.width)
+            prop.path = _.compact([parent.path, id]).join('.');
+
+            //resolve display level
+            prop.level = parent.level + 1;
+        } else {
+            //resolve display level
+            prop.level = 0;
+        }
+
         //todo: resolve display group
-//        var group;
-//        if (!parent) {
-//            group = 'root';
-//        } else {
-//            group = [parent.group || 'root'];
-//        }
-//        if (prop.group) {
-//            group.push(prop.group);
-//        }
-//        prop.group = group.join('.');
     });
 
     return formSchema;
