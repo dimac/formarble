@@ -3,6 +3,49 @@
 var util = require('util');
 var _ = require('lodash');
 
+function objSet(obj, path, value) {
+    var segments = path.split('.'),
+        cursor = obj,
+        segment,
+        len = segments.length - 1,
+        i;
+
+    for (i = 0; i < len; i++) {
+        segment = segments[i];
+        cursor = cursor[segment] || (cursor[segment] = {});
+    }
+
+    return cursor[segments[i]] = value;
+}
+
+function objGet(obj, path) {
+    var segments = path.split('.'),
+        cursor = obj,
+        len = segments.length,
+        i;
+
+    for (i = 0; i < len; i++) {
+        cursor = cursor[segments[i]];
+
+        if (undefined === cursor) {
+            return;
+        }
+    }
+
+    return cursor;
+}
+
+function schemaSet(obj, path, value) {
+    var path = 'properties.' + path.split('.').join('.properties.');
+    return objSet(obj, path, value);
+}
+
+function schemaGet(obj, path) {
+    var path = 'properties.' + path.split('.').join('.properties.');
+    return objGet(obj, path);
+}
+
+
 function isDefined(value) {
     return undefined !== value;
 }
@@ -16,9 +59,9 @@ function ucFirst(value) {
 }
 
 function humanize(value) {
-    if(value.match(/[a-z]/i)){
+    if (value.match(/[a-z]/i)) {
         value = value.replace(/([a-z])[\W]+/g, '$1 ');
-        value = value.replace(/([a-z])([A-Z]+)/g, function (matched, low, high) {
+        value = value.replace(/([a-z])([A-Z]+|\d+)/g, function (matched, low, high) {
             return low + ' ' + (1 === high.length ? high.toLowerCase() : high);
         });
         return ucFirst(value);
@@ -148,26 +191,84 @@ function resolveInputOptions(input, schema) {
     return input;
 }
 
-function walkSchema(schemaObj, transformFn, id, parent) {
-    if (isObjectNotArray(schemaObj.properties)) {
-        _.each(schemaObj.properties, function (propObj, propId) {
-            walkSchema(propObj, transformFn, propId, schemaObj);
-        })
+function walkSchema(schema, transformFn, childrenFirst) {
+
+    function _walkSchema(obj, id, path, parent) {
+        if (!childrenFirst) {
+            transformFn(obj, id, path, parent);
+        }
+
+        if (isObjectNotArray(obj.properties)) {
+            _.each(obj.properties, function (prop, propId) {
+                var propPath = path ? path + '.' + propId : propId;
+
+                _walkSchema(prop, propId, propPath, obj);
+            })
+        }
+
+        if (childrenFirst) {
+            transformFn(obj, id, path, parent);
+        }
     }
 
-    transformFn(schemaObj, id, parent);
+    _walkSchema(schema, '', '');
 }
 
-function createFormSchema(schema, def) {
-    var formSchema = _.cloneDeep(schema);
 
-    if (def) {
-        _.merge(formSchema, def);
-    }
+/**
+ * Create form schema based on {schema}
+ * 1. Resolve base options
+ * 2. Apply properties grouping
+ *
+ * @param schema
+ * @returns {*}
+ */
+exports.create = function (schema) {
+    var result;
+    var nodes = {};
 
-    var orderIndex = 1000;
+    //walk through schema, collect nodes with original and move paths
+    walkSchema(schema, function (src, id, path, parent) {
+        //clone source node
+        var prop = _(src).omit('properties').cloneDeep();
 
-    walkSchema(formSchema, function (prop, id, parent) {
+        if (path) {
+            //detect base node move
+            var baseFrom = path.slice(0, -id.length - 1);
+            var baseTo = nodes[baseFrom] && nodes[baseFrom].path;
+
+            //set paths
+            prop._path = prop._path || path;
+            prop.path = prop.path || (baseTo ? path.replace(baseFrom, baseTo) : path);
+
+            nodes[path] = prop;
+        } else {
+            //root node
+            result = prop;
+        }
+    });
+
+    //move each node it its place in resulting schema
+    _.each(nodes, function (prop, id) {
+        schemaSet(result, prop.path, prop);
+    });
+
+    //resolve path for newly created nodes
+    walkSchema(result, function (src, id, path, parent) {
+        src.path = src.path || path;
+    })
+
+    return result;
+}
+
+exports.merge = function (dest, src) {
+    return _.merge(dest, src);
+}
+
+exports.ui = function (schema) {
+    var orderIndexStart = 1000;
+
+    walkSchema(schema, function (prop, id, path, parent) {
         var auto = resolveDisplay(prop);
 
         //resolve display options
@@ -187,17 +288,16 @@ function createFormSchema(schema, def) {
             return;
         }
 
-
         resolveDisplayFallback(prop.display, prop);
 
         //add title
-        if (!isDefined(prop.title) && 'group' !== prop.display.name) {
+        if (!isDefined(prop.title)/* && 'group' !== prop.display.name*/) {
             prop.title = humanize(id);
         }
 
         //resolve display order
         if (!isDefined(prop.order)) {
-            prop.order = orderIndex++;
+            prop.order = orderIndexStart++;
         }
 
         if (parent) {
@@ -206,35 +306,12 @@ function createFormSchema(schema, def) {
                 prop.display.required = true;
             }
 
-            //resolve path to property in original schema (e.g. scale.width)
-            prop.path = _.compact([parent.path, id]).join('.');
-
             //resolve display level
             prop.level = parent.level + 1;
         } else {
             //resolve display level
             prop.level = 0;
         }
-
-        //todo: resolve display group
-    });
-
-    return formSchema;
+    })
 }
-
-exports.extend = function (schema, form) {
-    return createFormSchema(schema, form);
-}
-
-exports.ui = function(schema){
-    walkSchema(schema, function (prop, id, parent) {
-        if(parent) {
-            prop.uiPath = [parent.uiPath, id].join('.');
-        } else {
-            prop.uiPath = id;
-        }
-    }, 'root')
-}
-
-return;
 

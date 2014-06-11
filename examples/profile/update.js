@@ -55,47 +55,67 @@ var spin = schemaGet(extended, 'spin');
 
 var result = {
     title: 'Profile',
-    display: {name: 'tree' }
+    display: { name: 'tree' }
 };
 
 
 schemaSet(result, 'image', {
     title: 'Image Settings',
-    display: 'group'
+    display: {
+        name: 'group'
+    },
+    showInTree: true
 });
+schemaSet(result, 'image.general', {
+    title: 'General settings',
+    display: 'group',
+    showInTree: true,
+    order: 1
+})
+
 schemaSet(result, 'spin', {
-    title: 'Image Settings',
-    display: 'group'
+    title: 'Spin Settings',
+    display: {
+        name: 'group'
+    },
+    showInTree: true
 });
+schemaSet(result, 'spin.general', {
+    title: 'General settings',
+    display: 'group',
+    showInTree: true,
+    order: 1
+})
 
 _.each(image.properties, function(prop, name) {
     if(prop.properties) {
-        schemaSet(result, ['image', name].join('.'), prop)
+        schemaSet(result, ['image', name].join('.'), _.cloneDeep(prop));
     } else {
-        if(!schemaGet(result, 'image.general')) {
-            schemaSet(result, 'image.general', {
-                title: 'Image general settings',
-                display: 'group',
-                order: 1
-            })
-        }
-        schemaSet(result, ['image.general', name].join('.'), prop)
+        schemaSet(result, ['image.general', name].join('.'), _.cloneDeep(prop))
     }
 });
 
 _.each(spin.properties, function(prop, name) {
     if(prop.properties) {
-        schemaSet(result, ['spin', name].join('.'), prop)
+        schemaSet(result, ['spin', name].join('.'), _.cloneDeep(prop))
     } else {
-        if(!schemaGet(result, 'spin.general')) {
-            schemaSet(result, 'spin.general', {
-                title: 'Spin general settings',
-                display: 'group',
-                order: 1
-            })
-        }
-        schemaSet(result, ['spin.general', name].join('.'), prop)
+        schemaSet(result, ['spin.general', name].join('.'), _.cloneDeep(prop))
     }
 });
+
+
+_.each(['spin.images', 'spin.images.fullscreen', 'spin.images.main', 'spin.images.zoom'], function(path){
+    var schema = schemaGet(result, path);
+    _.each(schema.properties, function(prop, name){
+        prop.showInTree = true;
+
+    });
+})
+_.each(['spin.images'], function(path){
+    var schema = schemaGet(result, path);
+    schema.noGeneralOptions = true;
+})
+
+formarble.ui(result);
 
 console.log('window.schema =', JSON.stringify(result, null, '  '));

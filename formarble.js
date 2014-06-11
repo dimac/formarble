@@ -33,22 +33,6 @@
 
 angular.module('formarble', [])
     .service('fm', function ($templateCache) {
-//        function parseDisplay(display) {
-//            if (angular.isString(display)) {
-//                var parts = display.split(':', 2);
-//                return {
-//                    name: parts[0],
-//                    type: parts[1]
-//                }
-//            }
-//
-//            if (angular.isObject(display) && display.name) {
-//                return display;
-//            }
-//
-//            return false;
-//        }
-
         function getTemplateId(display) {
             if(!display) {
                 return false;
@@ -99,7 +83,7 @@ angular.module('formarble', [])
                 }
 
                 this.getControlModel = function (control) {
-                    return ['$model', control.path].join('.')
+                    return ['$model', control._path || control._path].join('.')
                 }
 
                 this.getControlId = function (control){
@@ -257,6 +241,71 @@ angular.module('formarble', [])
                 scope.$on('destroy', function () {
                     elem.unbind('click', onClick);
                 })
+            }
+        }
+    })
+
+angular.module('formarble')
+    .directive('fmTree', function () {
+        return {
+            scope: true,
+            controller: function ($scope, $attrs) {
+                var control = $scope.$eval($attrs.fmTree || '$control');
+
+                this.selected;
+
+                this.select = function (item) {
+                    console.debug('tree select', item);
+                    this.selected = item.properties.general || item;
+                }
+
+                this.isGroupOpen = function(item){
+                    var isOpen;
+                    try {
+                        isOpen = this.selected && this.selected.path.slice(0, item.path.length) === item.path;
+                    } catch(e) {
+                        console.log('Error on', this.selected, item);
+                        throw e;
+                    }
+                    return isOpen;
+                }
+
+                $scope.$tree = this;
+            }
+        }
+    })
+    .directive('fmTreeSidebar', function ($compile, $templateCache) {
+        function inSubTree(name, item){
+            return /*prop.showInTree && */!item.hidden && item.properties && 'general' !== name;
+        }
+
+        return {
+            require: '^fmTree',
+            scope: true,
+            link: function (scope, elem, attrs, ctrl) {
+                var control = scope.$eval(attrs.fmTreeSidebar);
+                var items = [];
+
+                if (control.properties) {
+                    scope.$items = items;
+                    angular.forEach(control.properties, function (prop, name) {
+                        if (inSubTree(name, prop)) {
+                            items.push(prop);
+                        }
+                    });
+                    items.sort(function (a, b) {
+                        return a.order - b.order;
+                    })
+
+                    elem.html($templateCache.get('bs/tree/sidebar'));
+                    $compile(elem.contents())(scope);
+                }
+
+                scope.$select = function(item){
+                    ctrl.select(item);
+                }
+
+                console.log('sidebar', control);
             }
         }
     })
