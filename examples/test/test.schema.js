@@ -1,114 +1,147 @@
 "use strict";
 
 exports.schema = {
-    title: 'How can we help?',
+    title: 'Profile config',
 
     display: {
-        name: 'tree'
+        name: 'tree',
+        tree: [
+            'image'
+        ]
     },
 
     properties: {
 
-        treeSet1: {
+        image: {
+            title: 'Image settings',
+
+            display: {
+                name: 'tree',
+                tree: [
+                    '_format',
+                    'scale',
+                    'crop'
+                ]
+            },
+
             properties: {
-                value1: {
-                    type: 'string'
-                },
-                value2: {
-                    type: 'number'
-                },
-                value3: {
-                    type: 'string'
-                }
-            }
-        },
-        treeSet2: {
-            properties: {
-                complex1: {
+                //+groups
+                _format: {
+                    title: 'Formats',
+
                     properties: {
-                        complexChild: {
+                        jpg: { title: 'JPEG options',
                             properties: {
-                                effect1: {
-                                    properties: {
-                                        enabled: {
-                                            type: 'boolean'
-                                        },
-                                        value: {
-                                            type: 'string'
-                                        }
-                                    }
-                                },
-                                effect2: {
-                                    properties: {
-                                        enabled: {
-                                            type: 'boolean'
-                                        },
-                                        value: {
-                                            type: 'string'
-                                        }
-                                    },
-                                    path: 'imageEffect3'
-                                },
-                                effect3: {
-                                    type: 'boolean',
-                                    description: 'Use effect #3'
+                                quality: {
+                                    extend: 'image.quality'
                                 }
-                            },
-                            path: 'image.effects'
-                        },
-
-                        select: {
-                            type: 'string',
-                            enum: ['option1', 'option2', 'option3', 'option4', 'option5'],
-                            display: {
-                                labels: {option1: 'First option', option3: 'Third option'}
                             }
-                        },
-                        value: {
-                            type: 'string',
-                            maxLength: 10
                         }
-                    },
-                    required: ['select', 'value']
+                    }
                 },
-                complex2: {
-                    properties: {
-                        range: {
-                            type: 'number',
-                            minimum: -10,
-                            maximum: 10,
-                            description: 'Range -10..10'
-                        },
-                        number: {
-                            type: 'number',
-                            minimum: 0,
-                            maximum: 100,
-                            description: 'Number 0..100'
-                        },
-                        boolean: {
-                            type: 'boolean',
-                            description: 'Yes or No'
-                        }
-                    },
-                    required: ['range', 'number']
-                },
+                //-groups
 
-                simple1: {
-                    name: 'Importance',
+                profile: { type: 'string' },
+
+                format: {
                     type: 'string',
-                    enum: ['low', 'normal', 'high', 'urgent'],
-                    description: 'How important is this for you?',
+                    enum: ['png', 'jpg', 'webp'],
 
-                    path: 'treeSet2.general.simple1'
+                    display: {
+                        labels: {png: 'PNG', jpg: 'JPEG', webp: 'WebP'}
+                    }
                 },
 
-                simple2: {
-                    name: 'Priority level',
+                //jpeg options
+                quality: {
                     type: 'number',
                     minimum: 0,
-                    maximum: 10,
-                    description: 'Higher is faster!',
-                    path: 'treeSet2.general.simple2'
+                    maximum: 100,
+
+                    display: {
+                        name: 'input/range'
+                    }
+                },
+
+                progressive: {
+                    type: 'boolean',
+                    description: 'Create progressive image',
+
+                    path: 'image._format.jpg.progressive'
+                },
+
+                png: {
+                    title: 'PNG options',
+
+                    properties: {
+                        // 0 is Huffman compression, 1-9 is Zlib compression
+                        compression: { type: 'number', description: 'PNG compression', minimum: 0, maximum: 9 },
+                        filtering: { type: 'string', enum: ['none', 'sub', 'up', 'average', 'paeth', 'adaptive']}
+                    },
+
+                    path: 'image._format.png'
+                },
+
+                webp: {
+                    title: 'WebP options',
+
+                    properties: {
+                        quality: {
+                            extend: 'image.quality'
+                        },
+
+                        fallback: {
+                            type: 'string',
+                            enum: ['png', 'jpg'],
+                            display: {
+                                labels: {png: 'PNG', jpg: 'JPEG'}
+                            }
+                        }
+                    },
+
+                    path: 'image._format.webp'
+                },
+
+                scale: {
+                    properties: {
+                        width: {
+                            type: 'number', minimum: 0,
+                            description: 'Width'
+
+                        },
+                        height: {
+                            type: 'number', minimum: 0,
+                            description: 'Height'
+
+                        },
+                        option: { type: 'string', enum: ['fit', 'fill', 'ignore', 'noup'] }
+                    },
+                    description: 'Scale the image to specified width and height'
+                },
+
+                crop: {
+                    properties: {
+                        width: {
+                            type: 'number', minimum: 0,
+                            description: 'Width'
+
+                        },
+                        height: {
+                            type: 'number', minimum: 0,
+                            description: 'Height'
+
+                        },
+                        x: {
+                            type: 'number', minimum: 0,
+                            description: 'X offset' // out of top left corner, can be +- and %
+
+                        },
+                        y: {
+                            type: 'number', minimum: 0,
+                            description: 'Y offset' // out of top left corner, can be +- and %
+                        }
+                    },
+                    description: 'Crop the image'
                 }
             }
         }

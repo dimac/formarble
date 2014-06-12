@@ -249,24 +249,29 @@ angular.module('formarble')
     .directive('fmTree', function () {
         return {
             scope: true,
-            controller: function ($scope, $attrs) {
+            controller: function ($scope, $element, $attrs) {
                 var control = $scope.$eval($attrs.fmTree || '$control');
 
-                this.selected;
+                $scope.$isSubtree = angular.isDefined($element.parent().controller('fmTree'));
+                $scope.$subControls = $scope.$subControls.filter(function(sc){
+                    return -1 === control.display.tree.indexOf(sc._id);
+                })
+
+                this.selected = null;
 
                 this.select = function (item) {
                     console.debug('tree select', item);
-                    this.selected = item.properties.general || item;
+                    this.selected = item;
                 }
 
                 this.isGroupOpen = function(item){
                     var isOpen;
-                    try {
+//                    try {
                         isOpen = this.selected && this.selected.path.slice(0, item.path.length) === item.path;
-                    } catch(e) {
-                        console.log('Error on', this.selected, item);
-                        throw e;
-                    }
+//                    } catch(e) {
+//                        console.log('Error on', this.selected, item);
+//                        throw e;
+//                    }
                     return isOpen;
                 }
 
@@ -275,37 +280,28 @@ angular.module('formarble')
         }
     })
     .directive('fmTreeSidebar', function ($compile, $templateCache) {
-        function inSubTree(name, item){
-            return /*prop.showInTree && */!item.hidden && item.properties && 'general' !== name;
-        }
-
         return {
-            require: '^fmTree',
+            require: ['^fmTree', '^fmForm'],
             scope: true,
-            link: function (scope, elem, attrs, ctrl) {
-                var control = scope.$eval(attrs.fmTreeSidebar);
-                var items = [];
+            link: function (scope, elem, attrs, ctrls) {
+                var tree = ctrls[0];
+                var form = ctrls[1];
 
-                if (control.properties) {
-                    scope.$items = items;
-                    angular.forEach(control.properties, function (prop, name) {
-                        if (inSubTree(name, prop)) {
-                            items.push(prop);
-                        }
+                var control = scope.$eval(attrs.fmTreeSidebar);
+                if (control.display.tree) {
+
+                    scope.$items = control.display.tree.map(function (name) {
+                        var item = control.properties[name];
+                        return item;
                     });
-                    items.sort(function (a, b) {
-                        return a.order - b.order;
-                    })
 
                     elem.html($templateCache.get('bs/tree/sidebar'));
                     $compile(elem.contents())(scope);
                 }
 
                 scope.$select = function(item){
-                    ctrl.select(item);
+                    tree.select(item);
                 }
-
-                console.log('sidebar', control);
             }
         }
     })

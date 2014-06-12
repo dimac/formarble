@@ -1,390 +1,479 @@
 window.schema = {
-   "title": "How can we help?",
+   "title": "Profile config",
    "display": {
-      "name": "tree"
+      "name": "tree",
+      "tree": [
+         "image"
+      ]
    },
    "properties": {
-      "treeSet1": {
-         "_path": "treeSet1",
-         "path": "treeSet1",
-         "properties": {
-            "value1": {
-               "type": "string",
-               "_path": "treeSet1.value1",
-               "path": "treeSet1.value1",
-               "display": {
-                  "name": "input",
-                  "type": "text"
-               },
-               "title": "Value 1",
-               "order": 1002,
-               "level": 2
-            },
-            "value2": {
-               "type": "number",
-               "_path": "treeSet1.value2",
-               "path": "treeSet1.value2",
-               "display": {
-                  "name": "input/number",
-                  "fallback": {
-                     "name": "input",
-                     "type": "number"
-                  }
-               },
-               "title": "Value 2",
-               "order": 1003,
-               "level": 2
-            },
-            "value3": {
-               "type": "string",
-               "_path": "treeSet1.value3",
-               "path": "treeSet1.value3",
-               "display": {
-                  "name": "input",
-                  "type": "text"
-               },
-               "title": "Value 3",
-               "order": 1004,
-               "level": 2
-            }
-         },
-         "display": {
-            "name": "group"
-         },
-         "title": "Tree set 1",
-         "order": 1001,
-         "level": 1
-      },
-      "treeSet2": {
-         "_path": "treeSet2",
-         "path": "treeSet2",
-         "properties": {
-            "complex1": {
-               "required": [
-                  "select",
-                  "value"
-               ],
-               "_path": "treeSet2.complex1",
-               "path": "treeSet2.complex1",
-               "properties": {
-                  "select": {
-                     "type": "string",
-                     "enum": [
-                        "option1",
-                        "option2",
-                        "option3",
-                        "option4",
-                        "option5"
-                     ],
-                     "display": {
-                        "name": "select",
-                        "options": [
-                           {
-                              "id": "option1",
-                              "title": "First option"
-                           },
-                           {
-                              "id": "option2",
-                              "title": "Option 2"
-                           },
-                           {
-                              "id": "option3",
-                              "title": "Third option"
-                           },
-                           {
-                              "id": "option4",
-                              "title": "Option 4"
-                           },
-                           {
-                              "id": "option5",
-                              "title": "Option 5"
-                           }
-                        ],
-                        "labels": {
-                           "option1": "First option",
-                           "option3": "Third option"
-                        },
-                        "required": true
-                     },
-                     "_path": "treeSet2.complex1.select",
-                     "path": "treeSet2.complex1.select",
-                     "title": "Select",
-                     "order": 1007,
-                     "level": 3
-                  },
-                  "value": {
-                     "type": "string",
-                     "maxLength": 10,
-                     "_path": "treeSet2.complex1.value",
-                     "path": "treeSet2.complex1.value",
-                     "display": {
-                        "name": "input",
-                        "type": "text",
-                        "maxlength": 10,
-                        "required": true
-                     },
-                     "title": "Value",
-                     "order": 1008,
-                     "level": 3
-                  }
-               },
-               "display": {
-                  "name": "group"
-               },
-               "title": "Complex 1",
-               "order": 1006,
-               "level": 2
-            },
-            "complex2": {
-               "required": [
-                  "range",
-                  "number"
-               ],
-               "_path": "treeSet2.complex2",
-               "path": "treeSet2.complex2",
-               "properties": {
-                  "range": {
-                     "type": "number",
-                     "minimum": -10,
-                     "maximum": 10,
-                     "description": "Range -10..10",
-                     "_path": "treeSet2.complex2.range",
-                     "path": "treeSet2.complex2.range",
-                     "display": {
-                        "name": "input/number",
-                        "max": 10,
-                        "min": -10,
-                        "fallback": {
-                           "name": "input",
-                           "type": "number"
-                        },
-                        "required": true
-                     },
-                     "title": "Range",
-                     "order": 1010,
-                     "level": 3
-                  },
-                  "number": {
-                     "type": "number",
-                     "minimum": 0,
-                     "maximum": 100,
-                     "description": "Number 0..100",
-                     "_path": "treeSet2.complex2.number",
-                     "path": "treeSet2.complex2.number",
-                     "display": {
-                        "name": "input/number",
-                        "max": 100,
-                        "min": 0,
-                        "fallback": {
-                           "name": "input",
-                           "type": "number"
-                        },
-                        "required": true
-                     },
-                     "title": "Number",
-                     "order": 1011,
-                     "level": 3
-                  },
-                  "boolean": {
-                     "type": "boolean",
-                     "description": "Yes or No",
-                     "_path": "treeSet2.complex2.boolean",
-                     "path": "treeSet2.complex2.boolean",
-                     "display": {
-                        "name": "checkbox"
-                     },
-                     "title": "Boolean",
-                     "order": 1012,
-                     "level": 3
-                  }
-               },
-               "display": {
-                  "name": "group"
-               },
-               "title": "Complex 2",
-               "order": 1009,
-               "level": 2
-            },
-            "general": {
-               "properties": {
-                  "simple1": {
-                     "name": "Importance",
-                     "type": "string",
-                     "enum": [
-                        "low",
-                        "normal",
-                        "high",
-                        "urgent"
-                     ],
-                     "description": "How important is this for you?",
-                     "path": "treeSet2.general.simple1",
-                     "_path": "treeSet2.simple1",
-                     "display": {
-                        "name": "select",
-                        "options": [
-                           {
-                              "id": "low",
-                              "title": "Low"
-                           },
-                           {
-                              "id": "normal",
-                              "title": "Normal"
-                           },
-                           {
-                              "id": "high",
-                              "title": "High"
-                           },
-                           {
-                              "id": "urgent",
-                              "title": "Urgent"
-                           }
-                        ]
-                     },
-                     "title": "Simple 1",
-                     "order": 1014,
-                     "level": 3
-                  },
-                  "simple2": {
-                     "name": "Priority level",
-                     "type": "number",
-                     "minimum": 0,
-                     "maximum": 10,
-                     "description": "Higher is faster!",
-                     "path": "treeSet2.general.simple2",
-                     "_path": "treeSet2.simple2",
-                     "display": {
-                        "name": "input/number",
-                        "max": 10,
-                        "min": 0,
-                        "fallback": {
-                           "name": "input",
-                           "type": "number"
-                        }
-                     },
-                     "title": "Simple 2",
-                     "order": 1015,
-                     "level": 3
-                  }
-               },
-               "path": "treeSet2.general",
-               "display": {
-                  "name": "group"
-               },
-               "title": "General",
-               "order": 1013,
-               "level": 2
-            }
-         },
-         "display": {
-            "name": "group"
-         },
-         "title": "Tree set 2",
-         "order": 1005,
-         "level": 1
-      },
       "image": {
+         "title": "Image settings",
+         "display": {
+            "name": "tree",
+            "tree": [
+               "_format",
+               "scale",
+               "crop"
+            ]
+         },
+         "_id": "image",
+         "_path": "image",
+         "path": "image",
          "properties": {
-            "effects": {
-               "path": "image.effects",
-               "_path": "treeSet2.complex1.complexChild",
+            "_format": {
+               "title": "Formats",
+               "_id": "_format",
+               "_path": "image._format",
+               "path": "image._format",
                "properties": {
-                  "effect1": {
-                     "_path": "treeSet2.complex1.complexChild.effect1",
-                     "path": "image.effects.effect1",
+                  "jpg": {
+                     "title": "JPEG options",
+                     "_id": "jpg",
+                     "_path": "image._format.jpg",
+                     "path": "image._format.jpg",
                      "properties": {
-                        "enabled": {
+                        "quality": {
+                           "type": "number",
+                           "minimum": 0,
+                           "maximum": 100,
+                           "display": {
+                              "name": "input/range",
+                              "max": 100,
+                              "min": 0,
+                              "fallback": {
+                                 "name": "input",
+                                 "type": "range"
+                              }
+                           },
+                           "_id": "quality",
+                           "_path": "image.quality",
+                           "path": "image._format.jpg.quality",
+                           "extend": "image.quality",
+                           "title": "Quality",
+                           "order": 1004,
+                           "level": 4
+                        },
+                        "progressive": {
                            "type": "boolean",
-                           "_path": "treeSet2.complex1.complexChild.effect1.enabled",
-                           "path": "image.effects.effect1.enabled",
+                           "description": "Create progressive image",
+                           "path": "image._format.jpg.progressive",
+                           "_id": "progressive",
+                           "_path": "image.progressive",
                            "display": {
                               "name": "checkbox"
                            },
-                           "title": "Enabled",
-                           "order": 1019,
-                           "level": 4
-                        },
-                        "value": {
-                           "type": "string",
-                           "_path": "treeSet2.complex1.complexChild.effect1.value",
-                           "path": "image.effects.effect1.value",
-                           "display": {
-                              "name": "input",
-                              "type": "text"
-                           },
-                           "title": "Value",
-                           "order": 1020,
+                           "title": "Progressive",
+                           "order": 1005,
                            "level": 4
                         }
                      },
                      "display": {
                         "name": "group"
                      },
-                     "title": "Effect 1",
-                     "order": 1018,
+                     "order": 1003,
                      "level": 3
                   },
-                  "effect3": {
-                     "type": "boolean",
-                     "description": "Use effect #3",
-                     "_path": "treeSet2.complex1.complexChild.effect3",
-                     "path": "image.effects.effect3",
-                     "display": {
-                        "name": "checkbox"
+                  "png": {
+                     "title": "PNG options",
+                     "path": "image._format.png",
+                     "_id": "png",
+                     "_path": "image.png",
+                     "properties": {
+                        "compression": {
+                           "type": "number",
+                           "description": "PNG compression",
+                           "minimum": 0,
+                           "maximum": 9,
+                           "_id": "compression",
+                           "_path": "image.png.compression",
+                           "path": "image._format.png.compression",
+                           "display": {
+                              "name": "input/number",
+                              "max": 9,
+                              "min": 0,
+                              "fallback": {
+                                 "name": "input",
+                                 "type": "number"
+                              }
+                           },
+                           "title": "Compression",
+                           "order": 1007,
+                           "level": 4
+                        },
+                        "filtering": {
+                           "type": "string",
+                           "enum": [
+                              "none",
+                              "sub",
+                              "up",
+                              "average",
+                              "paeth",
+                              "adaptive"
+                           ],
+                           "_id": "filtering",
+                           "_path": "image.png.filtering",
+                           "path": "image._format.png.filtering",
+                           "display": {
+                              "name": "select",
+                              "options": [
+                                 {
+                                    "id": "none",
+                                    "title": "None"
+                                 },
+                                 {
+                                    "id": "sub",
+                                    "title": "Sub"
+                                 },
+                                 {
+                                    "id": "up",
+                                    "title": "Up"
+                                 },
+                                 {
+                                    "id": "average",
+                                    "title": "Average"
+                                 },
+                                 {
+                                    "id": "paeth",
+                                    "title": "Paeth"
+                                 },
+                                 {
+                                    "id": "adaptive",
+                                    "title": "Adaptive"
+                                 }
+                              ]
+                           },
+                           "title": "Filtering",
+                           "order": 1008,
+                           "level": 4
+                        }
                      },
-                     "title": "Effect 3",
-                     "order": 1021,
+                     "display": {
+                        "name": "group"
+                     },
+                     "order": 1006,
+                     "level": 3
+                  },
+                  "webp": {
+                     "title": "WebP options",
+                     "path": "image._format.webp",
+                     "_id": "webp",
+                     "_path": "image.webp",
+                     "properties": {
+                        "quality": {
+                           "type": "number",
+                           "minimum": 0,
+                           "maximum": 100,
+                           "display": {
+                              "name": "input/range",
+                              "max": 100,
+                              "min": 0,
+                              "fallback": {
+                                 "name": "input",
+                                 "type": "range"
+                              }
+                           },
+                           "_id": "quality",
+                           "_path": "image.quality",
+                           "path": "image._format.webp.quality",
+                           "extend": "image.quality",
+                           "title": "Quality",
+                           "order": 1010,
+                           "level": 4
+                        },
+                        "fallback": {
+                           "type": "string",
+                           "enum": [
+                              "png",
+                              "jpg"
+                           ],
+                           "display": {
+                              "name": "radiolist",
+                              "options": [
+                                 {
+                                    "id": "png",
+                                    "title": "PNG"
+                                 },
+                                 {
+                                    "id": "jpg",
+                                    "title": "JPEG"
+                                 }
+                              ],
+                              "labels": {
+                                 "png": "PNG",
+                                 "jpg": "JPEG"
+                              }
+                           },
+                           "_id": "fallback",
+                           "_path": "image.webp.fallback",
+                           "path": "image._format.webp.fallback",
+                           "title": "Fallback",
+                           "order": 1011,
+                           "level": 4
+                        }
+                     },
+                     "display": {
+                        "name": "group"
+                     },
+                     "order": 1009,
                      "level": 3
                   }
                },
                "display": {
                   "name": "group"
                },
-               "title": "Effects",
-               "order": 1017,
-               "level": 2
-            }
-         },
-         "path": "image",
-         "display": {
-            "name": "group"
-         },
-         "title": "Image",
-         "order": 1016,
-         "level": 1
-      },
-      "imageEffect3": {
-         "path": "imageEffect3",
-         "_path": "treeSet2.complex1.complexChild.effect2",
-         "properties": {
-            "enabled": {
-               "type": "boolean",
-               "_path": "treeSet2.complex1.complexChild.effect2.enabled",
-               "path": "imageEffect3.enabled",
-               "display": {
-                  "name": "checkbox"
-               },
-               "title": "Enabled",
-               "order": 1023,
+               "order": 1002,
                "level": 2
             },
-            "value": {
+            "profile": {
                "type": "string",
-               "_path": "treeSet2.complex1.complexChild.effect2.value",
-               "path": "imageEffect3.value",
+               "_id": "profile",
+               "_path": "image.profile",
+               "path": "image.profile",
                "display": {
                   "name": "input",
                   "type": "text"
                },
-               "title": "Value",
-               "order": 1024,
+               "title": "Profile",
+               "order": 1012,
+               "level": 2
+            },
+            "format": {
+               "type": "string",
+               "enum": [
+                  "png",
+                  "jpg",
+                  "webp"
+               ],
+               "display": {
+                  "name": "radiolist",
+                  "options": [
+                     {
+                        "id": "png",
+                        "title": "PNG"
+                     },
+                     {
+                        "id": "jpg",
+                        "title": "JPEG"
+                     },
+                     {
+                        "id": "webp",
+                        "title": "WebP"
+                     }
+                  ],
+                  "labels": {
+                     "png": "PNG",
+                     "jpg": "JPEG",
+                     "webp": "WebP"
+                  }
+               },
+               "_id": "format",
+               "_path": "image.format",
+               "path": "image.format",
+               "title": "Format",
+               "order": 1013,
+               "level": 2
+            },
+            "quality": {
+               "type": "number",
+               "minimum": 0,
+               "maximum": 100,
+               "display": {
+                  "name": "input/range",
+                  "max": 100,
+                  "min": 0,
+                  "fallback": {
+                     "name": "input",
+                     "type": "range"
+                  }
+               },
+               "_id": "quality",
+               "_path": "image.quality",
+               "path": "image.quality",
+               "title": "Quality",
+               "order": 1014,
+               "level": 2
+            },
+            "scale": {
+               "description": "Scale the image to specified width and height",
+               "_id": "scale",
+               "_path": "image.scale",
+               "path": "image.scale",
+               "properties": {
+                  "width": {
+                     "type": "number",
+                     "minimum": 0,
+                     "description": "Width",
+                     "_id": "width",
+                     "_path": "image.scale.width",
+                     "path": "image.scale.width",
+                     "display": {
+                        "name": "input/number",
+                        "min": 0,
+                        "fallback": {
+                           "name": "input",
+                           "type": "number"
+                        }
+                     },
+                     "title": "Width",
+                     "order": 1016,
+                     "level": 3
+                  },
+                  "height": {
+                     "type": "number",
+                     "minimum": 0,
+                     "description": "Height",
+                     "_id": "height",
+                     "_path": "image.scale.height",
+                     "path": "image.scale.height",
+                     "display": {
+                        "name": "input/number",
+                        "min": 0,
+                        "fallback": {
+                           "name": "input",
+                           "type": "number"
+                        }
+                     },
+                     "title": "Height",
+                     "order": 1017,
+                     "level": 3
+                  },
+                  "option": {
+                     "type": "string",
+                     "enum": [
+                        "fit",
+                        "fill",
+                        "ignore",
+                        "noup"
+                     ],
+                     "_id": "option",
+                     "_path": "image.scale.option",
+                     "path": "image.scale.option",
+                     "display": {
+                        "name": "select",
+                        "options": [
+                           {
+                              "id": "fit",
+                              "title": "Fit"
+                           },
+                           {
+                              "id": "fill",
+                              "title": "Fill"
+                           },
+                           {
+                              "id": "ignore",
+                              "title": "Ignore"
+                           },
+                           {
+                              "id": "noup",
+                              "title": "Noup"
+                           }
+                        ]
+                     },
+                     "title": "Option",
+                     "order": 1018,
+                     "level": 3
+                  }
+               },
+               "display": {
+                  "name": "group"
+               },
+               "title": "Scale",
+               "order": 1015,
+               "level": 2
+            },
+            "crop": {
+               "description": "Crop the image",
+               "_id": "crop",
+               "_path": "image.crop",
+               "path": "image.crop",
+               "properties": {
+                  "width": {
+                     "type": "number",
+                     "minimum": 0,
+                     "description": "Width",
+                     "_id": "width",
+                     "_path": "image.crop.width",
+                     "path": "image.crop.width",
+                     "display": {
+                        "name": "input/number",
+                        "min": 0,
+                        "fallback": {
+                           "name": "input",
+                           "type": "number"
+                        }
+                     },
+                     "title": "Width",
+                     "order": 1020,
+                     "level": 3
+                  },
+                  "height": {
+                     "type": "number",
+                     "minimum": 0,
+                     "description": "Height",
+                     "_id": "height",
+                     "_path": "image.crop.height",
+                     "path": "image.crop.height",
+                     "display": {
+                        "name": "input/number",
+                        "min": 0,
+                        "fallback": {
+                           "name": "input",
+                           "type": "number"
+                        }
+                     },
+                     "title": "Height",
+                     "order": 1021,
+                     "level": 3
+                  },
+                  "x": {
+                     "type": "number",
+                     "minimum": 0,
+                     "description": "X offset",
+                     "_id": "x",
+                     "_path": "image.crop.x",
+                     "path": "image.crop.x",
+                     "display": {
+                        "name": "input/number",
+                        "min": 0,
+                        "fallback": {
+                           "name": "input",
+                           "type": "number"
+                        }
+                     },
+                     "title": "X",
+                     "order": 1022,
+                     "level": 3
+                  },
+                  "y": {
+                     "type": "number",
+                     "minimum": 0,
+                     "description": "Y offset",
+                     "_id": "y",
+                     "_path": "image.crop.y",
+                     "path": "image.crop.y",
+                     "display": {
+                        "name": "input/number",
+                        "min": 0,
+                        "fallback": {
+                           "name": "input",
+                           "type": "number"
+                        }
+                     },
+                     "title": "Y",
+                     "order": 1023,
+                     "level": 3
+                  }
+               },
+               "display": {
+                  "name": "group"
+               },
+               "title": "Crop",
+               "order": 1019,
                "level": 2
             }
          },
-         "display": {
-            "name": "group"
-         },
-         "title": "Image effect 3",
-         "order": 1022,
+         "order": 1001,
          "level": 1
       }
    },

@@ -2,13 +2,13 @@
 
 angular.module('FormarbleExample', ['formarble'])
     .run(function ($rootScope, $window) {
-        $rootScope.schema = $window.schema;
+        $rootScope.profile = $window.schema;
+        $rootScope.image = $window.schema.properties.image;
         $rootScope.model = {};
 
         var DEFAULTS = {
-            options: {
-                issue: 'tech-support',
-                priority: 'low'
+            image: {
+                quality: 75
             }
         };
 

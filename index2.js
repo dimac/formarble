@@ -227,24 +227,35 @@ exports.create = function (schema) {
     var result;
     var nodes = {};
 
-    //walk through schema, collect nodes with original and move paths
+    //walk through schema and collect nodes with original path
     walkSchema(schema, function (src, id, path, parent) {
-        //clone source node
+        //clone source node without children
         var prop = _(src).omit('properties').cloneDeep();
-
         if (path) {
-            //detect base node move
-            var baseFrom = path.slice(0, -id.length - 1);
-            var baseTo = nodes[baseFrom] && nodes[baseFrom].path;
-
-            //set paths
+            //store original path
+            prop._id = id;
             prop._path = prop._path || path;
-            prop.path = prop.path || (baseTo ? path.replace(baseFrom, baseTo) : path);
-
+            prop.path = prop.path || path;
             nodes[path] = prop;
         } else {
             //root node
             result = prop;
+        }
+    });
+
+    _.each(nodes, function (prop, id) {
+        //resolve base path
+        var base = prop._path.slice(0, -prop._id.length - 1);
+        var baseTo = nodes[base] && nodes[base].path;
+        //resolve base path move
+        if(baseTo) {
+            prop.path = prop.path.replace(base, baseTo);
+        }
+
+        if(prop.extend) {
+            //1. clone source property
+            //2. override clone, but leave original path (_path)
+            nodes[id] = _.merge(_.cloneDeep(nodes[prop.extend]), _.omit(prop, '_path'));
         }
     });
 
