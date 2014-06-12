@@ -16,31 +16,12 @@ var formats = {
 
 module.exports = {
     title: 'Image options',
-    display: {name: 'group:tab'},
+    display: {
+        name: 'tree',
+        tree: ['scale','crop','text','effects']
+    },
 
     properties: {
-        testText: {
-            type: 'string',
-            maxLength: 255,
-            order: 1
-        },
-
-        testRange: {
-            display: {
-                name: 'input/range',
-                min: 0,
-                max: 1,
-                step: 0.01
-            },
-            order: 2
-        },
-
-        testCheckbox: {
-            type: 'boolean',
-            order: 2,
-            description: 'Check for true'
-        },
-
         format: {
             display: {
                 labels: { png:'PNG', webp:'WebP', jpg:'JPG' }
@@ -83,8 +64,6 @@ module.exports = {
         //scale group
         scale: {
             title: 'Scaling options',
-            display: {name: 'fieldset'},
-
             properties: {
                 width: {
                     display: formats.size
@@ -101,17 +80,12 @@ module.exports = {
                         }
                     }
                 }
-            },
-//            order: 2,
-            group: 'scale'
+            }
         },
 
         //crop group
         crop: {
             title: 'Crop options',
-            display: {name: 'fieldset'},
-//            order: 3,
-
             properties: {
                 width: {
                     display: formats.size

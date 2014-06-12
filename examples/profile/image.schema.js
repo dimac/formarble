@@ -87,7 +87,9 @@ module.exports = {
             additionalProperties: false
         },
 
-        rotate: {type: 'number', description: 'Rotate image (degrees)', minimum: -180, maximum: 180},
+        rotate: {type: 'number', description: 'Rotate image (degrees)', minimum: -180, maximum: 180,
+            path: 'effects.rotate'
+        },
 
         // http://www.web3.lu/jpeg-chroma-subsampling/
         // http://www.sounddevices.com/notes/pix/444-vs-422-color-sampling/
@@ -100,6 +102,8 @@ module.exports = {
         // 0 - inherit quality from parent
         // NOTE: -define jpeg:preserve-settings DOESN'T WORK (checked with coders/jpeg.c)
         quality: { type: 'number', description: 'Image quality', minimum: 0, maximum: 100 },
+
+        progressive: { type: 'boolean', description: 'Create progressive image'},
 
         // http://www.imagemagick.org/Usage/formats/#png_quality
         png: {
@@ -118,15 +122,15 @@ module.exports = {
             additionalProperties: false
         },
 
-        progressive: { type: 'boolean', description: 'Create progressive image'},
+
 
         // effects:
-        brightness: {type: 'number', minimum: -100, maximum: 100},
-        contrast: {type: 'number', minimum: -100, maximum: 100},
-        exposure: {type: 'number', minimum: -100, maximum: 100},
-        grayscale: {type: 'boolean', description: 'Transform the image to black and white'},
-        blur: {type: 'number', description: 'Apply a blur effect to the image'},
-        tiltshift: {type: 'boolean', description: 'Apply a tilt-shift effect to the image'},
+        brightness: {type: 'number', minimum: -100, maximum: 100, path: 'effects.brightness'},
+        contrast: {type: 'number', minimum: -100, maximum: 100, path: 'effects.contrast'},
+        exposure: {type: 'number', minimum: -100, maximum: 100, path: 'effects.exposure'},
+        grayscale: {type: 'boolean', description: 'Transform the image to black and white', path: 'effects.greyscale'},
+        blur: {type: 'number', description: 'Apply a blur effect to the image', path: 'effects.blur'},
+        tiltshift: {type: 'boolean', description: 'Apply a tilt-shift effect to the image', path: 'effects.tiltshift'},
         frame: {
             properties: {
                 style: { type: 'string', enum: ['simple', 'mirror', 'edge', 'deckled', 'none'] },
@@ -138,7 +142,8 @@ module.exports = {
                 }
             },
             additionalProperties: false,
-            required: ['style']
+            required: ['style'],
+            path: 'effects.frame'
         },
         text: {
             properties: {
@@ -179,13 +184,14 @@ module.exports = {
             required: ['text'],
             additionalProperties: false
         },
-        colortone: { type: 'string', enum: ['sepia', 'warm', 'cold', 'sunset', 'purpletan', 'texas', 'none'] },
+        colortone: { type: 'string', enum: ['sepia', 'warm', 'cold', 'sunset', 'purpletan', 'texas', 'none'], path: 'effects.colortone' },
         vignette: {
             properties: {
                 color: { type: 'string', format: 'Color'},
                 value: { type: 'number', minimum: 0, maximum: 1 }
             },
-            additionalProperties: false
+            additionalProperties: false,
+            path: 'effects.vignette'
         }
     }
 };

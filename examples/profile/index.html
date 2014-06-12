@@ -13,62 +13,50 @@
 </head>
 <body ng-app="FormarbleExample">
 <div class="container">
-    <h1>Formarble example</h1>
+    <h1>Profile example</h1>
 
     <div>
         <form class="form-horizontal" fm-form="schema" fm-theme="bs" ng-model="model">
             <div fm-control="$control"></div>
         </form>
     </div>
-    <pre>
-        Model: {{model}}
-    </pre>
 
+    Model:
+    <pre>{{model | json}}</pre>
 </div>
 </body>
 
 <script id="bs/tree" type="text/ng-template">
-    <div class="row" fm-tree>
-        <div class="col-lg-3">
-            <ol fm-tree-sidebar="$control"></ol>
-            <!--<li ng-repeat="c in $subControls">
-                {{c.title || c.path}}
-                <ul>
-                    <li ng-repeat="cc in c.properties">
-                        <a href ng-click="$control.selected = cc">{{cc.title || cc.path}}</a>
-                        <ul></ul>
-                    </li>
-                </ul>
-            </li>-->
-        </div>
-        <div class="col-lg-9" ng-switch="!$tree.selected || $tree.selected.noGeneralOptions">
-            <div ng-switch-when="true">
-                Select group in tree first
+    <div fm-tree>
+        <h3 class="text-muted" ng-if="::!$isSubtree">{{::$control.title}}</h3>
+        <div class="row">
+            <div class="col-lg-3" ng-if="::!$isSubtree">
+                <ol fm-tree-sidebar="$control"></ol>
             </div>
-            <div ng-switch-default>
-                Selected: {{$tree.selected.title || $tree.selected.path}}
-                <div fm-control="$tree.selected"></div>
+            <div ng-class=":: {'col-lg-12': $isSubtree, 'col-lg-9': !$isSubtree}">
+                <div ng-if="!$tree.selected && $subControls.length">
+                    <div ng-repeat="c in ::$subControls" fm-control="c"></div>
+                </div>
+                <div ng-if="!$tree.selected && !$subControls.length">
+                    Select option in tree
+                </div>
+                <div ng-if="$tree.selected"t>
+                    <div fm-control="$tree.selected"></div>
+                </div>
             </div>
-
-        </div>
-        <div class="col-lg-9" ng-if="!$tree.selected">
-
         </div>
     </div>
 </script>
 <script id="bs/tree/sidebar" type="text/ng-template">
     <li ng-repeat="i in $items">
         <a href ng-click="$select(i)">{{i.title || i.path}}</a>
-        <!--<span ng-if="i.properties"> - has properties</span>-->
         <ul ng-if="$tree.isGroupOpen(i)" fm-tree-sidebar="i"></ul>
     </li>
 </script>
 <script id="bs/group" type="text/ng-template">
     <div>
-        <h2>Group: {{::$control.path}}</h2>
-
+        <p class="text-muted" ng-style="{'padding-left':$control.level*20}">{{::$control.title}}</p>
         <div ng-repeat="c in ::$subControls" fm-control="c"></div>
-
     </div>
 </script>
 <script id="bs/group:tab" type="text/ng-template">

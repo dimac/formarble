@@ -92,11 +92,16 @@ angular.module('formarble', [])
 
                 this.getProperties = function(control) {
                     if (angular.isObject(control.properties)) {
-                        return Object.keys(control.properties).map(function (key) {
-                            return control.properties[key];
-                        }).sort(function (a, b) {
-                            return a.order - b.order;
-                        })
+                        return Object.keys(control.properties)
+                            .map(function (key) {
+                                return control.properties[key];
+                            })
+                            .sort(function (a, b) {
+                                var simple = angular.isDefined(a.properties) - angular.isDefined(b.properties);
+                                var order = a.order - b.order;
+
+                                return simple || order;
+                            })
                     }
                 }
             },
@@ -151,6 +156,12 @@ angular.module('formarble', [])
 
                     if (template) {
                         elem.html(template);
+
+                        //debug html
+                        elem.css({position: 'relative'});
+                        elem.prepend('<sup class="text-muted" style="position: absolute; left: -30px">{{$control.order || "n/a"}} &#x21B4;</sup>');
+                        //--
+
                         $compile(elem.contents())(innerScope);
                     } else {
                         console.warn('fmControl: No template', template, control.display);
@@ -254,8 +265,10 @@ angular.module('formarble')
 
                 $scope.$isSubtree = angular.isDefined($element.parent().controller('fmTree'));
                 $scope.$subControls = $scope.$subControls.filter(function(sc){
+//                    console.log(sc._id);
                     return -1 === control.display.tree.indexOf(sc._id);
                 })
+//                $scope.$subControls = [];
 
                 this.selected = null;
 

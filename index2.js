@@ -266,6 +266,7 @@ exports.create = function (schema) {
 
     //resolve path for newly created nodes
     walkSchema(result, function (src, id, path, parent) {
+        src._id = src._id || id;
         src.path = src.path || path;
     })
 
