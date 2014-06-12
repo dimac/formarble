@@ -1,4 +1,7 @@
-var formarble = require('../../index');
+var formarble = require('../../index2');
 var schema = require('./contact.schema.js');
 
-console.log('window.schema =', JSON.stringify(formarble.extend(schema), null, '  '));
+var form = formarble.create(schema);
+formarble.ui(form);
+
+console.log('window.schema =', JSON.stringify(form, null, '   '));

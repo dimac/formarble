@@ -1,102 +1,134 @@
 window.schema = {
-  "title": "How can we help?",
-  "properties": {
-    "options": {
-      "properties": {
-        "issue": {
-          "type": "string",
-          "enum": [
-            "tech-support",
-            "feature-request",
-            "bug-report"
-          ],
-          "display": {
-            "name": "radio-list",
-            "inline": true
-          },
-          "title": "Issue",
-          "order": 1002,
-          "path": "options.issue",
-          "level": 2
-        },
-        "priority": {
-          "type": "string",
-          "enum": [
-            "low",
-            "normal",
-            "high",
-            "urgent"
-          ],
-          "display": {
-            "name": "radio-list",
-            "options": [
-              {
-                "id": "low",
-                "title": "Low"
-              },
-              {
-                "id": "normal",
-                "title": "Normal"
-              },
-              {
-                "id": "high",
-                "title": "High"
-              },
-              {
-                "id": "urgent",
-                "title": "Urgent"
-              }
-            ]
-          },
-          "title": "Priority",
-          "order": 1003,
-          "path": "options.priority",
-          "level": 2
-        }
+   "title": "How can we help?",
+   "required": [
+      "summary",
+      "message"
+   ],
+   "properties": {
+      "options": {
+         "_id": "options",
+         "_path": "options",
+         "path": "options",
+         "properties": {
+            "issue": {
+               "type": "string",
+               "enum": [
+                  "tech-support",
+                  "feature-request",
+                  "bug-report"
+               ],
+               "display": {
+                  "name": "radio-list",
+                  "options": [
+                     {
+                        "id": "tech-support",
+                        "title": "Tech support"
+                     },
+                     {
+                        "id": "feature-request",
+                        "title": "Feature request"
+                     },
+                     {
+                        "id": "bug-report",
+                        "title": "Bug report"
+                     }
+                  ],
+                  "inline": true,
+                  "fallback": {
+                     "name": "select"
+                  }
+               },
+               "_id": "issue",
+               "_path": "options.issue",
+               "path": "options.issue",
+               "title": "Issue",
+               "order": 1002,
+               "level": 2
+            },
+            "priority": {
+               "type": "string",
+               "enum": [
+                  "low",
+                  "normal",
+                  "high",
+                  "urgent"
+               ],
+               "display": {
+                  "name": "radio-list",
+                  "options": [
+                     {
+                        "id": "low",
+                        "title": "Low"
+                     },
+                     {
+                        "id": "normal",
+                        "title": "Normal"
+                     },
+                     {
+                        "id": "high",
+                        "title": "High"
+                     },
+                     {
+                        "id": "urgent",
+                        "title": "Urgent"
+                     }
+                  ],
+                  "fallback": {
+                     "name": "select"
+                  }
+               },
+               "_id": "priority",
+               "_path": "options.priority",
+               "path": "options.priority",
+               "title": "Priority",
+               "order": 1003,
+               "level": 2
+            }
+         },
+         "display": {
+            "name": "group"
+         },
+         "title": "Options",
+         "order": 1001,
+         "level": 1
       },
-      "display": {
-        "name": "group"
+      "summary": {
+         "type": "string",
+         "maxLength": 100,
+         "_id": "summary",
+         "_path": "summary",
+         "path": "summary",
+         "display": {
+            "name": "input",
+            "type": "text",
+            "maxlength": 100,
+            "required": true
+         },
+         "title": "Summary",
+         "order": 1004,
+         "level": 1
       },
-      "order": 1001,
-      "path": "options",
-      "level": 1
-    },
-    "summary": {
-      "type": "string",
-      "maxLength": 100,
-      "display": {
-        "name": "input",
-        "type": "text",
-        "maxlength": 100,
-        "required": true
-      },
-      "title": "Summary",
-      "order": 1004,
-      "path": "summary",
-      "level": 1
-    },
-    "message": {
-      "type": "string",
-      "maxLength": 2048,
-      "display": {
-        "name": "input",
-        "type": "text",
-        "maxlength": 2048,
-        "required": true
-      },
-      "title": "Message",
-      "order": 1005,
-      "path": "message",
-      "level": 1
-    }
-  },
-  "required": [
-    "summary",
-    "message"
-  ],
-  "display": {
-    "name": "group"
-  },
-  "order": 1000,
-  "level": 0
+      "message": {
+         "type": "string",
+         "maxLength": 2048,
+         "_id": "message",
+         "_path": "message",
+         "path": "message",
+         "display": {
+            "name": "input",
+            "type": "text",
+            "maxlength": 2048,
+            "required": true
+         },
+         "title": "Message",
+         "order": 1005,
+         "level": 1
+      }
+   },
+   "path": "",
+   "display": {
+      "name": "group"
+   },
+   "order": 1000,
+   "level": 0
 }

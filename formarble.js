@@ -117,7 +117,7 @@ angular.module('formarble', [])
             link: function (scope, elem, attrs, ctrl) {
                 var innerScope;
 
-                scope.$watchCollection(attrs.fmControl, function (control) {
+                scope.$watchCollection(attrs.fmControl || '$control', function (control) {
                     console.log('fmControl', control);
 
                     if(innerScope) {

@@ -13,37 +13,39 @@
 </head>
 <body ng-app="FormarbleExample">
 <div class="container">
-    <h1>Formarble example</h1>
+    <header>
+        <h1 class="text-muted">Formarble example</h1>
+    </header>
 
-    <div class="row" ng-init="resetLabel = 'Reset';">
-        <div class="col-md-8">
+    <section>
+        <div ng-init="resetLabel = 'Reset';">
             <form name="form" class="form-horizontal" novalidate>
+                <div class="form-group">
+                    <h2 class="col-md-push-4 col-md-8">{{schema.title}}</h2>
+                </div>
                 <div fm-form="schema" fm-theme="bs" ng-model="model"></div>
                 <div class="form-group">
                     <div class="col-sm-push-4 col-sm-8">
                         <button class="btn btn-primary" ng-click="send()" ng-disabled="form.$invalid">Send</button>
-                        <button class="btn" ng-click="reset()" fm-reset ng-disabled="form.$pristine">{{resetLabel || 'N/A'}}</button>
+                        <button class="btn" ng-click="reset()" fm-reset ng-disabled="form.$pristine">
+                            {{resetLabel || 'N/A'}}
+                        </button>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="col-md-4">
-            <form class="form-horizontal">
-                <input type="text" ng-model="model.summary"/>
-            </form>
-        </div>
-    </div>
-    <div>
-        Filtered:
-        <pre>{{modelFiltered | json}}</pre>
+    </section>
+
+    <section>
         Model:
         <pre>{{model | json}}</pre>
-    </div>
+        Filtered:
+        <pre>{{modelFiltered | json}}</pre>
+    </section>
 </div>
 </body>
 
 <script id="bs/group" type="text/ng-template">
-    <h2 ng-if="::$control.title" ng-bind="::$control.title"></h2>
     <div ng-repeat="c in ::$subControls" fm-control="c"></div>
 </script>
 <script id="bs/textarea" type="text/ng-template">
