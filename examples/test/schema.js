@@ -51,7 +51,7 @@ window.schema = {
                            "path": "image._format.jpg.quality",
                            "extend": "image.quality",
                            "title": "Quality",
-                           "order": 1004,
+                           "_order": 1004,
                            "level": 4
                         },
                         "progressive": {
@@ -64,14 +64,14 @@ window.schema = {
                               "name": "checkbox"
                            },
                            "title": "Progressive",
-                           "order": 1005,
+                           "_order": 1005,
                            "level": 4
                         }
                      },
                      "display": {
                         "name": "group"
                      },
-                     "order": 1003,
+                     "_order": 1003,
                      "level": 3
                   },
                   "png": {
@@ -98,7 +98,7 @@ window.schema = {
                               }
                            },
                            "title": "Compression",
-                           "order": 1007,
+                           "_order": 1007,
                            "level": 4
                         },
                         "filtering": {
@@ -144,14 +144,14 @@ window.schema = {
                               ]
                            },
                            "title": "Filtering",
-                           "order": 1008,
+                           "_order": 1008,
                            "level": 4
                         }
                      },
                      "display": {
                         "name": "group"
                      },
-                     "order": 1006,
+                     "_order": 1006,
                      "level": 3
                   },
                   "webp": {
@@ -178,7 +178,7 @@ window.schema = {
                            "path": "image._format.webp.quality",
                            "extend": "image.quality",
                            "title": "Quality",
-                           "order": 1010,
+                           "_order": 1010,
                            "level": 4
                         },
                         "fallback": {
@@ -208,21 +208,21 @@ window.schema = {
                            "_path": "image.webp.fallback",
                            "path": "image._format.webp.fallback",
                            "title": "Fallback",
-                           "order": 1011,
+                           "_order": 1011,
                            "level": 4
                         }
                      },
                      "display": {
                         "name": "group"
                      },
-                     "order": 1009,
+                     "_order": 1009,
                      "level": 3
                   }
                },
                "display": {
                   "name": "group"
                },
-               "order": 1002,
+               "_order": 1002,
                "level": 2
             },
             "profile": {
@@ -235,7 +235,7 @@ window.schema = {
                   "type": "text"
                },
                "title": "Profile",
-               "order": 1012,
+               "_order": 1012,
                "level": 2
             },
             "format": {
@@ -271,7 +271,7 @@ window.schema = {
                "_path": "image.format",
                "path": "image.format",
                "title": "Format",
-               "order": 1013,
+               "_order": 1013,
                "level": 2
             },
             "quality": {
@@ -291,7 +291,7 @@ window.schema = {
                "_path": "image.quality",
                "path": "image.quality",
                "title": "Quality",
-               "order": 1014,
+               "_order": 1014,
                "level": 2
             },
             "scale": {
@@ -316,7 +316,7 @@ window.schema = {
                         }
                      },
                      "title": "Width",
-                     "order": 1016,
+                     "_order": 1016,
                      "level": 3
                   },
                   "height": {
@@ -335,7 +335,7 @@ window.schema = {
                         }
                      },
                      "title": "Height",
-                     "order": 1017,
+                     "_order": 1017,
                      "level": 3
                   },
                   "option": {
@@ -371,7 +371,7 @@ window.schema = {
                         ]
                      },
                      "title": "Option",
-                     "order": 1018,
+                     "_order": 1018,
                      "level": 3
                   }
                },
@@ -379,7 +379,7 @@ window.schema = {
                   "name": "group"
                },
                "title": "Scale",
-               "order": 1015,
+               "_order": 1015,
                "level": 2
             },
             "crop": {
@@ -404,7 +404,7 @@ window.schema = {
                         }
                      },
                      "title": "Width",
-                     "order": 1020,
+                     "_order": 1020,
                      "level": 3
                   },
                   "height": {
@@ -423,7 +423,7 @@ window.schema = {
                         }
                      },
                      "title": "Height",
-                     "order": 1021,
+                     "_order": 1021,
                      "level": 3
                   },
                   "x": {
@@ -442,7 +442,7 @@ window.schema = {
                         }
                      },
                      "title": "X",
-                     "order": 1022,
+                     "_order": 1022,
                      "level": 3
                   },
                   "y": {
@@ -461,7 +461,7 @@ window.schema = {
                         }
                      },
                      "title": "Y",
-                     "order": 1023,
+                     "_order": 1023,
                      "level": 3
                   }
                },
@@ -469,15 +469,16 @@ window.schema = {
                   "name": "group"
                },
                "title": "Crop",
-               "order": 1019,
+               "_order": 1019,
                "level": 2
             }
          },
-         "order": 1001,
+         "_order": 1001,
          "level": 1
       }
    },
+   "_id": "",
    "path": "",
-   "order": 1000,
+   "_order": 1000,
    "level": 0
 }

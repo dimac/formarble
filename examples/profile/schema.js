@@ -20,7 +20,7 @@ window.schema = {
         "type": "text"
       },
       "title": "Profile",
-      "order": 1001,
+      "_order": 1001,
       "level": 1
     },
     "format": {
@@ -56,7 +56,7 @@ window.schema = {
       "_path": "format",
       "path": "format",
       "title": "Format",
-      "order": 1002,
+      "_order": 1002,
       "level": 1
     },
     "scale": {
@@ -88,7 +88,7 @@ window.schema = {
           "_path": "scale.width",
           "path": "scale.width",
           "title": "Width",
-          "order": 1004,
+          "_order": 1004,
           "level": 2
         },
         "height": {
@@ -112,7 +112,7 @@ window.schema = {
           "_path": "scale.height",
           "path": "scale.height",
           "title": "Height",
-          "order": 1005,
+          "_order": 1005,
           "level": 2
         },
         "option": {
@@ -152,14 +152,14 @@ window.schema = {
           "_path": "scale.option",
           "path": "scale.option",
           "title": "Option",
-          "order": 1006,
+          "_order": 1006,
           "level": 2
         }
       },
       "display": {
         "name": "group"
       },
-      "order": 1003,
+      "_order": 1003,
       "level": 1
     },
     "crop": {
@@ -191,7 +191,7 @@ window.schema = {
           "_path": "crop.width",
           "path": "crop.width",
           "title": "Width",
-          "order": 1008,
+          "_order": 1008,
           "level": 2
         },
         "height": {
@@ -215,7 +215,7 @@ window.schema = {
           "_path": "crop.height",
           "path": "crop.height",
           "title": "Height",
-          "order": 1009,
+          "_order": 1009,
           "level": 2
         },
         "x": {
@@ -245,7 +245,7 @@ window.schema = {
           "_path": "crop.x",
           "path": "crop.x",
           "title": "X",
-          "order": 1010,
+          "_order": 1010,
           "level": 2
         },
         "y": {
@@ -275,14 +275,14 @@ window.schema = {
           "_path": "crop.y",
           "path": "crop.y",
           "title": "Y",
-          "order": 1011,
+          "_order": 1011,
           "level": 2
         }
       },
       "display": {
         "name": "group"
       },
-      "order": 1007,
+      "_order": 1007,
       "level": 1
     },
     "thumbnail": {
@@ -303,7 +303,7 @@ window.schema = {
         }
       },
       "title": "Thumbnail",
-      "order": 1012,
+      "_order": 1012,
       "level": 1
     },
     "tile": {
@@ -330,7 +330,7 @@ window.schema = {
             }
           },
           "title": "Width",
-          "order": 1013,
+          "_order": 1013,
           "level": null
         },
         "height": {
@@ -349,7 +349,7 @@ window.schema = {
             }
           },
           "title": "Height",
-          "order": 1014,
+          "_order": 1014,
           "level": null
         },
         "number": {
@@ -367,7 +367,7 @@ window.schema = {
             }
           },
           "title": "Number",
-          "order": 1015,
+          "_order": 1015,
           "level": null
         }
       },
@@ -393,7 +393,7 @@ window.schema = {
             }
           },
           "title": "Rotate",
-          "order": 1017,
+          "_order": 1017,
           "level": 2
         },
         "brightness": {
@@ -413,7 +413,7 @@ window.schema = {
             }
           },
           "title": "Brightness",
-          "order": 1018,
+          "_order": 1018,
           "level": 2
         },
         "contrast": {
@@ -433,7 +433,7 @@ window.schema = {
             }
           },
           "title": "Contrast",
-          "order": 1019,
+          "_order": 1019,
           "level": 2
         },
         "exposure": {
@@ -453,7 +453,7 @@ window.schema = {
             }
           },
           "title": "Exposure",
-          "order": 1020,
+          "_order": 1020,
           "level": 2
         },
         "greyscale": {
@@ -466,7 +466,7 @@ window.schema = {
             "name": "checkbox"
           },
           "title": "Greyscale",
-          "order": 1021,
+          "_order": 1021,
           "level": 2
         },
         "blur": {
@@ -483,7 +483,7 @@ window.schema = {
             }
           },
           "title": "Blur",
-          "order": 1022,
+          "_order": 1022,
           "level": 2
         },
         "tiltshift": {
@@ -496,7 +496,7 @@ window.schema = {
             "name": "checkbox"
           },
           "title": "Tiltshift",
-          "order": 1023,
+          "_order": 1023,
           "level": 2
         },
         "frame": {
@@ -547,7 +547,7 @@ window.schema = {
                 "required": true
               },
               "title": "Style",
-              "order": 1025,
+              "_order": 1025,
               "level": 3
             },
             "color": {
@@ -564,7 +564,7 @@ window.schema = {
                 }
               },
               "title": "Color",
-              "order": 1026,
+              "_order": 1026,
               "level": 3
             },
             "width": {
@@ -580,7 +580,7 @@ window.schema = {
                 }
               },
               "title": "Width",
-              "order": 1027,
+              "_order": 1027,
               "level": 3
             },
             "rim": {
@@ -599,7 +599,7 @@ window.schema = {
             "name": "group"
           },
           "title": "Frame",
-          "order": 1024,
+          "_order": 1024,
           "level": 2
         },
         "colortone": {
@@ -650,7 +650,7 @@ window.schema = {
             ]
           },
           "title": "Colortone",
-          "order": 1028,
+          "_order": 1028,
           "level": 2
         },
         "vignette": {
@@ -673,7 +673,7 @@ window.schema = {
                 }
               },
               "title": "Color",
-              "order": 1030,
+              "_order": 1030,
               "level": 3
             },
             "value": {
@@ -694,7 +694,7 @@ window.schema = {
               "_path": "vignette.value",
               "path": "effects.vignette.value",
               "title": "Value",
-              "order": 1031,
+              "_order": 1031,
               "level": 3
             }
           },
@@ -702,7 +702,7 @@ window.schema = {
             "name": "group"
           },
           "title": "Vignette",
-          "order": 1029,
+          "_order": 1029,
           "level": 2
         }
       },
@@ -712,7 +712,7 @@ window.schema = {
         "name": "group"
       },
       "title": "Effects",
-      "order": 1016,
+      "_order": 1016,
       "level": 1
     },
     "subsampling": {
@@ -746,7 +746,7 @@ window.schema = {
       "_path": "subsampling",
       "path": "subsampling",
       "title": "Subsampling",
-      "order": 1032,
+      "_order": 1032,
       "level": 1
     },
     "quality": {
@@ -754,6 +754,7 @@ window.schema = {
       "description": "Image quality",
       "minimum": 0,
       "maximum": 100,
+      "order": 2,
       "_id": "quality",
       "_path": "quality",
       "path": "quality",
@@ -767,12 +768,13 @@ window.schema = {
         }
       },
       "title": "Quality",
-      "order": 1033,
+      "_order": 1033,
       "level": 1
     },
     "progressive": {
       "type": "boolean",
       "description": "Create progressive image",
+      "order": 1,
       "_id": "progressive",
       "_path": "progressive",
       "path": "progressive",
@@ -780,7 +782,7 @@ window.schema = {
         "name": "checkbox"
       },
       "title": "Progressive",
-      "order": 1034,
+      "_order": 1034,
       "level": 1
     },
     "png": {
@@ -807,7 +809,7 @@ window.schema = {
             }
           },
           "title": "Compression",
-          "order": 1036,
+          "_order": 1036,
           "level": 2
         },
         "filtering": {
@@ -853,7 +855,7 @@ window.schema = {
             ]
           },
           "title": "Filtering",
-          "order": 1037,
+          "_order": 1037,
           "level": 2
         }
       },
@@ -861,7 +863,7 @@ window.schema = {
         "name": "group"
       },
       "title": "Png",
-      "order": 1035,
+      "_order": 1035,
       "level": 1
     },
     "webp": {
@@ -893,7 +895,7 @@ window.schema = {
             ]
           },
           "title": "Fallback",
-          "order": 1039,
+          "_order": 1039,
           "level": 2
         }
       },
@@ -901,7 +903,7 @@ window.schema = {
         "name": "group"
       },
       "title": "Webp",
-      "order": 1038,
+      "_order": 1038,
       "level": 1
     },
     "text": {
@@ -941,7 +943,7 @@ window.schema = {
             ]
           },
           "title": "Style",
-          "order": 1041,
+          "_order": 1041,
           "level": 2
         },
         "font": {
@@ -959,7 +961,7 @@ window.schema = {
                 "type": "text"
               },
               "title": "Family",
-              "order": 1043,
+              "_order": 1043,
               "level": 3
             },
             "weight": {
@@ -1025,7 +1027,7 @@ window.schema = {
                 ]
               },
               "title": "Weight",
-              "order": 1044,
+              "_order": 1044,
               "level": 3
             },
             "style": {
@@ -1051,7 +1053,7 @@ window.schema = {
                 ]
               },
               "title": "Style",
-              "order": 1045,
+              "_order": 1045,
               "level": 3
             },
             "size": {
@@ -1074,7 +1076,7 @@ window.schema = {
             "name": "group"
           },
           "title": "Font",
-          "order": 1042,
+          "_order": 1042,
           "level": 2
         },
         "text": {
@@ -1090,7 +1092,7 @@ window.schema = {
             "required": true
           },
           "title": "Text",
-          "order": 1046,
+          "_order": 1046,
           "level": 2
         },
         "color": {
@@ -1107,7 +1109,7 @@ window.schema = {
             }
           },
           "title": "Color",
-          "order": 1047,
+          "_order": 1047,
           "level": 2
         },
         "opacity": {
@@ -1127,7 +1129,7 @@ window.schema = {
             }
           },
           "title": "Opacity",
-          "order": 1048,
+          "_order": 1048,
           "level": 2
         },
         "background": {
@@ -1149,7 +1151,7 @@ window.schema = {
                 }
               },
               "title": "Color",
-              "order": 1050,
+              "_order": 1050,
               "level": 3
             },
             "opacity": {
@@ -1169,7 +1171,7 @@ window.schema = {
               "_path": "text.background.opacity",
               "path": "text.background.opacity",
               "title": "Opacity",
-              "order": 1051,
+              "_order": 1051,
               "level": 3
             }
           },
@@ -1177,7 +1179,7 @@ window.schema = {
             "name": "group"
           },
           "title": "Background",
-          "order": 1049,
+          "_order": 1049,
           "level": 2
         },
         "outline": {
@@ -1199,7 +1201,7 @@ window.schema = {
                 }
               },
               "title": "Color",
-              "order": 1053,
+              "_order": 1053,
               "level": 3
             },
             "width": {
@@ -1217,7 +1219,7 @@ window.schema = {
                 }
               },
               "title": "Width",
-              "order": 1054,
+              "_order": 1054,
               "level": 3
             }
           },
@@ -1225,7 +1227,7 @@ window.schema = {
             "name": "group"
           },
           "title": "Outline",
-          "order": 1052,
+          "_order": 1052,
           "level": 2
         },
         "size": {
@@ -1239,7 +1241,7 @@ window.schema = {
             "type": "text"
           },
           "title": "Size",
-          "order": 1055,
+          "_order": 1055,
           "level": 2
         },
         "position": {
@@ -1300,7 +1302,7 @@ window.schema = {
             ]
           },
           "title": "Position",
-          "order": 1056,
+          "_order": 1056,
           "level": 2
         }
       },
@@ -1308,12 +1310,12 @@ window.schema = {
         "name": "group"
       },
       "title": "Text",
-      "order": 1040,
+      "_order": 1040,
       "level": 1
     }
   },
   "_id": "",
   "path": "",
-  "order": 1000,
+  "_order": 1000,
   "level": 0
 }

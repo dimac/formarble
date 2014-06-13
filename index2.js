@@ -308,8 +308,8 @@ exports.ui = function (schema) {
         }
 
         //resolve display order
-        if (!isDefined(prop.order)) {
-            prop.order = orderIndexStart++;
+        if (!isDefined(prop._order)) {
+            prop._order = orderIndexStart++;
         }
 
         if (parent) {

@@ -42,7 +42,7 @@ window.schema = {
                "_path": "options.issue",
                "path": "options.issue",
                "title": "Issue",
-               "order": 1002,
+               "_order": 1002,
                "level": 2
             },
             "priority": {
@@ -81,7 +81,7 @@ window.schema = {
                "_path": "options.priority",
                "path": "options.priority",
                "title": "Priority",
-               "order": 1003,
+               "_order": 1003,
                "level": 2
             }
          },
@@ -89,7 +89,7 @@ window.schema = {
             "name": "group"
          },
          "title": "Options",
-         "order": 1001,
+         "_order": 1001,
          "level": 1
       },
       "summary": {
@@ -105,7 +105,7 @@ window.schema = {
             "required": true
          },
          "title": "Summary",
-         "order": 1004,
+         "_order": 1004,
          "level": 1
       },
       "message": {
@@ -121,14 +121,15 @@ window.schema = {
             "required": true
          },
          "title": "Message",
-         "order": 1005,
+         "_order": 1005,
          "level": 1
       }
    },
+   "_id": "",
    "path": "",
    "display": {
       "name": "group"
    },
-   "order": 1000,
+   "_order": 1000,
    "level": 0
 }

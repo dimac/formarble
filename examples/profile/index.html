@@ -28,7 +28,9 @@
 
 <script id="bs/tree" type="text/ng-template">
     <div fm-tree>
-        <h3 class="text-muted" ng-if="::!$isSubtree">{{::$control.title}}</h3>
+        <h3 class="text-muted" ng-if="::!$isSubtree">
+            <a href ng-click="$tree.select()">{{::$control.title}}</a></h3>
+        </h3>
         <div class="row">
             <div class="col-lg-3" ng-if="::!$isSubtree">
                 <ol fm-tree-sidebar="$control"></ol>

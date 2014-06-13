@@ -97,10 +97,19 @@ angular.module('formarble', [])
                                 return control.properties[key];
                             })
                             .sort(function (a, b) {
-                                var simple = angular.isDefined(a.properties) - angular.isDefined(b.properties);
-                                var order = a.order - b.order;
+                                if(angular.isDefined(a.order) && angular.isDefined(b.order)) {
+                                    return a.order - b.order;
+                                }
 
-                                return simple || order;
+                                if(angular.isDefined(a.order)) {
+                                    return -1;
+                                }
+
+                                if(angular.isDefined(b.order)) {
+                                    return 1;
+                                }
+
+                                return a._order - b._order;
                             })
                     }
                 }
@@ -122,8 +131,8 @@ angular.module('formarble', [])
             link: function (scope, elem, attrs, ctrl) {
                 var innerScope;
 
-                scope.$watchCollection(attrs.fmControl || '$control', function (control) {
-                    console.log('fmControl', control);
+                scope.$watch(attrs.fmControl || '$control', function (control, old) {
+//                    console.log('fmControl', control);
 
                     if(innerScope) {
                         innerScope.$destroy();
@@ -159,7 +168,7 @@ angular.module('formarble', [])
 
                         //debug html
                         elem.css({position: 'relative'});
-                        elem.prepend('<sup class="text-muted" style="position: absolute; left: -30px">{{$control.order || "n/a"}} &#x21B4;</sup>');
+                        elem.prepend('<sup class="text-muted" style="position: absolute; left: -30px">{{$control._order || "n/a"}} ({{$control.order || "n/a"}}) &#x21B4;</sup>');
                         //--
 
                         $compile(elem.contents())(innerScope);

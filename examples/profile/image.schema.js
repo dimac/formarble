@@ -101,9 +101,9 @@ module.exports = {
         // jpeg and webp only
         // 0 - inherit quality from parent
         // NOTE: -define jpeg:preserve-settings DOESN'T WORK (checked with coders/jpeg.c)
-        quality: { type: 'number', description: 'Image quality', minimum: 0, maximum: 100 },
+        quality: { type: 'number', description: 'Image quality', minimum: 0, maximum: 100, order: 2},
 
-        progressive: { type: 'boolean', description: 'Create progressive image'},
+        progressive: { type: 'boolean', description: 'Create progressive image', order: 1},
 
         // http://www.imagemagick.org/Usage/formats/#png_quality
         png: {
