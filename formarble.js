@@ -70,13 +70,6 @@ angular.module('formarble', [])
 
             controller: function ($scope, $attrs) {
                 var theme = $attrs.fmTheme || 'formarble';
-//                this.set = function (path, value) {
-//                    objSet($scope.$model, path, value);
-//                }
-//
-//                this.get = function (path) {
-//                    return objGet($scope.$model, path);
-//                }
 
                 this.getTemplate = function(display) {
                     return fm.getTemplate(theme, display);
@@ -127,9 +120,28 @@ angular.module('formarble', [])
         return {
             require: '^fmForm',
             restrict: 'EA',
-            scope: true,
             link: function (scope, elem, attrs, ctrl) {
-                var innerScope;
+                var control = scope.$eval(attrs.fmControl || '$control');
+                var innerScope = scope.$new();
+
+                attrs.$set('fmControl', null);
+                attrs.$set('ngRepeat', null);
+                attrs.$set(control.display.name, '');
+
+//                var innerElem = angular.element('<div></div>')
+//                    .attr(control.display);
+
+                control.$id = ctrl.getControlId(control);
+                control.$model = ctrl.getControlModel(control);
+
+                innerScope.$control = control;
+                innerScope.$subControls = ctrl.getProperties(control);
+
+                console.log(control.display.name);
+
+                $compile(elem)(innerScope);
+                return;
+                /*var innerScope;
 
                 scope.$watch(attrs.fmControl || '$control', function (control, old) {
 //                    console.log('fmControl', control);
@@ -175,7 +187,7 @@ angular.module('formarble', [])
                     } else {
                         console.warn('fmControl: No template', template, control.display);
                     }
-                })
+                })*/
             }
 
         }
@@ -325,5 +337,25 @@ angular.module('formarble')
                     tree.select(item);
                 }
             }
+        }
+    })
+
+angular.module('formarble')
+    .directive('fmInputGroup', function(){
+        return {
+            restrict: 'A',
+            templateUrl: 'bs/group'
+        };
+    })
+    .directive('fmInputText', function(){
+        return {
+            restrict: 'A',
+            templateUrl: 'bs/input'
+        }
+    })
+    .directive('fmRadioList', function(){
+        return {
+            restrict: 'A',
+            templateUrl: 'bs/radiolist'
         }
     })

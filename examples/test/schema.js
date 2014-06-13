@@ -69,7 +69,7 @@ window.schema = {
                         }
                      },
                      "display": {
-                        "name": "group"
+                        "name": "form-group"
                      },
                      "_order": 1003,
                      "level": 3
@@ -149,7 +149,7 @@ window.schema = {
                         }
                      },
                      "display": {
-                        "name": "group"
+                        "name": "form-group"
                      },
                      "_order": 1006,
                      "level": 3
@@ -213,14 +213,14 @@ window.schema = {
                         }
                      },
                      "display": {
-                        "name": "group"
+                        "name": "form-group"
                      },
                      "_order": 1009,
                      "level": 3
                   }
                },
                "display": {
-                  "name": "group"
+                  "name": "form-group"
                },
                "_order": 1002,
                "level": 2
@@ -376,7 +376,7 @@ window.schema = {
                   }
                },
                "display": {
-                  "name": "group"
+                  "name": "form-group"
                },
                "title": "Scale",
                "_order": 1015,
@@ -466,7 +466,7 @@ window.schema = {
                   }
                },
                "display": {
-                  "name": "group"
+                  "name": "form-group"
                },
                "title": "Crop",
                "_order": 1019,

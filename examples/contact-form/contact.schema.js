@@ -11,7 +11,7 @@ module.exports = {
                     enum: ['tech-support', 'feature-request', 'bug-report'],
 
                     display: {
-                        name: 'radio-list',
+                        name: 'fm-radio-list',
                         inline: true
                     }
                 },
@@ -21,7 +21,7 @@ module.exports = {
                     enum: ['low', 'normal', 'high', 'urgent'],
 
                     display: {
-                        name: 'radio-list'
+                        name: 'fm-radio-list'
                     }
                 }
             }
