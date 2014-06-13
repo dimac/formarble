@@ -1,13 +1,17 @@
 "use strict";
 
-module.exports = {
-    title: 'Profile',
-    display: {name: 'tree' },
+var _ = require('lodash');
+var formarble = require('../..');
 
-    properties: {
-        image: require('./image.form.js'),
-        spin: require('./spin.form.js')
-    }
+var form = {
+    title: 'Profile',
+    display: {name: 'tree', tree: ['image', 'spin'] }
 }
 
-module.exports.properties.image.display = module.exports.properties.spin.display = 'group';
+var image = require('./image.form.js');
+var spin = require('./spin.form.js');
+
+formarble.setChild(form, 'image', image, {title: 'Image settings'});
+formarble.setChild(form, 'spin', spin, {title: 'Spin settings'});
+
+module.exports = form;

@@ -274,7 +274,7 @@ exports.create = function (schema) {
 }
 
 exports.merge = function (dest, src) {
-    return _.merge(dest, src);
+    return _.merge(_.cloneDeep(dest), src);
 }
 
 exports.ui = function (schema) {
@@ -325,5 +325,23 @@ exports.ui = function (schema) {
             prop.level = 0;
         }
     })
+}
+
+exports.setChild = function(parent, path, child, extend) {
+    child = _.cloneDeep(child);
+    _.extend(child, extend);
+
+//    child.path = path;
+
+    walkSchema(child, function(prop, propId, propPath, parent){
+        if(prop.path){
+            prop.path = path + '.' + prop.path;
+        }
+        if(prop.extend){
+            prop.extend = path + '.' + prop.extend;
+        }
+    })
+
+    schemaSet(parent, path, child);
 }
 

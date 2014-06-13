@@ -1,8 +1,9 @@
 "use strict";
+var _ = require('lodash');
 
 module.exports = {
     properties: {
-        image: require('./image.schema.js'),
-        spin: require('./spin.schema.js')
+        image: _.cloneDeep(require('./image.schema.js')),
+        spin: _.cloneDeep(require('./spin.schema.js'))
     }
 }

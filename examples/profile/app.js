@@ -5,7 +5,9 @@ angular.module('FormarbleExample', ['formarble'])
         $rootScope.schema = $window.schema;
         $rootScope.model = {
             image: {
-                testText: 'some test text'
+                text: {
+                    text: 'Intial text value'
+                },
             }
         };
 

@@ -1,5 +1,7 @@
 "use strict";
 
+var _ = require('lodash');
+
 var formats = {
     offset: {
         name: 'input',
@@ -31,11 +33,48 @@ module.exports = {
         subsampling: {
             display: {
                 labels: {'4:4:4':'4:4:4 - Best quality'}
+            },
+            path: 'jpeg.subsampling'
+        },
+        progressive: {
+            path: 'jpeg.progressive'
+        },
+        quality: {
+            display: {name: 'input/range'},
+
+            path: 'jpeg.quality'
+        },
+
+        webp: {
+            properties: {
+                quality: {
+                    extend: 'quality'
+                }
             }
         },
 
+        //effects
+        brightness: {path: 'effects.brightness', order: 1},
+        contrast: {path: 'effects.contrast', order: 2},
+        exposure: {path: 'effects.exposure', order: 3},
+        grayscale: {path: 'effects.grayscale', order: 4},
+        colortone: {path: 'effects.colortone', order: 5},
+        blur: {path: 'effects.blur', order: 6},
+
+        rotate: {path: 'effects.rotate'},
+        tiltshift: {path: 'effects.tiltshift'},
+
+        vignette: {path: 'effects.vignette'},
+        frame: {path: 'effects.frame'},
+        //--effects
+
         text: {
+            title: 'Text overlay',
+
             properties: {
+                text: {
+                    order: 1
+                },
                 background: {
                     properties: {
                         opacity: {
@@ -43,19 +82,6 @@ module.exports = {
                                 name: 'input/range'
                             }
                         }
-                    }
-                }
-            }
-        },
-
-        vignette: {
-            properties: {
-                value: {
-                    display: {
-                        name: 'input/range',
-                        min: 0,
-                        max: 1,
-                        step: 0.01
                     }
                 }
             }
@@ -100,6 +126,10 @@ module.exports = {
                     display: formats.offset
                 }
             }
+        },
+
+        thumbnail: {
+            path: 'crop.thumbnail'
         }
     }
 }

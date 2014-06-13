@@ -167,8 +167,8 @@ angular.module('formarble', [])
                         elem.html(template);
 
                         //debug html
-                        elem.css({position: 'relative'});
-                        elem.prepend('<sup class="text-muted" style="position: absolute; left: -30px">{{$control._order || "n/a"}} ({{$control.order || "n/a"}}) &#x21B4;</sup>');
+//                        elem.css({position: 'relative'});
+//                        elem.prepend('<sup class="text-muted" style="position: absolute; left: -30px">{{$control._order || "n/a"}} ({{$control.order || "n/a"}}) &#x21B4;</sup>');
                         //--
 
                         $compile(elem.contents())(innerScope);

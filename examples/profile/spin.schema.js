@@ -4,11 +4,8 @@ var image = require('./image.schema.js');
 var _ = require('lodash');
 
 module.exports = {
-    title: 'image',
-
     properties: {
         images: {
-            group: 'root.images',
             properties: {
                 main: _.cloneDeep(image),
                 zoom: _.cloneDeep(image),
