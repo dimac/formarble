@@ -1,4 +1,4 @@
-var formarble = require('../../index2');
+var formarble = require('../../');
 var schema = require('./contact.schema.js');
 
 var form = formarble.create(schema);

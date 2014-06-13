@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var formarble = require('../../index2.js');
+var formarble = require('../../');
 
 var srcSchema = require('./image.schema.js');
 var srcSchemaExtension = require('./image.form.js');

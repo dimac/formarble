@@ -1,4 +1,4 @@
-var formarble = require('../../index2');
+var formarble = require('../../');
 var schema = require('./test.schema.js');
 
 var form = formarble.create(schema.schema);
