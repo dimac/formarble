@@ -116,45 +116,35 @@ angular.module('formarble', [])
             }
         }
     })
-    .directive('fmControl', function ($compile) {
+    .directive('fmControl', function ($compile, $injector) {
+        var directiveSuffix = 'Directive';
+
         return {
             require: '^fmForm',
-            restrict: 'EA',
+            terminal: true,
             link: function (scope, elem, attrs, ctrl) {
-                var control = scope.$eval(attrs.fmControl || '$control');
-                var innerScope = scope.$new();
+                var controlBinding = attrs.fmControl || '$control',
+                    previousScope,
+                    previousName;
 
-                attrs.$set('fmControl', null);
-                attrs.$set('ngRepeat', null);
-                attrs.$set(control.display.name, '');
+                scope.$watch(controlBinding, function (control) {
+                    var directiveName = attrs.$normalize(control.display.name),
+                        innerScope;
 
-//                var innerElem = angular.element('<div></div>')
-//                    .attr(control.display);
-
-                control.$id = ctrl.getControlId(control);
-                control.$model = ctrl.getControlModel(control);
-
-                innerScope.$control = control;
-                innerScope.$subControls = ctrl.getProperties(control);
-
-                console.log(control.display.name);
-
-                $compile(elem)(innerScope);
-                return;
-                /*var innerScope;
-
-                scope.$watch(attrs.fmControl || '$control', function (control, old) {
-//                    console.log('fmControl', control);
-
-                    if(innerScope) {
-                        innerScope.$destroy();
-                    }
-
-                    if (!control || !control.display) {
+                    if (!$injector.has(directiveName + directiveSuffix)) {
+                        console.warn('No directive', directiveName, 'defined', control);
                         return;
                     }
 
-                    innerScope = scope.$new();
+                    previousScope && previousScope.$destroy();
+                    previousName && attrs.$set(previousName, null);
+
+                    previousScope = innerScope = scope.$new();
+                    previousName = directiveName;
+
+                    attrs.$set('fmControl', null);
+                    attrs.$set('ngRepeat', null);
+                    attrs.$set(directiveName, '');
 
                     control.$id = ctrl.getControlId(control);
                     control.$model = ctrl.getControlModel(control);
@@ -163,31 +153,11 @@ angular.module('formarble', [])
                     innerScope.$subControls = ctrl.getProperties(control);
 
                     innerScope.$watch(control.$model, function (value) {
-                        scope.$value = value;
-                    })
+                        innerScope.$value = value;
+                    });
 
-                    var template = ctrl.getTemplate(control.display);
-                    if (!template) {
-                        //try fallback
-                        template = ctrl.getTemplate(control.display.fallback)
-                        if (template) {
-                            angular.extend(control.display, angular.isString(control.display.fallback) ? {name: control.display.fallback} : control.display.fallback);
-                        }
-                    }
-
-                    if (template) {
-                        elem.html(template);
-
-                        //debug html
-//                        elem.css({position: 'relative'});
-//                        elem.prepend('<sup class="text-muted" style="position: absolute; left: -30px">{{$control._order || "n/a"}} ({{$control.order || "n/a"}}) &#x21B4;</sup>');
-                        //--
-
-                        $compile(elem.contents())(innerScope);
-                    } else {
-                        console.warn('fmControl: No template', template, control.display);
-                    }
-                })*/
+                    $compile(elem)(innerScope);
+                })
             }
 
         }
@@ -280,17 +250,16 @@ angular.module('formarble', [])
 angular.module('formarble')
     .directive('fmTree', function () {
         return {
+            templateUrl: 'bs/tree',
             scope: true,
+            controllerAs: '$tree',
             controller: function ($scope, $element, $attrs) {
                 var control = $scope.$eval($attrs.fmTree || '$control');
 
                 $scope.$isSubtree = angular.isDefined($element.parent().controller('fmTree'));
                 $scope.$subControls = $scope.$subControls.filter(function(sc){
-//                    console.log(sc._id);
                     return -1 === control.display.tree.indexOf(sc._id);
                 })
-//                $scope.$subControls = [];
-
                 this.selected = null;
 
                 this.select = function (item) {
@@ -308,8 +277,6 @@ angular.module('formarble')
 //                    }
                     return isOpen;
                 }
-
-                $scope.$tree = this;
             }
         }
     })
@@ -353,9 +320,34 @@ angular.module('formarble')
             templateUrl: 'bs/input'
         }
     })
+    .directive('fmInputNumber', function () {
+        return {
+            restrict: 'A',
+            templateUrl: 'bs/input'
+        }
+    })
+    .directive('fmCheckbox', function () {
+        return {
+            restrict: 'A',
+            templateUrl: 'bs/checkbox'
+        }
+    })
+    .directive('fmInputRange', function () {
+        return {
+            restrict: 'A',
+            templateUrl: 'bs/input/range'
+        }
+    })
+
     .directive('fmRadioList', function(){
         return {
             restrict: 'A',
             templateUrl: 'bs/radiolist'
+        }
+    })
+    .directive('fmSelect', function () {
+        return {
+            restrict: 'A',
+            templateUrl: 'bs/select'
         }
     })

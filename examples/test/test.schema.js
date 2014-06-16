@@ -4,7 +4,7 @@ exports.schema = {
     title: 'Profile config',
 
     display: {
-        name: 'tree',
+        name: 'fmTree',
         tree: [
             'image'
         ]
@@ -16,7 +16,7 @@ exports.schema = {
             title: 'Image settings',
 
             display: {
-                name: 'tree',
+                name: 'fmTree',
                 tree: [
                     '_format',
                     'scale',
@@ -59,7 +59,7 @@ exports.schema = {
                     maximum: 100,
 
                     display: {
-                        name: 'input/range'
+                        name: 'fm-input-range'
                     }
                 },
 
