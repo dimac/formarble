@@ -18,7 +18,7 @@ window.schema = {
                   "bug-report"
                ],
                "display": {
-                  "name": "radio-list",
+                  "name": "fm-radio-list",
                   "options": [
                      {
                         "id": "tech-support",
@@ -33,10 +33,7 @@ window.schema = {
                         "title": "Bug report"
                      }
                   ],
-                  "inline": true,
-                  "fallback": {
-                     "name": "select"
-                  }
+                  "inline": true
                },
                "_id": "issue",
                "_path": "options.issue",
@@ -54,7 +51,7 @@ window.schema = {
                   "urgent"
                ],
                "display": {
-                  "name": "radio-list",
+                  "name": "fm-radio-list",
                   "options": [
                      {
                         "id": "low",
@@ -72,10 +69,7 @@ window.schema = {
                         "id": "urgent",
                         "title": "Urgent"
                      }
-                  ],
-                  "fallback": {
-                     "name": "select"
-                  }
+                  ]
                },
                "_id": "priority",
                "_path": "options.priority",
@@ -86,7 +80,7 @@ window.schema = {
             }
          },
          "display": {
-            "name": "group"
+            "name": "fm-input-group"
          },
          "title": "Options",
          "_order": 1001,
@@ -99,7 +93,7 @@ window.schema = {
          "_path": "summary",
          "path": "summary",
          "display": {
-            "name": "input",
+            "name": "fm-input",
             "type": "text",
             "maxlength": 100,
             "required": true
@@ -111,15 +105,15 @@ window.schema = {
       "message": {
          "type": "string",
          "maxLength": 2048,
-         "_id": "message",
-         "_path": "message",
-         "path": "message",
          "display": {
-            "name": "input",
+            "name": "fm-textarea",
             "type": "text",
             "maxlength": 2048,
             "required": true
          },
+         "_id": "message",
+         "_path": "message",
+         "path": "message",
          "title": "Message",
          "_order": 1005,
          "level": 1
@@ -128,7 +122,7 @@ window.schema = {
    "_id": "",
    "path": "",
    "display": {
-      "name": "group"
+      "name": "fm-input-group"
    },
    "_order": 1000,
    "level": 0

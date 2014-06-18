@@ -46,16 +46,23 @@
 </body>
 
 <script id="bs/group" type="text/ng-template">
+    <h2>Group: {{$control.$model}}</h2>
     <div ng-repeat="c in ::$subControls" fm-control="c"></div>
+</script>
+<script id="bs/control-label" type="text/ng-template">
+    {{:: $control.title}}
+    <a class="control-help" ng-if="::$control.display.hint" title="{{::$control.display.hint}}">
+        <i class="glyphicon glyphicon-info-sign"></i>
+    </a>
 </script>
 <script id="bs/textarea" type="text/ng-template">
     <div class="form-group" ng-class="{'has-error': $input.$dirty && $input.$invalid}">
-        <label class="control-label col-sm-4" fm-label>
-            {{:: $control.title || $control.path}}
+        <label class="control-label col-sm-4" fm-control-label>
+        {{:: $control.title || $control.path}}
         </label>
 
         <div class="col-sm-8">
-            <textarea class="form-control" fm-input/>
+            <textarea class="form-control" fm-control-input/>
 
             <p class="help-block">{{:: $control.description}}</p>
         </div>
@@ -63,12 +70,10 @@
 </script>
 <script id="bs/input" type="text/ng-template">
     <div class="form-group" ng-class="{'has-error': $input.$dirty && $input.$invalid}">
-        <label class="control-label col-sm-4" fm-label>
-            {{:: $control.title || $control.path}}
-        </label>
+        <label class="control-label col-sm-4" fm-control-label></label>
 
         <div class="col-sm-8">
-            <input class="form-control" fm-input/>
+            <input class="form-control" fm-control-input/>
 
             <p class="help-block">{{:: $control.description}}</p>
         </div>
@@ -76,14 +81,12 @@
 </script>
 <script id="bs/checkbox" type="text/ng-template">
     <div class="form-group">
-        <label class="control-label col-sm-4" fm-label>
-            {{:: $control.title || $control.path}}
-        </label>
+        <label class="control-label col-sm-4" fm-control-label></label>
 
         <div class="col-sm-8">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" fm-input> {{:: $control.description}}
+                    <input type="checkbox" fm-control-input> {{:: $control.description}}
                 </label>
             </div>
         </div>
@@ -91,15 +94,13 @@
 </script>
 <script id="bs/radiolist" type="text/ng-template">
     <div class="form-group">
-        <label class="control-label col-sm-4">
-            {{:: $control.title || $control.path}}
-        </label>
+        <label class="control-label col-sm-4" fm-control-label for></label>
 
         <div class="col-sm-8">
             <div class="radio" ng-class="{'radio-inline': $control.display.inline}"
                  ng-repeat="li in $control.display.options">
                 <label>
-                    <input type="radio" fm-input ng-value="li.id"/> {{::
+                    <input type="radio" fm-control-input ng-value="li.id"/> {{::
                     li.title}}
                 </label>
             </div>
@@ -108,10 +109,10 @@
 </script>
 <script id="bs/select" type="text/ng-template">
     <div class="form-group">
-        <label class="control-label col-sm-4" fm-label>{{:: $control.title || $control.path}}</label>
+        <label class="control-label col-sm-4" fm-control-label></label>
 
         <div class="col-sm-8">
-            <select class="form-control" fm-input></select>
+            <select class="form-control" fm-control-input></select>
         </div>
     </div>
 </script>

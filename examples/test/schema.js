@@ -1,7 +1,7 @@
 window.schema = {
    "title": "Profile config",
    "display": {
-      "name": "tree",
+      "name": "fmTree",
       "tree": [
          "image"
       ]
@@ -10,7 +10,7 @@ window.schema = {
       "image": {
          "title": "Image settings",
          "display": {
-            "name": "tree",
+            "name": "fmTree",
             "tree": [
                "_format",
                "scale",
@@ -38,13 +38,10 @@ window.schema = {
                            "minimum": 0,
                            "maximum": 100,
                            "display": {
-                              "name": "input/range",
+                              "name": "fm-input-range",
+                              "type": "number",
                               "max": 100,
-                              "min": 0,
-                              "fallback": {
-                                 "name": "input",
-                                 "type": "range"
-                              }
+                              "min": 0
                            },
                            "_id": "quality",
                            "_path": "image.quality",
@@ -61,7 +58,7 @@ window.schema = {
                            "_id": "progressive",
                            "_path": "image.progressive",
                            "display": {
-                              "name": "checkbox"
+                              "name": "fm-checkbox"
                            },
                            "title": "Progressive",
                            "_order": 1005,
@@ -69,7 +66,7 @@ window.schema = {
                         }
                      },
                      "display": {
-                        "name": "group"
+                        "name": "fm-input-group"
                      },
                      "_order": 1003,
                      "level": 3
@@ -89,13 +86,10 @@ window.schema = {
                            "_path": "image.png.compression",
                            "path": "image._format.png.compression",
                            "display": {
-                              "name": "input/number",
+                              "name": "fm-input",
+                              "type": "number",
                               "max": 9,
-                              "min": 0,
-                              "fallback": {
-                                 "name": "input",
-                                 "type": "number"
-                              }
+                              "min": 0
                            },
                            "title": "Compression",
                            "_order": 1007,
@@ -115,7 +109,7 @@ window.schema = {
                            "_path": "image.png.filtering",
                            "path": "image._format.png.filtering",
                            "display": {
-                              "name": "select",
+                              "name": "fm-select",
                               "options": [
                                  {
                                     "id": "none",
@@ -149,7 +143,7 @@ window.schema = {
                         }
                      },
                      "display": {
-                        "name": "group"
+                        "name": "fm-input-group"
                      },
                      "_order": 1006,
                      "level": 3
@@ -165,13 +159,10 @@ window.schema = {
                            "minimum": 0,
                            "maximum": 100,
                            "display": {
-                              "name": "input/range",
+                              "name": "fm-input-range",
+                              "type": "number",
                               "max": 100,
-                              "min": 0,
-                              "fallback": {
-                                 "name": "input",
-                                 "type": "range"
-                              }
+                              "min": 0
                            },
                            "_id": "quality",
                            "_path": "image.quality",
@@ -188,7 +179,7 @@ window.schema = {
                               "jpg"
                            ],
                            "display": {
-                              "name": "radiolist",
+                              "name": "fm-radio-list",
                               "options": [
                                  {
                                     "id": "png",
@@ -213,14 +204,14 @@ window.schema = {
                         }
                      },
                      "display": {
-                        "name": "group"
+                        "name": "fm-input-group"
                      },
                      "_order": 1009,
                      "level": 3
                   }
                },
                "display": {
-                  "name": "group"
+                  "name": "fm-input-group"
                },
                "_order": 1002,
                "level": 2
@@ -231,7 +222,7 @@ window.schema = {
                "_path": "image.profile",
                "path": "image.profile",
                "display": {
-                  "name": "input",
+                  "name": "fm-input",
                   "type": "text"
                },
                "title": "Profile",
@@ -246,7 +237,7 @@ window.schema = {
                   "webp"
                ],
                "display": {
-                  "name": "radiolist",
+                  "name": "fm-radio-list",
                   "options": [
                      {
                         "id": "png",
@@ -279,13 +270,10 @@ window.schema = {
                "minimum": 0,
                "maximum": 100,
                "display": {
-                  "name": "input/range",
+                  "name": "fm-input-range",
+                  "type": "number",
                   "max": 100,
-                  "min": 0,
-                  "fallback": {
-                     "name": "input",
-                     "type": "range"
-                  }
+                  "min": 0
                },
                "_id": "quality",
                "_path": "image.quality",
@@ -308,12 +296,9 @@ window.schema = {
                      "_path": "image.scale.width",
                      "path": "image.scale.width",
                      "display": {
-                        "name": "input/number",
-                        "min": 0,
-                        "fallback": {
-                           "name": "input",
-                           "type": "number"
-                        }
+                        "name": "fm-input",
+                        "type": "number",
+                        "min": 0
                      },
                      "title": "Width",
                      "_order": 1016,
@@ -327,12 +312,9 @@ window.schema = {
                      "_path": "image.scale.height",
                      "path": "image.scale.height",
                      "display": {
-                        "name": "input/number",
-                        "min": 0,
-                        "fallback": {
-                           "name": "input",
-                           "type": "number"
-                        }
+                        "name": "fm-input",
+                        "type": "number",
+                        "min": 0
                      },
                      "title": "Height",
                      "_order": 1017,
@@ -350,7 +332,7 @@ window.schema = {
                      "_path": "image.scale.option",
                      "path": "image.scale.option",
                      "display": {
-                        "name": "select",
+                        "name": "fm-select",
                         "options": [
                            {
                               "id": "fit",
@@ -376,7 +358,7 @@ window.schema = {
                   }
                },
                "display": {
-                  "name": "group"
+                  "name": "fm-input-group"
                },
                "title": "Scale",
                "_order": 1015,
@@ -396,12 +378,9 @@ window.schema = {
                      "_path": "image.crop.width",
                      "path": "image.crop.width",
                      "display": {
-                        "name": "input/number",
-                        "min": 0,
-                        "fallback": {
-                           "name": "input",
-                           "type": "number"
-                        }
+                        "name": "fm-input",
+                        "type": "number",
+                        "min": 0
                      },
                      "title": "Width",
                      "_order": 1020,
@@ -415,12 +394,9 @@ window.schema = {
                      "_path": "image.crop.height",
                      "path": "image.crop.height",
                      "display": {
-                        "name": "input/number",
-                        "min": 0,
-                        "fallback": {
-                           "name": "input",
-                           "type": "number"
-                        }
+                        "name": "fm-input",
+                        "type": "number",
+                        "min": 0
                      },
                      "title": "Height",
                      "_order": 1021,
@@ -434,12 +410,9 @@ window.schema = {
                      "_path": "image.crop.x",
                      "path": "image.crop.x",
                      "display": {
-                        "name": "input/number",
-                        "min": 0,
-                        "fallback": {
-                           "name": "input",
-                           "type": "number"
-                        }
+                        "name": "fm-input",
+                        "type": "number",
+                        "min": 0
                      },
                      "title": "X",
                      "_order": 1022,
@@ -453,12 +426,9 @@ window.schema = {
                      "_path": "image.crop.y",
                      "path": "image.crop.y",
                      "display": {
-                        "name": "input/number",
-                        "min": 0,
-                        "fallback": {
-                           "name": "input",
-                           "type": "number"
-                        }
+                        "name": "fm-input",
+                        "type": "number",
+                        "min": 0
                      },
                      "title": "Y",
                      "_order": 1023,
@@ -466,7 +436,7 @@ window.schema = {
                   }
                },
                "display": {
-                  "name": "group"
+                  "name": "fm-input-group"
                },
                "title": "Crop",
                "_order": 1019,

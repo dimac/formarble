@@ -3,8 +3,18 @@
 var util = require('util');
 var _ = require('lodash');
 
+function toPath(path){
+    if(_.isUndefined(path)){
+        throw "Path must be defined";
+    }
+    if(_.isArray(path)){
+        return _.flatten(path).join('.');
+    }
+    return path;
+}
+
 function objSet(obj, path, value) {
-    var segments = path.split('.'),
+    var segments = toPath(path).split('.'),
         cursor = obj,
         segment,
         len = segments.length - 1,
@@ -19,7 +29,7 @@ function objSet(obj, path, value) {
 }
 
 function objGet(obj, path) {
-    var segments = path.split('.'),
+    var segments = toPath(path).split('.'),
         cursor = obj,
         len = segments.length,
         i;
@@ -35,14 +45,34 @@ function objGet(obj, path) {
     return cursor;
 }
 
+function objGetInherited(obj, path) {
+    var segments = toPath(path).split('.'),
+        value = segments.pop(),
+        len = segments.length,
+        i = len,
+        result;
+
+    for(i; i >= 0; i--){
+        result = objGet(obj,  i ? [segments.slice(0, i), value] : value);
+        if(undefined !== result) {
+            return result;
+        }
+    }
+}
+
 function schemaSet(obj, path, value) {
-    var path = 'properties.' + path.split('.').join('.properties.');
+    var path = 'properties.' + toPath(path).split('.').join('.properties.');
     return objSet(obj, path, value);
 }
 
 function schemaGet(obj, path) {
-    var path = 'properties.' + path.split('.').join('.properties.');
+    var path = 'properties.' + toPath(path).split('.').join('.properties.');
     return objGet(obj, path);
+}
+
+function schemaGetInherited(obj, path) {
+    var path = 'properties.' + toPath(path).split('.').join('.properties.');
+    return objGetInherited(obj, path);
 }
 
 
@@ -81,30 +111,30 @@ function resolveDisplay(schema) {
 
     switch (schema.type) {
         case 'boolean':
-            input = { name: 'checkbox'};
+            input = { name: 'fm-checkbox'};
             break;
 
         case 'number':
-            input = { name: 'input/number'};
+            input = { name: 'fm-input', type: 'number'};
             break;
 
         case 'string':
             if (schema.enum) {
                 if (schema.enum.length > 3) {
-                    input = { name: 'select' };
+                    input = { name: 'fm-select' };
                 } else {
-                    input = { name: 'radiolist' };
+                    input = { name: 'fm-radio-list' };
                 }
             } else if ('Color' === schema.format) {
-                input = { name: 'input/color' };
+                input = { name: 'fm-input', type: 'color' };
             } else {
-                input = { name: 'input', type: 'text' };
+                input = { name: 'fm-input', type: 'text'};
             }
             break;
 
         default:
             if (isObjectNotArray(schema.properties)) {
-                input = { name: 'group' };
+                input = { name: 'fm-input-group' };
             }
     }
 
@@ -116,77 +146,65 @@ function resolveDisplay(schema) {
 }
 
 function resolveDisplayFallback(input, schema) {
-    switch (getInputName(input)) {
-        case 'input/range':
-            input.fallback = {name: 'input', type: 'range'};
-            break;
-
-        case 'input/number':
-            input.fallback = {name: 'input', type: 'number'};
-            break;
-
-        case 'input/color':
-            input.fallback = {name: 'input', type: 'color'};
-            break;
-
-        case 'textarea':
-            input.fallback = {name: 'input', type: 'text'};
-            break;
-
-        case 'radio-list':
-            input.fallback = {name: 'select'};
-            break;
-
-        case 'fieldset':
-            input.fallback = {name: 'group'};
-            break;
-
-    }
-    return schema;
+//    switch (getInputName(input)) {
+//        case 'input/range':
+//            input.fallback = {name: 'input', type: 'range'};
+//            break;
+//
+//        case 'input/number':
+//            input.fallback = {name: 'input', type: 'number'};
+//            break;
+//
+//        case 'input/color':
+//            input.fallback = {name: 'input', type: 'color'};
+//            break;
+//
+//        case 'textarea':
+//            input.fallback = {name: 'input', type: 'text'};
+//            break;
+//
+//        case 'radio-list':
+//            input.fallback = {name: 'select'};
+//            break;
+//
+//        case 'fieldset':
+//            input.fallback = {name: 'group'};
+//            break;
+//
+//    }
+//    return schema;
 }
 
 function resolveInputOptions(input, schema) {
-
-    switch (getInputName(input)) {
-        case 'input/range':
-        case 'input/number':
-            if (isDefined(schema.maximum)) {
-                input.max = schema.maximum;
-            }
-            if (isDefined(schema.minimum)) {
-                input.min = schema.minimum;
-            }
-            if (isDefined(schema.exclusiveMaximum)) {
-                input.max = schema.exclusiveMaximum - 1;
-            }
-            if (isDefined(schema.exclusiveMinimum)) {
-                input.min = schema.exclusiveMinimum + 1;
-            }
-            if (isDefined(schema.multipleOf)) {
-                input.step = schema.multipleOf;
-            }
-            break;
-
-        case 'input':
-            if (isDefined(schema.maxLength)) {
-                input.maxlength = schema.maxLength;
-            }
-            if (isDefined(schema.minLength)) {
-                input.minlength = schema.minLength;
-            }
-            if (isDefined(schema.pattern)) {
-                input.pattern = schema.pattern.toString();
-            }
-            break;
-
-        case 'radiolist':
-        case 'select':
-            input.options = schema.enum.map(function (value) {
-                var title = (schema.display && schema.display.labels && schema.display.labels[value]) || humanize(value);
-                return {id: value, title: title};
-            })
-            break;
-
+    if (isDefined(schema.maximum)) {
+        input.max = schema.maximum;
+    }
+    if (isDefined(schema.minimum)) {
+        input.min = schema.minimum;
+    }
+    if (isDefined(schema.exclusiveMaximum)) {
+        input.max = schema.exclusiveMaximum - 1;
+    }
+    if (isDefined(schema.exclusiveMinimum)) {
+        input.min = schema.exclusiveMinimum + 1;
+    }
+    if (isDefined(schema.multipleOf)) {
+        input.step = schema.multipleOf;
+    }
+    if (isDefined(schema.maxLength)) {
+        input.maxlength = schema.maxLength;
+    }
+    if (isDefined(schema.minLength)) {
+        input.minlength = schema.minLength;
+    }
+    if (isDefined(schema.pattern)) {
+        input.pattern = schema.pattern.toString();
+    }
+    if (isDefined(schema.enum)) {
+        input.options = schema.enum.map(function (value) {
+            var title = (schema.display && schema.display.labels && schema.display.labels[value]) || humanize(value);
+            return {id: value, title: title};
+        })
     }
     return input;
 }
@@ -229,6 +247,11 @@ exports.create = function (schema) {
 
     //walk through schema and collect nodes with original path
     walkSchema(schema, function (src, id, path, parent) {
+        //don't process hidden properties
+        if(schemaGetInherited(schema, [path, 'hidden'])) {
+            return;
+        }
+
         //clone source node without children
         var prop = _(src).omit('properties').cloneDeep();
         if (path) {
@@ -303,7 +326,7 @@ exports.ui = function (schema) {
         resolveDisplayFallback(prop.display, prop);
 
         //add title
-        if (!isDefined(prop.title)/* && 'group' !== prop.display.name*/) {
+        if (!isDefined(prop.title)) {
             prop.title = humanize(id);
         }
 

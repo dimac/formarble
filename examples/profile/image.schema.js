@@ -133,8 +133,10 @@ module.exports = {
                 color: { type: 'string', format: 'Color' },
                 width: { type: 'number' },
                 rim: {
-                    color: { type: 'string' },
-                    width: { type: 'number' }
+                    properties: {
+                        color: { type: 'string', format:'Color' },
+                        width: { type: 'number' }
+                    }
                 }
             },
             additionalProperties: false,
