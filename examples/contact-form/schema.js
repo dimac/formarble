@@ -93,7 +93,8 @@ window.schema = {
          "_path": "summary",
          "path": "summary",
          "display": {
-            "name": "fm-input-text",
+            "name": "fm-input",
+            "type": "text",
             "maxlength": 100,
             "required": true
          },
@@ -104,14 +105,15 @@ window.schema = {
       "message": {
          "type": "string",
          "maxLength": 2048,
-         "_id": "message",
-         "_path": "message",
-         "path": "message",
          "display": {
-            "name": "fm-input-text",
+            "name": "fm-textarea",
+            "type": "text",
             "maxlength": 2048,
             "required": true
          },
+         "_id": "message",
+         "_path": "message",
+         "path": "message",
          "title": "Message",
          "_order": 1005,
          "level": 1

@@ -3,18 +3,33 @@
 var _ = require('lodash');
 var formarble = require('../..');
 
+var formats = {
+    numberOrAuto: {
+        name: 'fm-input',
+        type: 'text',
+        pattern: /^\d+|auto$/.toString(),
+        hint: '[Number] or "auto"'
+    }
+}
+
 var form = {
     title: 'Spin options',
 
     display: {
-        name: 'tree',
+        name: 'fm-tree',
         tree: ['images']
     },
 
     properties: {
         images: {
             title: 'Images',
-            display: { name:'tree', tree: ['main', 'zoom', 'fullscreen'] }
+            display: { name:'fm-tree', tree: ['main', 'zoom', 'fullscreen'], open: true }
+        },
+        startRow: {
+            display: formats.numberOrAuto
+        },
+        startColumn: {
+            display: formats.numberOrAuto
         }
     }
 }

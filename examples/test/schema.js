@@ -39,6 +39,7 @@ window.schema = {
                            "maximum": 100,
                            "display": {
                               "name": "fm-input-range",
+                              "type": "number",
                               "max": 100,
                               "min": 0
                            },
@@ -85,7 +86,8 @@ window.schema = {
                            "_path": "image.png.compression",
                            "path": "image._format.png.compression",
                            "display": {
-                              "name": "fm-input-number",
+                              "name": "fm-input",
+                              "type": "number",
                               "max": 9,
                               "min": 0
                            },
@@ -158,6 +160,7 @@ window.schema = {
                            "maximum": 100,
                            "display": {
                               "name": "fm-input-range",
+                              "type": "number",
                               "max": 100,
                               "min": 0
                            },
@@ -219,7 +222,8 @@ window.schema = {
                "_path": "image.profile",
                "path": "image.profile",
                "display": {
-                  "name": "fm-input-text"
+                  "name": "fm-input",
+                  "type": "text"
                },
                "title": "Profile",
                "_order": 1012,
@@ -267,6 +271,7 @@ window.schema = {
                "maximum": 100,
                "display": {
                   "name": "fm-input-range",
+                  "type": "number",
                   "max": 100,
                   "min": 0
                },
@@ -291,7 +296,8 @@ window.schema = {
                      "_path": "image.scale.width",
                      "path": "image.scale.width",
                      "display": {
-                        "name": "fm-input-number",
+                        "name": "fm-input",
+                        "type": "number",
                         "min": 0
                      },
                      "title": "Width",
@@ -306,7 +312,8 @@ window.schema = {
                      "_path": "image.scale.height",
                      "path": "image.scale.height",
                      "display": {
-                        "name": "fm-input-number",
+                        "name": "fm-input",
+                        "type": "number",
                         "min": 0
                      },
                      "title": "Height",
@@ -371,7 +378,8 @@ window.schema = {
                      "_path": "image.crop.width",
                      "path": "image.crop.width",
                      "display": {
-                        "name": "fm-input-number",
+                        "name": "fm-input",
+                        "type": "number",
                         "min": 0
                      },
                      "title": "Width",
@@ -386,7 +394,8 @@ window.schema = {
                      "_path": "image.crop.height",
                      "path": "image.crop.height",
                      "display": {
-                        "name": "fm-input-number",
+                        "name": "fm-input",
+                        "type": "number",
                         "min": 0
                      },
                      "title": "Height",
@@ -401,7 +410,8 @@ window.schema = {
                      "_path": "image.crop.x",
                      "path": "image.crop.x",
                      "display": {
-                        "name": "fm-input-number",
+                        "name": "fm-input",
+                        "type": "number",
                         "min": 0
                      },
                      "title": "X",
@@ -416,7 +426,8 @@ window.schema = {
                      "_path": "image.crop.y",
                      "path": "image.crop.y",
                      "display": {
-                        "name": "fm-input-number",
+                        "name": "fm-input",
+                        "type": "number",
                         "min": 0
                      },
                      "title": "Y",

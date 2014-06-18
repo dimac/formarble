@@ -3,8 +3,18 @@
 var util = require('util');
 var _ = require('lodash');
 
+function toPath(path){
+    if(_.isUndefined(path)){
+        throw "Path must be defined";
+    }
+    if(_.isArray(path)){
+        return _.flatten(path).join('.');
+    }
+    return path;
+}
+
 function objSet(obj, path, value) {
-    var segments = path.split('.'),
+    var segments = toPath(path).split('.'),
         cursor = obj,
         segment,
         len = segments.length - 1,
@@ -19,7 +29,7 @@ function objSet(obj, path, value) {
 }
 
 function objGet(obj, path) {
-    var segments = path.split('.'),
+    var segments = toPath(path).split('.'),
         cursor = obj,
         len = segments.length,
         i;
@@ -35,14 +45,34 @@ function objGet(obj, path) {
     return cursor;
 }
 
+function objGetInherited(obj, path) {
+    var segments = toPath(path).split('.'),
+        value = segments.pop(),
+        len = segments.length,
+        i = len,
+        result;
+
+    for(i; i >= 0; i--){
+        result = objGet(obj,  i ? [segments.slice(0, i), value] : value);
+        if(undefined !== result) {
+            return result;
+        }
+    }
+}
+
 function schemaSet(obj, path, value) {
-    var path = 'properties.' + path.split('.').join('.properties.');
+    var path = 'properties.' + toPath(path).split('.').join('.properties.');
     return objSet(obj, path, value);
 }
 
 function schemaGet(obj, path) {
-    var path = 'properties.' + path.split('.').join('.properties.');
+    var path = 'properties.' + toPath(path).split('.').join('.properties.');
     return objGet(obj, path);
+}
+
+function schemaGetInherited(obj, path) {
+    var path = 'properties.' + toPath(path).split('.').join('.properties.');
+    return objGetInherited(obj, path);
 }
 
 
@@ -85,7 +115,7 @@ function resolveDisplay(schema) {
             break;
 
         case 'number':
-            input = { name: 'fm-input-number'};
+            input = { name: 'fm-input', type: 'number'};
             break;
 
         case 'string':
@@ -96,9 +126,9 @@ function resolveDisplay(schema) {
                     input = { name: 'fm-radio-list' };
                 }
             } else if ('Color' === schema.format) {
-                input = { name: 'fm-input-color' };
+                input = { name: 'fm-input', type: 'color' };
             } else {
-                input = { name: 'fm-input-text'};
+                input = { name: 'fm-input', type: 'text'};
             }
             break;
 
@@ -217,6 +247,11 @@ exports.create = function (schema) {
 
     //walk through schema and collect nodes with original path
     walkSchema(schema, function (src, id, path, parent) {
+        //don't process hidden properties
+        if(schemaGetInherited(schema, [path, 'hidden'])) {
+            return;
+        }
+
         //clone source node without children
         var prop = _(src).omit('properties').cloneDeep();
         if (path) {
@@ -291,7 +326,7 @@ exports.ui = function (schema) {
         resolveDisplayFallback(prop.display, prop);
 
         //add title
-        if (!isDefined(prop.title)/* && 'group' !== prop.display.name*/) {
+        if (!isDefined(prop.title)) {
             prop.title = humanize(id);
         }
 

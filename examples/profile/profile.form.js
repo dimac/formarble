@@ -5,7 +5,7 @@ var formarble = require('../..');
 
 var form = {
     title: 'Profile',
-    display: {name: 'tree', tree: ['image', 'spin'] }
+    display: {name: 'fm-tree', tree: ['image', 'spin'] }
 }
 
 var image = require('./image.form.js');

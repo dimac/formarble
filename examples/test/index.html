@@ -38,7 +38,8 @@
 
 <script id="bs/tree" type="text/ng-template">
     <h3 class="text-muted" ng-if="::!$isSubtree">
-        <a href ng-click="$tree.select()">{{::$control.title}}</a></h3>
+        <a href ng-click="$tree.select()">{{::$control.title}}</a>
+    </h3>
     <div class="row">
         <div class="col-lg-3" ng-if="::!$isSubtree">
             <ol fm-tree-sidebar="$control"></ol>
@@ -58,8 +59,8 @@
 </script>
 <script id="bs/tree/sidebar" type="text/ng-template">
     <li ng-repeat="i in $items">
-        <a href ng-click="$select(i)">{{i.title || i.path}}</a>
-        <ul ng-if="$tree.isGroupOpen(i)" fm-tree-sidebar="i"></ul>
+        <a href ng-click="$select(i)">{{i.title}}</a>
+        <ul ng-if="$tree.isGroupOpen(i) || i.display.open" fm-tree-sidebar="i"></ul>
     </li>
 </script>
 <script id="bs/group" type="text/ng-template">
@@ -69,31 +70,18 @@
         <div ng-repeat="c in ::$subControls" fm-control="c"></div>
     </div>
 </script>
-<script id="bs/group:tab" type="text/ng-template">
-    <!-- Nav tabs -->
-    <ul class="nav nav-pills">
-        <li ng-class="{active: $first}"
-            ng-repeat="c in ::$subControls">
-            <a href="#{{::c.path.split('.').join('-')}}" data-toggle="tab">{{::c.title || c.description || c.path}}</a>
-        </li>
-    </ul>
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div class="tab-pane"
-             ng-class="{active: $first}"
-             ng-repeat="c in ::$subControls"
-             id="{{::c.path.split('.').join('-')}}"
-             fm-control="c"></div>
-    </div>
+<script id="bs/control-label" type="text/ng-template">
+    {{:: $control.title}}
+    <a class="control-help" ng-if="::$control.display.hint" title="{{::$control.display.hint}}">
+        <i class="glyphicon glyphicon-info-sign"></i>
+    </a>
 </script>
 <script id="bs/input" type="text/ng-template">
     <div class="form-group" ng-class="{'has-error': $input.$invalid}">
-        <label class="control-label col-sm-4" fm-label>
-            {{:: $control.title || $control.path}}
-        </label>
+        <label class="control-label col-sm-4" fm-control-label></label>
 
         <div class="col-sm-8">
-            <input class="form-control" fm-input/>
+            <input class="form-control" fm-control-input/>
 
             <p ng-if="::$control.description" class="help-block">
                 {{:: $control.description}}
@@ -107,16 +95,13 @@
 </script>
 <script id="bs/input/range" type="text/ng-template">
     <div class="form-group" ng-class="{'has-error': $input.$invalid}">
-        <label class="control-label col-sm-4" fm-label>
-            {{:: $control.title || $control.path}}
-        </label>
+        <label class="control-label col-sm-4" fm-control-label></label>
 
         <div class="col-sm-8">
             <div class="input-group">
-                <input class="form-control" type="range" fm-input/>
+                <input class="form-control" type="range" fm-control-input/>
                 <span class="input-group-addon" style="min-width: 60px">{{$value || 'N/A'}}</span>
             </div>
-
 
             <p ng-if="::$control.description" class="help-block">
                 {{:: $control.description}}
@@ -124,22 +109,17 @@
                     <i class="glyphicon glyphicon-info-sign"></i>
                 </a>
             </p>
-
-            <small ng-if="$input.$dirty"><a href ng-click="$input.$setPristine()">use default</a></small>
-
         </div>
     </div>
 </script>
 <script id="bs/checkbox" type="text/ng-template">
     <div class="form-group">
-        <label class="control-label col-sm-4" fm-label>
-            {{:: $control.title || $control.path}}
-        </label>
+        <label class="control-label col-sm-4" fm-control-label></label>
 
         <div class="col-sm-8">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" fm-input> {{:: $control.description}}
+                    <input type="checkbox" fm-control-input> {{:: $control.description}}
                 </label>
             </div>
         </div>
@@ -147,14 +127,12 @@
 </script>
 <script id="bs/radiolist" type="text/ng-template">
     <div class="form-group">
-        <label class="control-label col-sm-4">
-            {{:: $control.title || $control.path}}
-        </label>
+        <label class="control-label col-sm-4" fm-control-label for></label>
 
         <div class="col-sm-8">
             <div class="radio" ng-repeat="li in $control.display.options">
                 <label>
-                    <input type="radio" fm-input ng-value="li.id"/> {{:: li.title}}
+                    <input type="radio" fm-control-input ng-value="li.id"/> {{:: li.title}}
                 </label>
             </div>
         </div>
@@ -162,10 +140,10 @@
 </script>
 <script id="bs/select" type="text/ng-template">
     <div class="form-group">
-        <label class="control-label col-sm-4" fm-label>{{:: $control.title || $control.path}}</label>
+        <label class="control-label col-sm-4" fm-control-label></label>
 
         <div class="col-sm-8">
-            <select class="form-control" fm-input></select>
+            <select class="form-control" fm-control-input></select>
         </div>
     </div>
 </script>

@@ -4,22 +4,23 @@ var _ = require('lodash');
 
 var formats = {
     offset: {
-        name: 'input',
+        name: 'fm-input',
         type: 'text',
         pattern: /^([\+\-]?(100%|\d{1,2}%|\d{1,4}px)?|center)$/.toString(),
         hint: '(+/-) 0-100% or 0-9999px or center'
     },
     size: {
-        name: 'input',
+        name: 'fm-input',
         type: 'text',
-        pattern: /^\d+(\.\d+)?(%|px)?$/.toString()
+        pattern: /^\d+(\.\d+)?(%|px)?$/.toString(),
+        hint: '[Number] or [Number]px or [Number]%'
     }
 }
 
 module.exports = {
     title: 'Image options',
     display: {
-        name: 'tree',
+        name: 'fm-tree',
         tree: ['scale','crop','text','effects']
     },
 
@@ -40,7 +41,7 @@ module.exports = {
             path: 'jpeg.progressive'
         },
         quality: {
-            display: {name: 'input/range'},
+            display: {name: 'fm-input-range'},
 
             path: 'jpeg.quality'
         },
@@ -79,8 +80,15 @@ module.exports = {
                     properties: {
                         opacity: {
                             display: {
-                                name: 'input/range'
+                                name: 'fm-input-range'
                             }
+                        }
+                    }
+                },
+                font: {
+                    properties: {
+                        size: {
+                            display: formats.size
                         }
                     }
                 }
@@ -99,7 +107,7 @@ module.exports = {
                 },
                 option: {
                     display: {
-                        name: 'select',
+                        name: 'fm-select',
                         labels: {
                             ignore: 'Ignore aspect ratio',
                             noup: 'No upscale'

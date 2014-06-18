@@ -32,31 +32,31 @@
 //}
 
 angular.module('formarble', [])
-    .service('fm', function ($templateCache) {
-        function getTemplateId(display) {
-            if(!display) {
-                return false;
-            }
-
-            if(angular.isString(display)) {
-                return display;
-            }
-
-            return display.name;
-        }
-
-        return {
-            getTemplate: function (theme, display) {
-                var id, template;
-                if (id = getTemplateId(display)) {
-                    id = theme + '/' + id;
-                    template = $templateCache.get(id);
-                }
-                return template;
-            }
-        }
-    })
-    .directive('fmForm', function (fm, $compile) {
+//    .service('fm', function ($templateCache) {
+//        function getTemplateId(display) {
+//            if(!display) {
+//                return false;
+//            }
+//
+//            if(angular.isString(display)) {
+//                return display;
+//            }
+//
+//            return display.name;
+//        }
+//
+//        return {
+//            getTemplate: function (theme, display) {
+//                var id, template;
+//                if (id = getTemplateId(display)) {
+//                    id = theme + '/' + id;
+//                    template = $templateCache.get(id);
+//                }
+//                return template;
+//            }
+//        }
+//    })
+    .directive('fmForm', function ($compile) {
         return {
             restrict: 'EA',
             require: 'fmForm',
@@ -68,13 +68,8 @@ angular.module('formarble', [])
 
             terminal: true,
 
+            controllerAs: '$form',
             controller: function ($scope, $attrs) {
-                var theme = $attrs.fmTheme || 'formarble';
-
-                this.getTemplate = function(display) {
-                    return fm.getTemplate(theme, display);
-                }
-
                 this.getControlModel = function (control) {
                     return ['$model', control._path || control._path].join('.')
                 }
@@ -127,12 +122,17 @@ angular.module('formarble', [])
                     previousScope,
                     previousName;
 
-                scope.$watch(controlBinding, function (control) {
+                scope.$watch(controlBinding, function fmControlWatcher(control) {
+                    if (!control.display) {
+                        console.warn('fmControl', 'Display options not defined', control);
+                        return;
+                    }
+
                     var directiveName = attrs.$normalize(control.display.name),
                         innerScope;
 
                     if (!$injector.has(directiveName + directiveSuffix)) {
-                        console.warn('No directive', directiveName, 'defined', control);
+                        console.warn('fmControl', 'No directive', directiveName, 'defined', control);
                         return;
                     }
 
@@ -152,8 +152,9 @@ angular.module('formarble', [])
                     innerScope.$control = control;
                     innerScope.$subControls = ctrl.getProperties(control);
 
-                    innerScope.$watch(control.$model, function (value) {
+                    scope.$watch(control.$model, function (value) {
                         innerScope.$value = value;
+                        innerScope.$empty = undefined === value || null === value || '' === value || angular.equals(value, {}) || angular.equals(value, []);
                     });
 
                     $compile(elem)(innerScope);
@@ -162,15 +163,18 @@ angular.module('formarble', [])
 
         }
     })
-    .directive('fmLabel', function () {
-        return function (scope, elem, attr) {
-            var control = scope.$eval(attr.fmLabel || '$control');
-            elem.attr({
-                for: control.$id
-            })
+    .directive('fmControlLabel', function () {
+        return {
+            templateUrl: 'bs/control-label',
+            link: function (scope, elem, attrs) {
+                var control = scope.$eval(attrs.fmControlLabel || '$control');
+                if (undefined === attrs.for) {
+                    attrs.$set('for', control.$id);
+                }
+            }
         }
     })
-    .directive('fmInput', function ($compile) {
+    .directive('fmControlInput', function ($compile) {
         var ngInputPlugins = ['pattern', 'minlength', 'maxlength', 'required'];
         var htmlInputPlugins = ['min', 'max', 'step'];
 
@@ -187,9 +191,9 @@ angular.module('formarble', [])
                 var isSelect = 'SELECT' === tag;
                 var isInput = 'INPUT' === tag || 'TEXTAREA' === tag;
 
-                var controlModelName = tAttrs.fmInput || '$control';
+                var controlModelName = tAttrs.fmControlInput || '$control';
 
-                tAttrs.$set('fmInput', null);
+                tAttrs.$set('fmControlInput', null);
 
                 return function (scope, elem, attr, ctrl) {
                     var control = scope.$eval(controlModelName);
@@ -236,6 +240,7 @@ angular.module('formarble', [])
                         e.preventDefault();
                     }
 
+                    scope.$apply(scope.$control.$model + ' = undefined');
                     ctrl.$setPristine();
                 }
 
@@ -260,10 +265,11 @@ angular.module('formarble')
                 $scope.$subControls = $scope.$subControls.filter(function(sc){
                     return -1 === control.display.tree.indexOf(sc._id);
                 })
+
                 this.selected = null;
 
                 this.select = function (item) {
-                    console.debug('tree select', item);
+//                    console.debug('tree select', item);
                     this.selected = item;
                 }
 
@@ -290,11 +296,11 @@ angular.module('formarble')
 
                 var control = scope.$eval(attrs.fmTreeSidebar);
                 if (control.display.tree) {
-
-                    scope.$items = control.display.tree.map(function (name) {
-                        var item = control.properties[name];
-                        return item;
-                    });
+                    scope.$items = control.display.tree
+                        .map(function (name) {
+                            return control.properties[name];
+                        })
+                        .filter(angular.identity)
 
                     elem.html($templateCache.get('bs/tree/sidebar'));
                     $compile(elem.contents())(scope);
@@ -314,16 +320,16 @@ angular.module('formarble')
             templateUrl: 'bs/group'
         };
     })
-    .directive('fmInputText', function(){
+    .directive('fmInput', function () {
         return {
             restrict: 'A',
             templateUrl: 'bs/input'
         }
     })
-    .directive('fmInputNumber', function () {
+    .directive('fmTextarea', function () {
         return {
             restrict: 'A',
-            templateUrl: 'bs/input'
+            templateUrl: 'bs/textarea'
         }
     })
     .directive('fmCheckbox', function () {

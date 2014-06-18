@@ -34,7 +34,8 @@ module.exports = {
 
         message: {
             type: 'string',
-            maxLength: 2048
+            maxLength: 2048,
+            display: {name: 'fm-textarea'}
         }
     },
     required: ['summary', 'message']
