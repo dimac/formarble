@@ -82,6 +82,7 @@ window.schema = {
                            "description": "PNG compression",
                            "minimum": 0,
                            "maximum": 9,
+                           "hint": "0 is Huffman compression, 1-9 is Zlib compression",
                            "_id": "compression",
                            "_path": "image.png.compression",
                            "path": "image._format.png.compression",

@@ -1,7 +1,8 @@
 "use strict";
 
-var _ = require('lodash');
 var formarble = require('../..');
+
+var image = require('./image.form.js');
 
 var formats = {
     numberOrAuto: {
@@ -23,7 +24,16 @@ var form = {
     properties: {
         images: {
             title: 'Images',
-            display: { name:'fm-tree', tree: ['main', 'zoom', 'fullscreen'], open: true }
+            display: {
+                name:'fm-tree',
+                tree: ['main', 'zoom', 'fullscreen'],
+                open: true
+            },
+            properties: {
+                main: formarble.merge(image, {title: 'Main image'}),
+                zoom: formarble.merge(image, {title: 'Zoom image'}),
+                fullscreen: formarble.merge(image, {title: 'Fullscreen image'})
+            }
         },
         startRow: {
             display: formats.numberOrAuto
@@ -34,11 +44,11 @@ var form = {
     }
 }
 
-var image = require('./image.form.js');
+
 //aggregate image forms
-formarble.setChild(form, 'images.main', image, {title: 'Main image'});
-formarble.setChild(form, 'images.zoom', image, {title: 'Zoom image'});
-formarble.setChild(form, 'images.fullscreen', image, {title: 'Fullscreen image'});
+formarble.fixInjectedSchema(form, 'images.main');
+formarble.fixInjectedSchema(form, 'images.zoom');
+formarble.fixInjectedSchema(form, 'images.fullscreen');
 
 module.exports = form;
 

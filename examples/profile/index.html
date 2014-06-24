@@ -60,6 +60,24 @@
         <div ng-repeat="c in ::$subControls" fm-control="c"></div>
     </div>
 </script>
+
+<script id="bs/group/items" type="text/ng-template">
+    <div>
+        <p class="text-muted">{{::$control.title}}</p>
+
+        <ul class="nav nav-tabs">
+            <li><a href ng-click="$group.addItem()"><i class="glyphicon glyphicon-plus"></i></a></li>
+            <li ng-class="{active: c.$selected}" ng-repeat="c in $items">
+                <a href ng-click="$group.select(c)">{{c.title}}</a>
+            </li>
+            <li class="pull-right">
+                <a href ng-click="$group.removeItem($group.selected)"><i class="glyphicon glyphicon-minus"></i></a>
+            </li>
+        </ul>
+
+        <div fm-control="$group.selected"></div>
+    </div>
+</script>
 <!--
 <script id="bs/group:tab" type="text/ng-template">
     &lt;!&ndash; Nav tabs &ndash;&gt;

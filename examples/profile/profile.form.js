@@ -1,17 +1,24 @@
 "use strict";
 
-var _ = require('lodash');
 var formarble = require('../..');
-
-var form = {
-    title: 'Profile',
-    display: {name: 'fm-tree', tree: ['image', 'spin'] }
-}
 
 var image = require('./image.form.js');
 var spin = require('./spin.form.js');
 
-formarble.setChild(form, 'image', image, {title: 'Image settings'});
-formarble.setChild(form, 'spin', spin, {title: 'Spin settings'});
+var form = {
+    title: 'Profile',
+    display: {
+        name: 'fm-tree',
+        tree: ['image', 'spin']
+    },
+
+    properties: {
+        image: formarble.merge(image, {title: 'Image settings'}),
+        spin: formarble.inject(spin, {title: 'Spin settings'})
+    }
+}
+
+//formarble.fixInjectedSchema(form, 'image');
+//formarble.fixInjectedSchema(form, 'spin');
 
 module.exports = form;

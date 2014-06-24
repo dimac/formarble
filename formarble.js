@@ -1,35 +1,77 @@
 "use strict";
 
-//function objSet(obj, path, value) {
-//    var segments = path.split('.'),
-//        cursor = obj,
-//        segment,
-//        i;
-//
-//    for (i = 0; i < segments.length - 1; ++i) {
-//        segment = segments[i];
-//        cursor = cursor[segment] = cursor[segment] || {};
+function objSet(obj, path, value) {
+    var segments = path.split('.'),
+        cursor = obj,
+        segment,
+        nextSegment,
+        isNumericTest = /^\d+$/,
+        i;
+
+    for (i = 0; i < segments.length - 1; ++i) {
+        segment = segments[i];
+
+        if(undefined === cursor[segment]) {
+            cursor[segment] = isNumericTest.test(segments[i+1]) ? [] : {}
+        }
+
+        cursor = cursor[segment];
+    }
+
+    return cursor[segments[i]] = value;
+}
+
+function objGet(obj, path) {
+    var segments = path.split('.'),
+        cursor = obj,
+        len = segments.length,
+        i;
+
+    for (i = 0; i < len; i++) {
+        cursor = cursor[segments[i]];
+
+        if (undefined === cursor) {
+            return;
+        }
+    }
+
+    return cursor;
+}
+
+function objDelete(obj, path) {
+    var segments = path.split('.'),
+        len = segments.length,
+        i;
+
+    var removeId = segments.pop();
+    var removePath = segments.join('.');
+
+    var collection = objGet(obj, removePath);
+
+    if(collection.splice){
+        collection.splice(removeId, 1)
+    } else {
+        delete collection[removeId];
+    }
+
+    return obj;
+
+//    for(i = len - 1; i > 0; i--) {
+//        delete objGet()
+//        console.log(i, 'remove', segments[i], 'from', segments.slice(0, i));
 //    }
-//
-//    return cursor[segments[i]] = value;
-//}
-//
-//function objGet(obj, path) {
-//    var segments = path.split('.'),
-//        cursor = obj,
-//        len = segments.length,
-//        i;
-//
-//    for (i = 0; i < len; i++) {
-//        cursor = cursor[segments[i]];
-//
-//        if (undefined === cursor) {
-//            return;
-//        }
-//    }
-//
-//    return cursor;
-//}
+}
+
+function walkControlProperties(control, fn) {
+    angular.forEach(control.properties, function (prop) {
+        fn(prop);
+        walkControlProperties(prop, fn)
+    })
+}
+
+function isEmpty(value) {
+    return undefined === value || null === value || '' === value || angular.equals(value, {}) || angular.equals(value, []);
+}
 
 angular.module('formarble', [])
 //    .service('fm', function ($templateCache) {
@@ -71,11 +113,11 @@ angular.module('formarble', [])
             controllerAs: '$form',
             controller: function ($scope, $attrs) {
                 this.getControlModel = function (control) {
-                    return ['$model', control._path || control._path].join('.')
+                    return ['$model', control._path].join('.')
                 }
 
                 this.getControlId = function (control){
-                    return control.path && control.path.split('.').join('-');
+                    return control._path && control._path.split('.').join('-');
                 }
 
                 this.getProperties = function(control) {
@@ -123,6 +165,14 @@ angular.module('formarble', [])
                     previousName;
 
                 scope.$watch(controlBinding, function fmControlWatcher(control) {
+                    previousScope && previousScope.$destroy();
+                    previousName && attrs.$set(previousName, null);
+                    elem.html('');
+
+                    if (!control) {
+                        return;
+                    }
+
                     if (!control.display) {
                         console.warn('fmControl', 'Display options not defined', control);
                         return;
@@ -135,9 +185,6 @@ angular.module('formarble', [])
                         console.warn('fmControl', 'No directive', directiveName, 'defined', control);
                         return;
                     }
-
-                    previousScope && previousScope.$destroy();
-                    previousName && attrs.$set(previousName, null);
 
                     previousScope = innerScope = scope.$new();
                     previousName = directiveName;
@@ -154,8 +201,10 @@ angular.module('formarble', [])
 
                     scope.$watch(control.$model, function (value) {
                         innerScope.$value = value;
-                        innerScope.$empty = undefined === value || null === value || '' === value || angular.equals(value, {}) || angular.equals(value, []);
+                        innerScope.$empty = isEmpty(value);
                     });
+
+                    elem.data('$control', control);
 
                     $compile(elem)(innerScope);
                 })
@@ -317,7 +366,78 @@ angular.module('formarble')
     .directive('fmInputGroup', function(){
         return {
             restrict: 'A',
-            templateUrl: 'bs/group'
+            templateUrl: function (tElem, tAttrs) {
+                var $control = tElem.data('$control');
+
+                if ($control.items) {
+                    return 'bs/group/items'
+                }
+
+                return 'bs/group';
+            },
+
+            controllerAs: '$group',
+            controller: function ($element, $scope) {
+                var index = 0;
+                var $control = $element.data('$control');
+
+                if ($control.items) {
+                    $scope.$items = [];
+                }
+
+                this.select = function (item) {
+                    if (this.selected) {
+                        this.selected.$selected = false;
+                    }
+
+                    this.selected = item;
+
+                    if (this.selected) {
+                        this.selected.$selected = true;
+                    }
+                }
+
+                this.addItem = function () {
+                    var itemControl = angular.copy($control.items);
+                    delete itemControl.items;
+
+                    if(undefined === objGet($scope.$model, $control._path)) {
+                        objSet($scope.$model, $control._path, []);
+                    }
+
+                    itemControl.title += ' ' + index;
+
+
+                    var oldBase = $control._path;
+                    var newBase = $control._path + '.' + index;
+
+                    itemControl._path = newBase;
+
+                    walkControlProperties(itemControl, function (prop) {
+                        prop._path = newBase + '.' + prop._path;
+                    })
+
+                    $scope.$items.push(itemControl);
+                    this.select(itemControl);
+
+                    index++;
+                }
+
+                this.removeItem = function (item) {
+                    if(!item) { return }
+
+//                    $scope.$apply(function(){
+                        objDelete($scope.$model, item._path);
+//                    })
+
+                    this.select();
+
+                    var index = $scope.$items.indexOf(item);
+                    if (index > -1) {
+                        $scope.$items.splice(index, 1);
+                    }
+                }
+            }
         };
     })
     .directive('fmInput', function () {

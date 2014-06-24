@@ -4,11 +4,11 @@ angular.module('FormarbleExample', ['formarble'])
     .run(function ($rootScope, $window) {
         $rootScope.schema = $window.schema;
         $rootScope.model = {
-            image: {
-                text: {
+//            image: {
+                text: [{
                     text: 'Intial text value'
-                },
-            }
+                }]
+//            }
         };
 
         function modelFilter(value, key) {

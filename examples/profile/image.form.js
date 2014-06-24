@@ -18,6 +18,7 @@ var formats = {
 }
 
 module.exports = {
+    root: true,
     title: 'Image options',
     display: {
         name: 'fm-tree',
@@ -139,5 +140,22 @@ module.exports = {
         thumbnail: {
             path: 'crop.thumbnail'
         }
+    }
+}
+
+
+var mappingSchema = {
+    title: 'Image settings',
+    properties: {
+        scale: 'scale',
+        crop: ['crop', 'thumbnail'],
+        text: 'text',
+        effects: ['brightness', 'contrast', 'exposure', 'greyscale', 'colortone', 'blur', 'rotate', 'tiltshift', 'frame', 'vignette'],
+
+        profile: 'profile',
+        format: 'format',
+        jpg: ['subsampling', 'quality', 'progressive'],
+        png: ['compression', 'filtering'],
+        webp: ['quality', 'fallback']
     }
 }

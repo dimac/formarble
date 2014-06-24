@@ -88,6 +88,17 @@ function ucFirst(value) {
     return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
+function startsWith(string, find) {
+    return string.slice(0, find.length) === find;
+}
+
+function replacePrefix(string, find, replace) {
+    if (startsWith(string, find)) {
+        return replace + string.slice(find.length)
+    }
+    return string;
+}
+
 function humanize(value) {
     if (value.match(/[a-z]/i)) {
         value = value.replace(/([a-z])[\W]+/g, '$1 ');
@@ -104,6 +115,61 @@ function getInputName(value) {
     if (value) {
         return _.isString(value) ? value : value.name;
     }
+}
+
+function mapNormalize(map) {
+    var remapsTotalMax = 1000,
+        remapsTotal;
+
+    do {
+        remapsTotal = 0;
+
+        _.each(map, function (to, from) {
+            var remaps = 0;
+            while (true) {
+                remapsTotal += remaps;
+                remaps = 0;
+                _.each(map, function (ito, ifrom) {
+                    if (to === ito) {
+                        return;
+                    }
+
+                    if (to === ifrom || startsWith(to, ifrom + '.')) {
+                        to = replacePrefix(to, ifrom, ito);
+                        remaps++;
+                    }
+                });
+
+                if (remapsTotal > remapsTotalMax) {
+                    throw new Error('Possible remap cycle');
+                }
+                if (remaps) {
+                    map[from] = to;
+                    continue;
+                }
+                break;
+            }
+        })
+
+    } while (remapsTotal)
+}
+
+function mapString(map, target) {
+    if (_.isString(target)) {
+        _.each(map, function (to, from) {
+            target = replacePrefix(target, from, to);
+        })
+    }
+    return target;
+}
+
+function mapCollection(map, target) {
+    if (_.isObject(target)) {
+        _.each(target, function (value, key) {
+            target[key] = mapString(map, value);
+        })
+    }
+    return target;
 }
 
 function resolveDisplay(schema) {
@@ -242,8 +308,10 @@ function walkSchema(schema, transformFn, childrenFirst) {
  * @returns {*}
  */
 exports.create = function (schema) {
-    var result;
+    var root;
     var nodes = {};
+    var map = {};
+    var virtual = {};
 
     //walk through schema and collect nodes with original path
     walkSchema(schema, function (src, id, path, parent) {
@@ -254,46 +322,80 @@ exports.create = function (schema) {
 
         //clone source node without children
         var prop = _(src).omit('properties').cloneDeep();
+
         if (path) {
-            //store original path
+            //collect mapping
+            if (prop.mapping) {
+                _.each(prop.mapping, function (to, from) {
+                    map[path + '.' + from] = path + '.' + to;
+                })
+                delete prop.mapping;
+            }
+            //collect virtual props
+            if (prop.virtual) {
+                _.each(prop.virtual, function (from, to) {
+                    virtual[path + '.' + to] = path + '.' + from;
+                })
+                delete prop.virtual;
+            }
+
+            //store original id and path
             prop._id = id;
-            prop._path = prop._path || path;
-            prop.path = prop.path || path;
+            prop._path = path;
+            //collect node in flat hash
             nodes[path] = prop;
         } else {
             //root node
-            result = prop;
+            root = prop;
         }
     });
 
-    _.each(nodes, function (prop, id) {
-        //resolve base path
-        var base = prop._path.slice(0, -prop._id.length - 1);
-        var baseTo = nodes[base] && nodes[base].path;
-        //resolve base path move
-        if(baseTo) {
-            prop.path = prop.path.replace(base, baseTo);
+    _.merge(root.mapping, map);
+    mapNormalize(root.mapping);
+
+    //create virtual nodes
+    _.each(root.virtual, function (srcId, targetId) {
+        var extend, src;
+
+        if (_.isPlainObject(srcId)) {
+            src = nodes[srcId.extend];
+            extend = srcId;
+
+            delete srcId.extend;
+        } else if (_.isString(srcId)) {
+            src = nodes[srcId];
+            extend = {}
         }
 
-        if(prop.extend) {
-            //1. clone source property
-            //2. override clone, but leave original path (_path)
-            nodes[id] = _.merge(_.cloneDeep(nodes[prop.extend]), _.omit(prop, '_path'));
-        }
+        extend.__virtual = true;
+        nodes[targetId] = _.merge(_.cloneDeep(src), extend);
     });
 
-    //move each node it its place in resulting schema
-    _.each(nodes, function (prop, id) {
-        schemaSet(result, prop.path, prop);
-    });
 
-    //resolve path for newly created nodes
-    walkSchema(result, function (src, id, path, parent) {
-        src._id = src._id || id;
-        src.path = src.path || path;
-    })
+    _(nodes).keys()
+        .sortBy(function (key) {
+            var m = mapString(root.mapping, key).match(/\./g);
+            return m ? m.length : 0;
+        })
+        .each(function (path) {
+            var node = nodes[path];
 
-    return result;
+            node.path = mapString(root.mapping, path);
+
+            if (node.items) {
+                node.items = exports.create(node.items);
+            }
+
+            schemaSet(root, node.path, node);
+        });
+
+    //resolve id and path for newly created nodes
+//    walkSchema(root, function (src, id, path, parent) {
+//        src._id = src._id || id;
+//        src._path = src._path || path;
+//    })
+
+    return root;
 }
 
 exports.merge = function (dest, src) {
@@ -323,6 +425,10 @@ exports.ui = function (schema) {
             return;
         }
 
+        if (prop.oneOf) {
+            delete prop.oneOf;
+        }
+
         resolveDisplayFallback(prop.display, prop);
 
         //add title
@@ -347,24 +453,26 @@ exports.ui = function (schema) {
             //resolve display level
             prop.level = 0;
         }
+
+        if (prop.items) {
+            exports.ui(prop.items);
+        }
     })
 }
 
-exports.setChild = function(parent, path, child, extend) {
-    child = _.cloneDeep(child);
-    _.extend(child, extend);
+exports.import = function (path, src, extension) {
+    var child;
 
-//    child.path = path;
+    if (src.schema && src.form) {
+        child = exports.merge(src.schema, src.form);
+    } else {
+        child = _.cloneDeep(src);
+    }
 
-    walkSchema(child, function(prop, propId, propPath, parent){
-        if(prop.path){
-            prop.path = path + '.' + prop.path;
-        }
-        if(prop.extend){
-            prop.extend = path + '.' + prop.extend;
-        }
-    })
+    if (extension) {
+        _.merge(child, extension);
+    }
 
-    schemaSet(parent, path, child);
+    return child;
 }
 

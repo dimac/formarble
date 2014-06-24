@@ -1,7 +1,7 @@
-var formarble = require('../../');
+var formarble = require('../..');
 
-var schema = require('./profile.schema.js');
-var form = require('./profile.form.js');
+var schema = require('./image.schema.js');
+var form = require('./types.image.js');
 
 var result = formarble.create(formarble.merge(schema, form));
 formarble.ui(result);
