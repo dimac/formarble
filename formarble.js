@@ -404,7 +404,7 @@ angular.module('formarble')
                             objSet($scope.$model, $control._path, []);
                         }
 
-                        itemControl.title += ' ' + index;
+                        itemControl.title += ' ' + (index + 1);
 
 
                         var oldBase = $control._path;

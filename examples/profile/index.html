@@ -56,7 +56,7 @@
                 <div ng-repeat="c in ::$subControls" fm-control="c"></div>
             </div>
             <div ng-if="!$tree.selected && !$subControls.length">
-                Select option in tree
+                <h3 class="text-muted">Select option in tree</h3>
             </div>
             <div ng-if="$tree.selected">
                 <div fm-control="$tree.selected"></div>
@@ -90,8 +90,11 @@
             <a href ng-click="$group.removeItem($group.selected)"><i class="glyphicon glyphicon-minus"></i></a>
         </li>
     </ul>
-
-    <div fm-control="$group.selected"></div>
+    <div ng-if="!$group.selected">
+        <h3 class="text-center text-muted">Create or select an item first</h3>
+    </div>
+    <div fm-control="$group.selected">
+    </div>
 </script>
 <!--
 <script id="bs/group:tab" type="text/ng-template">

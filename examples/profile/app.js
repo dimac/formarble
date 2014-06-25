@@ -6,12 +6,16 @@ angular.module('FormarbleExample', ['formarble'])
         $rootScope.model = {
             "image": {
                 "text": [
-                    { "text": "overlay 1"},
-                    { "text": "overlay 2"},
-                    { "text": "overlay 3", background: {opacity:22}}
+                    {"text": "overlay 1"},
+                    {"text": "overlay 2"},
+                    {
+                        "text": "overlay 3",
+                        "background": {
+                            "opacity": 22
+                        }
+                    }
                 ]
             },
-
             "spin": {
                 "images": {
                     "fullscreen": {
@@ -24,10 +28,23 @@ angular.module('FormarbleExample', ['formarble'])
                                 }
                             }
                         ]
+                    },
+                    "zoom": {
+                        "text": [
+                            {"text": "Spin zoom image text overlay 1"},
+                            {
+                                "text": "North text",
+                                "position": "north",
+                                "style": "simple",
+                                "font": {
+                                    "family": "Ubuntu"
+                                }
+                            }
+                        ]
                     }
                 }
             }
-        };
+        }
 
         function modelFilter(value, key) {
             if (_.isArray(value) || _.isString(value)) {
