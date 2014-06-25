@@ -383,59 +383,60 @@ angular.module('formarble')
 
                 if ($control.items) {
                     $scope.$items = [];
-                }
 
-                this.select = function (item) {
-                    if (this.selected) {
-                        this.selected.$selected = false;
+                    this.select = function (item) {
+                        if (this.selected) {
+                            this.selected.$selected = false;
+                        }
+
+                        this.selected = item;
+
+                        if (this.selected) {
+                            this.selected.$selected = true;
+                        }
                     }
 
-                    this.selected = item;
+                    this.addItem = function () {
+                        var itemControl = angular.copy($control.items);
+                        delete itemControl.items;
 
-                    if (this.selected) {
-                        this.selected.$selected = true;
+                        if(undefined === objGet($scope.$model, $control._path)) {
+                            objSet($scope.$model, $control._path, []);
+                        }
+
+                        itemControl.title += ' ' + index;
+
+
+                        var oldBase = $control._path;
+                        var newBase = $control._path + '.' + index;
+
+                        itemControl._path = newBase;
+
+                        walkControlProperties(itemControl, function (prop) {
+                            prop._path = newBase + '.' + prop._path;
+                        })
+
+                        $scope.$items.push(itemControl);
+                        this.select(itemControl);
+
+                        index++;
                     }
-                }
 
-                this.addItem = function () {
-                    var itemControl = angular.copy($control.items);
-                    delete itemControl.items;
+                    this.removeItem = function (item) {
+                        if(!item) { return }
 
-                    if(undefined === objGet($scope.$model, $control._path)) {
-                        objSet($scope.$model, $control._path, []);
+                        var index = $scope.$items.indexOf(item);
+                        if (index > -1) {
+                            $scope.$value.splice(index, 1);
+                            $scope.$items.splice(index, 1);
+                        }
+                        this.select();
                     }
 
-                    itemControl.title += ' ' + index;
-
-
-                    var oldBase = $control._path;
-                    var newBase = $control._path + '.' + index;
-
-                    itemControl._path = newBase;
-
-                    walkControlProperties(itemControl, function (prop) {
-                        prop._path = newBase + '.' + prop._path;
-                    })
-
-                    $scope.$items.push(itemControl);
-                    this.select(itemControl);
-
-                    index++;
-                }
-
-                this.removeItem = function (item) {
-                    if(!item) { return }
-
-//                    $scope.$apply(function(){
-                        objDelete($scope.$model, item._path);
-//                    })
-
-                    this.select();
-
-                    var index = $scope.$items.indexOf(item);
-                    if (index > -1) {
-                        $scope.$items.splice(index, 1);
-                    }
+                    //add some controls
+                    angular.forEach($scope.$value, function(){
+                        this.addItem();
+                    }, this)
                 }
             }
         };

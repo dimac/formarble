@@ -10,5 +10,11 @@ module.exports = {
         type: 'text',
         pattern: /^\d+(\.\d+)?(%|px)?$/.toString(),
         hint: '[Number] or [Number]px or [Number]%'
+    },
+    numberOrAuto: {
+        name: 'fm-input',
+        type: 'text',
+        pattern: /^\d+|auto$/.toString(),
+        hint: '[Number] or "auto"'
     }
 }

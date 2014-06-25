@@ -1,15 +1,18 @@
 "use strict";
 
-var image = require('./image.schema.js');
 var _ = require('lodash');
 
-module.exports = {
+var formarble = require('../..');
+var generic = require('./types.generic');
+var image = require('./types.image');
+
+exports.schema = {
     properties: {
         images: {
             properties: {
-                main: _.cloneDeep(image),
-                zoom: _.cloneDeep(image),
-                fullscreen: _.cloneDeep(image)
+                main: _.cloneDeep(image.schema),
+                zoom: _.cloneDeep(image.schema),
+                fullscreen: _.cloneDeep(image.schema)
             },
             additionalProperties: false,
         },
@@ -59,5 +62,36 @@ module.exports = {
         reverseRotation: { type: 'string', enum: ['row', 'column', 'both', 'off'] },
 
         emulate3D: { type: 'boolean' }
+    }
+};
+
+exports.form = {
+    title: 'Spin options',
+
+    display: {
+        name: 'fm-tree',
+        tree: ['images']
+    },
+
+    properties: {
+        images: {
+            title: 'Images',
+            display: {
+                name: 'fm-tree',
+                tree: ['main', 'zoom', 'fullscreen'],
+                open: true
+            },
+            properties: {
+                main: formarble.import(image.form, {title: 'Main image'}),
+                zoom: formarble.import(image.form, {title: 'Zoom image'}),
+                fullscreen: formarble.import(image.form, {title: 'Fullscreen image'})
+            }
+        },
+        startRow: {
+            display: generic.numberOrAuto
+        },
+        startColumn: {
+            display: generic.numberOrAuto
+        }
     }
 };

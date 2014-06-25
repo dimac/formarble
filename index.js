@@ -460,7 +460,7 @@ exports.ui = function (schema) {
     })
 }
 
-exports.import = function (path, src, extension) {
+exports.import = function (src, extension) {
     var child;
 
     if (src.schema && src.form) {

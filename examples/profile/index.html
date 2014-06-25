@@ -10,6 +10,15 @@
     <script src="../../formarble.js"></script>
     <script src="schema.js"></script>
     <script src="app.js"></script>
+
+    <style>
+        .nav-tabs li > a {
+            max-width: 200px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body ng-app="FormarbleExample">
 <div class="container">
@@ -21,8 +30,16 @@
         </form>
     </div>
 
-    Model:
-    <pre>{{model | json}}</pre>
+    <div class="row">
+        <div class="col-md-6">
+            Model:
+            <pre>{{model | json}}</pre>
+        </div>
+        <div class="col-md-6">
+            Model (filtered):
+            <pre>{{modelFiltered | json}}</pre>
+        </div>
+    </div>
 </div>
 </body>
 
@@ -62,21 +79,19 @@
 </script>
 
 <script id="bs/group/items" type="text/ng-template">
-    <div>
-        <p class="text-muted">{{::$control.title}}</p>
+    <p class="text-muted">{{::$control.title}}</p>
 
-        <ul class="nav nav-tabs">
-            <li><a href ng-click="$group.addItem()"><i class="glyphicon glyphicon-plus"></i></a></li>
-            <li ng-class="{active: c.$selected}" ng-repeat="c in $items">
-                <a href ng-click="$group.select(c)">{{c.title}}</a>
-            </li>
-            <li class="pull-right">
-                <a href ng-click="$group.removeItem($group.selected)"><i class="glyphicon glyphicon-minus"></i></a>
-            </li>
-        </ul>
+    <ul class="nav nav-tabs">
+        <li><a href ng-click="$group.addItem()"><i class="glyphicon glyphicon-plus"></i></a></li>
+        <li ng-class="{active: c.$selected}" ng-repeat="c in $items">
+            <a href ng-click="$group.select(c)">{{$value[$index].text || c.title}}</a>
+        </li>
+        <li class="pull-right">
+            <a href ng-click="$group.removeItem($group.selected)"><i class="glyphicon glyphicon-minus"></i></a>
+        </li>
+    </ul>
 
-        <div fm-control="$group.selected"></div>
-    </div>
+    <div fm-control="$group.selected"></div>
 </script>
 <!--
 <script id="bs/group:tab" type="text/ng-template">
