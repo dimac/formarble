@@ -46,24 +46,27 @@ angular.module('FormarbleExample', ['formarble'])
             }
         }
 
-        function modelFilter(value, key) {
-            if (_.isArray(value) || _.isString(value)) {
-                return 0 === value.length ? undefined : value;
+        function filterEmpty(obj) {
+            function notEmpty(value) {
+                if(_.isBoolean(value) || _.isNumber(value) || !_.isEmpty(value)) {
+                    return value;
+                }
             }
 
-            if (_.isObject(value)) {
-                var filtred = _.mapValues(value, modelFilter);
-                return angular.equals(filtred, {}) ? undefined : filtred;
+            function _mapper(value, key) {
+                if (_.isArray(value)) {
+                    value = _(value).map(_mapper).filter(angular.isDefined).value();
+                } else
+                if (_.isPlainObject(value)) {
+                    value = _(value).mapValues(_mapper).pick(angular.isDefined).value();
+                }
+                return notEmpty(value);
             }
 
-            if (null === value) {
-                return undefined;
-            }
-
-            return value;
+            return _mapper(obj);
         }
 
         $rootScope.$watch('model', function (value) {
-            $rootScope.modelFiltered = _.mapValues(value, modelFilter)
+            $rootScope.modelFiltered = filterEmpty(value);
         }, true)
     })
