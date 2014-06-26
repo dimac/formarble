@@ -229,7 +229,12 @@ exports.form = {
 
         text: {
             title: 'Text overlays',
-            display: {name: 'fm-input-group'},
+            display: {
+                name: 'fm-input-group',
+                fmInputGroup: {
+                    label: '{{model.text || "New overlay " + index}}'
+                }
+            },
             items: formarble.import(text)
         },
         //scale group

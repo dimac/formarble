@@ -8,6 +8,7 @@
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="../../formarble.js"></script>
+    <script src="../../formarble.controls.js"></script>
     <script src="schema.js"></script>
     <script src="app.js"></script>
 
@@ -17,6 +18,10 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
+        }
+
+        [fm-tree-sidebar] > li.open > a {
+            font-weight: bold;
         }
     </style>
 </head>
@@ -65,9 +70,9 @@
     </div>
 </script>
 <script id="bs/tree/sidebar" type="text/ng-template">
-    <li ng-repeat="i in $items">
+    <li ng-repeat="i in $items" ng-class="{open: $tree.isGroupOpen(i)}">
         <a href ng-click="$select(i)">{{i.title}}</a>
-        <ul ng-if="$tree.isGroupOpen(i) || i.display.open" fm-tree-sidebar="i"></ul>
+        <ul ng-if="$tree.isGroupOpen(i)" fm-tree-sidebar="i"></ul>
     </li>
 </script>
 <script id="bs/group" type="text/ng-template">
@@ -83,8 +88,8 @@
 
     <ul class="nav nav-tabs">
         <li><a href ng-click="$group.addItem()"><i class="glyphicon glyphicon-plus"></i></a></li>
-        <li ng-class="{active: c.$selected}" ng-repeat="c in $items">
-            <a href ng-click="$group.select(c)">{{$value[$index].text || c.title}}</a>
+        <li ng-class="{active: c.$selected}" ng-repeat="c in $group.$items">
+            <a href ng-click="$group.select(c)">{{$group.getLabel(c)}}</a>
         </li>
         <li class="pull-right">
             <a href ng-click="$group.removeItem($group.selected)"><i class="glyphicon glyphicon-minus"></i></a>
@@ -129,7 +134,7 @@
             <input class="form-control" fm-control-input/>
 
             <p ng-if="!$empty" class="help-block pull-right">
-                <a href fm-reset><i class="glyphicon glyphicon-ban-circle"></i> Reset to default</a>
+                <a href fm-reset><i class="glyphicon glyphicon-ban-circle"></i> Reset</a>
             </p>
 
             <p ng-if="::$control.description" class="help-block">
@@ -149,7 +154,7 @@
             </div>
 
             <p ng-if="!$empty" class="help-block pull-right">
-                <a href fm-reset><i class="glyphicon glyphicon-ban-circle"></i> Reset to default</a>
+                <a href fm-reset><i class="glyphicon glyphicon-ban-circle"></i> Reset</a>
             </p>
 
             <p ng-if="::$control.description" class="help-block">
@@ -169,7 +174,7 @@
                 </label>
 
                 <p ng-if="!$empty" class="help-block pull-right">
-                    <a href fm-reset><i class="glyphicon glyphicon-ban-circle"></i> Reset to default</a>
+                    <a href fm-reset><i class="glyphicon glyphicon-ban-circle"></i> Reset</a>
                 </p>
 
             </div>
@@ -182,7 +187,7 @@
 
         <div class="col-sm-8">
             <p ng-if="!$empty" class="help-block pull-right">
-                <a href fm-reset><i class="glyphicon glyphicon-ban-circle"></i> Reset to default</a>
+                <a href fm-reset><i class="glyphicon glyphicon-ban-circle"></i> Reset</a>
             </p>
 
             <div class="radio" ng-repeat="li in $control.display.options">
@@ -201,7 +206,7 @@
             <select class="form-control" fm-control-input></select>
 
             <p ng-if="!$empty" class="help-block pull-right">
-                <a href fm-reset><i class="glyphicon glyphicon-ban-circle"></i> Reset to default</a>
+                <a href fm-reset><i class="glyphicon glyphicon-ban-circle"></i> Reset</a>
             </p>
         </div>
     </div>

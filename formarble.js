@@ -1,103 +1,72 @@
 "use strict";
 
-function objSet(obj, path, value) {
-    var segments = path.split('.'),
-        cursor = obj,
-        segment,
-        nextSegment,
-        isNumericTest = /^\d+$/,
-        i;
-
-    for (i = 0; i < segments.length - 1; ++i) {
-        segment = segments[i];
-
-        if(undefined === cursor[segment]) {
-            cursor[segment] = isNumericTest.test(segments[i+1]) ? [] : {}
-        }
-
-        cursor = cursor[segment];
-    }
-
-    return cursor[segments[i]] = value;
-}
-
-function objGet(obj, path) {
-    var segments = path.split('.'),
-        cursor = obj,
-        len = segments.length,
-        i;
-
-    for (i = 0; i < len; i++) {
-        cursor = cursor[segments[i]];
-
-        if (undefined === cursor) {
-            return;
-        }
-    }
-
-    return cursor;
-}
-
-function objDelete(obj, path) {
-    var segments = path.split('.'),
-        len = segments.length,
-        i;
-
-    var removeId = segments.pop();
-    var removePath = segments.join('.');
-
-    var collection = objGet(obj, removePath);
-
-    if(collection.splice){
-        collection.splice(removeId, 1)
-    } else {
-        delete collection[removeId];
-    }
-
-    return obj;
-
-//    for(i = len - 1; i > 0; i--) {
-//        delete objGet()
-//        console.log(i, 'remove', segments[i], 'from', segments.slice(0, i));
-//    }
-}
-
-function walkControlProperties(control, fn) {
-    angular.forEach(control.properties, function (prop) {
-        fn(prop);
-        walkControlProperties(prop, fn)
-    })
-}
-
-function isEmpty(value) {
-    return undefined === value || null === value || '' === value || angular.equals(value, {}) || angular.equals(value, []);
-}
-
 angular.module('formarble', [])
-//    .service('fm', function ($templateCache) {
-//        function getTemplateId(display) {
-//            if(!display) {
-//                return false;
-//            }
-//
-//            if(angular.isString(display)) {
-//                return display;
-//            }
-//
-//            return display.name;
-//        }
-//
-//        return {
-//            getTemplate: function (theme, display) {
-//                var id, template;
-//                if (id = getTemplateId(display)) {
-//                    id = theme + '/' + id;
-//                    template = $templateCache.get(id);
-//                }
-//                return template;
-//            }
-//        }
-//    })
+    .service('fm', function () {
+        var isNumericTest = /^\d+$/;
+
+        var fmUtils = {
+            oget: function objGet(obj, path) {
+                var segments = path.split('.'),
+                    cursor = obj,
+                    len = segments.length,
+                    i;
+
+                for (i = 0; i < len; i++) {
+                    cursor = cursor[segments[i]];
+
+                    if (undefined === cursor) {
+                        return;
+                    }
+                }
+
+                return cursor;
+            },
+            oset: function objSet(obj, path, value) {
+                var segments = path.split('.'),
+                    cursor = obj,
+                    segment,
+                    i;
+
+                for (i = 0; i < segments.length - 1; ++i) {
+                    segment = segments[i];
+
+                    if (undefined === cursor[segment]) {
+                        cursor[segment] = isNumericTest.test(segments[i + 1]) ? [] : {}
+                    }
+
+                    cursor = cursor[segment];
+                }
+
+                return cursor[segments[i]] = value;
+            },
+            odel: function objDelete(obj, path) {
+                var segments = path.split('.');
+
+                var removeId = segments.pop();
+                var removePath = segments.join('.');
+
+                var collection = fmUtils.oget(obj, removePath);
+
+                if (collection.splice) {
+                    collection.splice(removeId, 1)
+                } else {
+                    delete collection[removeId];
+                }
+
+                return obj;
+            },
+            walkProps: function walkProps(control, fn) {
+                angular.forEach(control.properties, function (prop) {
+                    fn(prop);
+                    fmUtils.walkProps(prop, fn);
+                })
+            },
+            isEmpty: function isEmpty(value) {
+                return undefined === value || null === value || '' === value || angular.equals(value, {}) || angular.equals(value, []);
+            }
+        };
+        return  fmUtils
+    })
     .directive('fmForm', function ($compile) {
         return {
             restrict: 'EA',
@@ -116,26 +85,26 @@ angular.module('formarble', [])
                     return ['$model', control._path].join('.')
                 }
 
-                this.getControlId = function (control){
+                this.getControlId = function (control) {
                     return control._path && control._path.split('.').join('-');
                 }
 
-                this.getProperties = function(control) {
+                this.getProperties = function (control) {
                     if (angular.isObject(control.properties)) {
                         return Object.keys(control.properties)
                             .map(function (key) {
                                 return control.properties[key];
                             })
                             .sort(function (a, b) {
-                                if(angular.isDefined(a.order) && angular.isDefined(b.order)) {
+                                if (angular.isDefined(a.order) && angular.isDefined(b.order)) {
                                     return a.order - b.order;
                                 }
 
-                                if(angular.isDefined(a.order)) {
+                                if (angular.isDefined(a.order)) {
                                     return -1;
                                 }
 
-                                if(angular.isDefined(b.order)) {
+                                if (angular.isDefined(b.order)) {
                                     return 1;
                                 }
 
@@ -145,7 +114,7 @@ angular.module('formarble', [])
                 }
             },
             link: function (scope, elem) {
-                if(!elem.find('[fm-control]').length){
+                if (!elem.find('[fm-control]').length) {
                     elem.append('<div fm-control></div>');
                 }
 
@@ -153,7 +122,7 @@ angular.module('formarble', [])
             }
         }
     })
-    .directive('fmControl', function ($compile, $injector) {
+    .directive('fmControl', function ($compile, $injector, fm) {
         var directiveSuffix = 'Directive';
 
         return {
@@ -200,8 +169,8 @@ angular.module('formarble', [])
                     innerScope.$subControls = ctrl.getProperties(control);
 
                     scope.$watch(control.$model, function (value) {
-                        innerScope.$value = value;
-                        innerScope.$empty = isEmpty(value);
+                        control.$value = innerScope.$value = value;
+                        control.$empty = innerScope.$empty = fm.isEmpty(value);
                     });
 
                     elem.data('$control', control);
@@ -251,7 +220,7 @@ angular.module('formarble', [])
                     attr.$set('id', control.$id);
 
                     if (isInput) {
-                        if(!attr.type){
+                        if (!attr.type) {
                             attr.$set('type', control.display.type)
                         }
 
@@ -285,7 +254,7 @@ angular.module('formarble', [])
             require: '^form',
             link: function (scope, elem, attrs, ctrl) {
                 function onClick(e) {
-                    if(!attrs.ngClick){
+                    if (!attrs.ngClick) {
                         e.preventDefault();
                     }
 
@@ -299,182 +268,4 @@ angular.module('formarble', [])
                 })
             }
         }
-    })
-
-angular.module('formarble')
-    .directive('fmTree', function () {
-        return {
-            templateUrl: 'bs/tree',
-            scope: true,
-            controllerAs: '$tree',
-            controller: function ($scope, $element, $attrs) {
-                var control = $scope.$eval($attrs.fmTree || '$control');
-
-                $scope.$isSubtree = angular.isDefined($element.parent().controller('fmTree'));
-                $scope.$subControls = $scope.$subControls.filter(function(sc){
-                    return -1 === control.display.tree.indexOf(sc._id);
-                })
-
-                this.selected = null;
-
-                this.select = function (item) {
-//                    console.debug('tree select', item);
-                    this.selected = item;
-                }
-
-                this.isGroupOpen = function(item){
-                    var isOpen;
-//                    try {
-                        isOpen = this.selected && this.selected.path.slice(0, item.path.length) === item.path;
-//                    } catch(e) {
-//                        console.log('Error on', this.selected, item);
-//                        throw e;
-//                    }
-                    return isOpen;
-                }
-            }
-        }
-    })
-    .directive('fmTreeSidebar', function ($compile, $templateCache) {
-        return {
-            require: ['^fmTree', '^fmForm'],
-            scope: true,
-            link: function (scope, elem, attrs, ctrls) {
-                var tree = ctrls[0];
-                var form = ctrls[1];
-
-                var control = scope.$eval(attrs.fmTreeSidebar);
-                if (control.display.tree) {
-                    scope.$items = control.display.tree
-                        .map(function (name) {
-                            return control.properties[name];
-                        })
-                        .filter(angular.identity)
-
-                    elem.html($templateCache.get('bs/tree/sidebar'));
-                    $compile(elem.contents())(scope);
-                }
-
-                scope.$select = function(item){
-                    tree.select(item);
-                }
-            }
-        }
-    })
-
-angular.module('formarble')
-    .directive('fmInputGroup', function(){
-        return {
-            restrict: 'A',
-            templateUrl: function (tElem, tAttrs) {
-                var $control = tElem.data('$control');
-
-                if ($control.items) {
-                    return 'bs/group/items'
-                }
-
-                return 'bs/group';
-            },
-
-            controllerAs: '$group',
-            controller: function ($element, $scope) {
-                var index = 0;
-                var $control = $element.data('$control');
-
-                if ($control.items) {
-                    $scope.$items = [];
-
-                    this.select = function (item) {
-                        if (this.selected) {
-                            this.selected.$selected = false;
-                        }
-
-                        this.selected = item;
-
-                        if (this.selected) {
-                            this.selected.$selected = true;
-                        }
-                    }
-
-                    this.addItem = function () {
-                        var itemControl = angular.copy($control.items);
-                        delete itemControl.items;
-
-                        if(undefined === objGet($scope.$model, $control._path)) {
-                            objSet($scope.$model, $control._path, []);
-                        }
-
-                        itemControl.title += ' ' + (index + 1);
-
-
-                        var oldBase = $control._path;
-                        var newBase = $control._path + '.' + index;
-
-                        itemControl._path = newBase;
-
-                        walkControlProperties(itemControl, function (prop) {
-                            prop._path = newBase + '.' + prop._path;
-                        })
-
-                        $scope.$items.push(itemControl);
-                        this.select(itemControl);
-
-                        index++;
-                    }
-
-                    this.removeItem = function (item) {
-                        if(!item) { return }
-
-                        var index = $scope.$items.indexOf(item);
-                        if (index > -1) {
-                            $scope.$value.splice(index, 1);
-                            $scope.$items.splice(index, 1);
-                        }
-                        this.select();
-                    }
-
-                    //add some controls
-                    angular.forEach($scope.$value, function(){
-                        this.addItem();
-                    }, this)
-                }
-            }
-        };
-    })
-    .directive('fmInput', function () {
-        return {
-            restrict: 'A',
-            templateUrl: 'bs/input'
-        }
-    })
-    .directive('fmTextarea', function () {
-        return {
-            restrict: 'A',
-            templateUrl: 'bs/textarea'
-        }
-    })
-    .directive('fmCheckbox', function () {
-        return {
-            restrict: 'A',
-            templateUrl: 'bs/checkbox'
-        }
-    })
-    .directive('fmInputRange', function () {
-        return {
-            restrict: 'A',
-            templateUrl: 'bs/input/range'
-        }
-    })
-
-    .directive('fmRadioList', function(){
-        return {
-            restrict: 'A',
-            templateUrl: 'bs/radiolist'
-        }
-    })
-    .directive('fmSelect', function () {
-        return {
-            restrict: 'A',
-            templateUrl: 'bs/select'
-        }
-    })
+    });
