@@ -350,9 +350,11 @@ exports.create = function (schema) {
         }
     });
 
-    _.extend(root.mapping, map);
+    root.mapping = _.extend(map, root.mapping);
+    root.virtual = _.extend(virtual, root.virtual);
+
     mapNormalize(root.mapping);
-    _.extend(root.virtual, virtual);
+
     //create virtual nodes
     _.each(root.virtual, function (srcId, targetId) {
         var extend, src;

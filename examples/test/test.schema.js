@@ -10,9 +10,6 @@ exports.schema = {
         ]
     },
 
-    mapping: {},
-    virtual: {},
-
     properties: {
 
         image: {
