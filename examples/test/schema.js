@@ -12,7 +12,10 @@ window.schema = {
       "image.progressive": "image.formats.jpg.progressive",
       "image.injected.injected3": "image.injected.children.injected3"
    },
-   "virtual": {},
+   "virtual": {
+      "image.formats.jpg.quality": "image.quality",
+      "image.formats.webp.quality": "image.quality"
+   },
    "properties": {
       "image": {
          "title": "Image settings",
@@ -114,6 +117,24 @@ window.schema = {
                            "title": "Progressive",
                            "_order": 1009,
                            "level": 4
+                        },
+                        "quality": {
+                           "type": "number",
+                           "minimum": 0,
+                           "maximum": 100,
+                           "display": {
+                              "name": "fm-input-range",
+                              "type": "number",
+                              "max": 100,
+                              "min": 0
+                           },
+                           "_id": "quality",
+                           "_path": "image.quality",
+                           "__virtual": true,
+                           "path": "image.formats.jpg.quality",
+                           "title": "Quality",
+                           "_order": 1010,
+                           "level": 4
                         }
                      },
                      "display": {
@@ -143,7 +164,7 @@ window.schema = {
                               "min": 0
                            },
                            "title": "Compression",
-                           "_order": 1011,
+                           "_order": 1012,
                            "level": 4
                         },
                         "filtering": {
@@ -189,14 +210,14 @@ window.schema = {
                               ]
                            },
                            "title": "Filtering",
-                           "_order": 1012,
+                           "_order": 1013,
                            "level": 4
                         }
                      },
                      "display": {
                         "name": "fm-input-group"
                      },
-                     "_order": 1010,
+                     "_order": 1011,
                      "level": 3
                   },
                   "webp": {
@@ -232,14 +253,32 @@ window.schema = {
                            "_path": "image.webp.fallback",
                            "path": "image.formats.webp.fallback",
                            "title": "Fallback",
-                           "_order": 1014,
+                           "_order": 1015,
+                           "level": 4
+                        },
+                        "quality": {
+                           "type": "number",
+                           "minimum": 0,
+                           "maximum": 100,
+                           "display": {
+                              "name": "fm-input-range",
+                              "type": "number",
+                              "max": 100,
+                              "min": 0
+                           },
+                           "_id": "quality",
+                           "_path": "image.quality",
+                           "__virtual": true,
+                           "path": "image.formats.webp.quality",
+                           "title": "Quality",
+                           "_order": 1016,
                            "level": 4
                         }
                      },
                      "display": {
                         "name": "fm-input-group"
                      },
-                     "_order": 1013,
+                     "_order": 1014,
                      "level": 3
                   }
                },
@@ -259,7 +298,7 @@ window.schema = {
                   "type": "text"
                },
                "title": "Profile",
-               "_order": 1015,
+               "_order": 1017,
                "level": 2
             },
             "format": {
@@ -295,7 +334,7 @@ window.schema = {
                "_path": "image.format",
                "path": "image.format",
                "title": "Format",
-               "_order": 1016,
+               "_order": 1018,
                "level": 2
             },
             "quality": {
@@ -312,7 +351,7 @@ window.schema = {
                "_path": "image.quality",
                "path": "image.quality",
                "title": "Quality",
-               "_order": 1017,
+               "_order": 1019,
                "level": 2
             },
             "scale": {
@@ -334,7 +373,7 @@ window.schema = {
                         "min": 0
                      },
                      "title": "Width",
-                     "_order": 1019,
+                     "_order": 1021,
                      "level": 3
                   },
                   "height": {
@@ -350,7 +389,7 @@ window.schema = {
                         "min": 0
                      },
                      "title": "Height",
-                     "_order": 1020,
+                     "_order": 1022,
                      "level": 3
                   },
                   "option": {
@@ -386,7 +425,7 @@ window.schema = {
                         ]
                      },
                      "title": "Option",
-                     "_order": 1021,
+                     "_order": 1023,
                      "level": 3
                   }
                },
@@ -394,7 +433,7 @@ window.schema = {
                   "name": "fm-input-group"
                },
                "title": "Scale",
-               "_order": 1018,
+               "_order": 1020,
                "level": 2
             },
             "crop": {
@@ -416,7 +455,7 @@ window.schema = {
                         "min": 0
                      },
                      "title": "Width",
-                     "_order": 1023,
+                     "_order": 1025,
                      "level": 3
                   },
                   "height": {
@@ -432,7 +471,7 @@ window.schema = {
                         "min": 0
                      },
                      "title": "Height",
-                     "_order": 1024,
+                     "_order": 1026,
                      "level": 3
                   },
                   "x": {
@@ -448,7 +487,7 @@ window.schema = {
                         "min": 0
                      },
                      "title": "X",
-                     "_order": 1025,
+                     "_order": 1027,
                      "level": 3
                   },
                   "y": {
@@ -464,7 +503,7 @@ window.schema = {
                         "min": 0
                      },
                      "title": "Y",
-                     "_order": 1026,
+                     "_order": 1028,
                      "level": 3
                   }
                },
@@ -472,7 +511,7 @@ window.schema = {
                   "name": "fm-input-group"
                },
                "title": "Crop",
-               "_order": 1022,
+               "_order": 1024,
                "level": 2
             }
          },
