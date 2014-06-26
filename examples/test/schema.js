@@ -6,13 +6,20 @@ window.schema = {
          "image"
       ]
    },
+   "mapping": {
+      "image.webp": "image.formats.webp",
+      "image.png": "image.formats.png",
+      "image.progressive": "image.formats.jpg.progressive",
+      "image.injected.injected3": "image.injected.children.injected3"
+   },
+   "virtual": {},
    "properties": {
       "image": {
          "title": "Image settings",
          "display": {
             "name": "fmTree",
             "tree": [
-               "_format",
+               "formats",
                "scale",
                "crop"
             ]
@@ -21,71 +28,114 @@ window.schema = {
          "_path": "image",
          "path": "image",
          "properties": {
-            "_format": {
-               "title": "Formats",
-               "_id": "_format",
-               "_path": "image._format",
-               "path": "image._format",
+            "injected": {
+               "_id": "injected",
+               "_path": "image.injected",
+               "path": "image.injected",
                "properties": {
-                  "jpg": {
-                     "title": "JPEG options",
-                     "_id": "jpg",
-                     "_path": "image._format.jpg",
-                     "path": "image._format.jpg",
+                  "injected1": {
+                     "type": "string",
+                     "_id": "injected1",
+                     "_path": "image.injected.injected1",
+                     "path": "image.injected.injected1",
+                     "display": {
+                        "name": "fm-input",
+                        "type": "text"
+                     },
+                     "title": "Injected 1",
+                     "_order": 1003,
+                     "level": 3
+                  },
+                  "injected2": {
+                     "type": "string",
+                     "_id": "injected2",
+                     "_path": "image.injected.injected2",
+                     "path": "image.injected.injected2",
+                     "display": {
+                        "name": "fm-input",
+                        "type": "text"
+                     },
+                     "title": "Injected 2",
+                     "_order": 1004,
+                     "level": 3
+                  },
+                  "children": {
                      "properties": {
-                        "quality": {
-                           "type": "number",
-                           "minimum": 0,
-                           "maximum": 100,
+                        "injected3": {
+                           "type": "string",
+                           "_id": "injected3",
+                           "_path": "image.injected.injected3",
+                           "path": "image.injected.children.injected3",
                            "display": {
-                              "name": "fm-input-range",
-                              "type": "number",
-                              "max": 100,
-                              "min": 0
+                              "name": "fm-input",
+                              "type": "text"
                            },
-                           "_id": "quality",
-                           "_path": "image.quality",
-                           "path": "image._format.jpg.quality",
-                           "extend": "image.quality",
-                           "title": "Quality",
-                           "_order": 1004,
-                           "level": 4
-                        },
-                        "progressive": {
-                           "type": "boolean",
-                           "description": "Create progressive image",
-                           "path": "image._format.jpg.progressive",
-                           "_id": "progressive",
-                           "_path": "image.progressive",
-                           "display": {
-                              "name": "fm-checkbox"
-                           },
-                           "title": "Progressive",
-                           "_order": 1005,
+                           "title": "Injected 3",
+                           "_order": 1006,
                            "level": 4
                         }
                      },
                      "display": {
                         "name": "fm-input-group"
                      },
-                     "_order": 1003,
+                     "title": "Children",
+                     "_order": 1005,
+                     "level": 3
+                  }
+               },
+               "display": {
+                  "name": "fm-input-group"
+               },
+               "title": "Injected",
+               "_order": 1002,
+               "level": 2
+            },
+            "formats": {
+               "title": "Formats",
+               "_id": "formats",
+               "_path": "image.formats",
+               "path": "image.formats",
+               "properties": {
+                  "jpg": {
+                     "title": "JPEG options",
+                     "_id": "jpg",
+                     "_path": "image.formats.jpg",
+                     "path": "image.formats.jpg",
+                     "properties": {
+                        "progressive": {
+                           "type": "boolean",
+                           "description": "Create progressive image",
+                           "_id": "progressive",
+                           "_path": "image.progressive",
+                           "path": "image.formats.jpg.progressive",
+                           "display": {
+                              "name": "fm-checkbox"
+                           },
+                           "title": "Progressive",
+                           "_order": 1009,
+                           "level": 4
+                        }
+                     },
+                     "display": {
+                        "name": "fm-input-group"
+                     },
+                     "_order": 1008,
                      "level": 3
                   },
                   "png": {
                      "title": "PNG options",
-                     "path": "image._format.png",
                      "_id": "png",
                      "_path": "image.png",
+                     "path": "image.formats.png",
                      "properties": {
                         "compression": {
                            "type": "number",
                            "description": "PNG compression",
                            "minimum": 0,
                            "maximum": 9,
-                           "hint": "0 is Huffman compression, 1-9 is Zlib compression",
                            "_id": "compression",
                            "_path": "image.png.compression",
-                           "path": "image._format.png.compression",
+                           "path": "image.formats.png.compression",
                            "display": {
                               "name": "fm-input",
                               "type": "number",
@@ -93,7 +143,7 @@ window.schema = {
                               "min": 0
                            },
                            "title": "Compression",
-                           "_order": 1007,
+                           "_order": 1011,
                            "level": 4
                         },
                         "filtering": {
@@ -108,7 +158,7 @@ window.schema = {
                            ],
                            "_id": "filtering",
                            "_path": "image.png.filtering",
-                           "path": "image._format.png.filtering",
+                           "path": "image.formats.png.filtering",
                            "display": {
                               "name": "fm-select",
                               "options": [
@@ -139,40 +189,22 @@ window.schema = {
                               ]
                            },
                            "title": "Filtering",
-                           "_order": 1008,
+                           "_order": 1012,
                            "level": 4
                         }
                      },
                      "display": {
                         "name": "fm-input-group"
                      },
-                     "_order": 1006,
+                     "_order": 1010,
                      "level": 3
                   },
                   "webp": {
                      "title": "WebP options",
-                     "path": "image._format.webp",
                      "_id": "webp",
                      "_path": "image.webp",
+                     "path": "image.formats.webp",
                      "properties": {
-                        "quality": {
-                           "type": "number",
-                           "minimum": 0,
-                           "maximum": 100,
-                           "display": {
-                              "name": "fm-input-range",
-                              "type": "number",
-                              "max": 100,
-                              "min": 0
-                           },
-                           "_id": "quality",
-                           "_path": "image.quality",
-                           "path": "image._format.webp.quality",
-                           "extend": "image.quality",
-                           "title": "Quality",
-                           "_order": 1010,
-                           "level": 4
-                        },
                         "fallback": {
                            "type": "string",
                            "enum": [
@@ -198,23 +230,23 @@ window.schema = {
                            },
                            "_id": "fallback",
                            "_path": "image.webp.fallback",
-                           "path": "image._format.webp.fallback",
+                           "path": "image.formats.webp.fallback",
                            "title": "Fallback",
-                           "_order": 1011,
+                           "_order": 1014,
                            "level": 4
                         }
                      },
                      "display": {
                         "name": "fm-input-group"
                      },
-                     "_order": 1009,
+                     "_order": 1013,
                      "level": 3
                   }
                },
                "display": {
                   "name": "fm-input-group"
                },
-               "_order": 1002,
+               "_order": 1007,
                "level": 2
             },
             "profile": {
@@ -227,7 +259,7 @@ window.schema = {
                   "type": "text"
                },
                "title": "Profile",
-               "_order": 1012,
+               "_order": 1015,
                "level": 2
             },
             "format": {
@@ -263,7 +295,7 @@ window.schema = {
                "_path": "image.format",
                "path": "image.format",
                "title": "Format",
-               "_order": 1013,
+               "_order": 1016,
                "level": 2
             },
             "quality": {
@@ -280,7 +312,7 @@ window.schema = {
                "_path": "image.quality",
                "path": "image.quality",
                "title": "Quality",
-               "_order": 1014,
+               "_order": 1017,
                "level": 2
             },
             "scale": {
@@ -302,7 +334,7 @@ window.schema = {
                         "min": 0
                      },
                      "title": "Width",
-                     "_order": 1016,
+                     "_order": 1019,
                      "level": 3
                   },
                   "height": {
@@ -318,7 +350,7 @@ window.schema = {
                         "min": 0
                      },
                      "title": "Height",
-                     "_order": 1017,
+                     "_order": 1020,
                      "level": 3
                   },
                   "option": {
@@ -354,7 +386,7 @@ window.schema = {
                         ]
                      },
                      "title": "Option",
-                     "_order": 1018,
+                     "_order": 1021,
                      "level": 3
                   }
                },
@@ -362,7 +394,7 @@ window.schema = {
                   "name": "fm-input-group"
                },
                "title": "Scale",
-               "_order": 1015,
+               "_order": 1018,
                "level": 2
             },
             "crop": {
@@ -384,7 +416,7 @@ window.schema = {
                         "min": 0
                      },
                      "title": "Width",
-                     "_order": 1020,
+                     "_order": 1023,
                      "level": 3
                   },
                   "height": {
@@ -400,7 +432,7 @@ window.schema = {
                         "min": 0
                      },
                      "title": "Height",
-                     "_order": 1021,
+                     "_order": 1024,
                      "level": 3
                   },
                   "x": {
@@ -416,7 +448,7 @@ window.schema = {
                         "min": 0
                      },
                      "title": "X",
-                     "_order": 1022,
+                     "_order": 1025,
                      "level": 3
                   },
                   "y": {
@@ -432,7 +464,7 @@ window.schema = {
                         "min": 0
                      },
                      "title": "Y",
-                     "_order": 1023,
+                     "_order": 1026,
                      "level": 3
                   }
                },
@@ -440,7 +472,7 @@ window.schema = {
                   "name": "fm-input-group"
                },
                "title": "Crop",
-               "_order": 1019,
+               "_order": 1022,
                "level": 2
             }
          },
@@ -448,8 +480,6 @@ window.schema = {
          "level": 1
       }
    },
-   "_id": "",
-   "path": "",
    "_order": 1000,
    "level": 0
 }

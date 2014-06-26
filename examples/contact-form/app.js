@@ -1,15 +1,13 @@
 "use strict"
 
-angular.module('FormarbleExample', ['formarble'])
+angular.module('FormarbleExample', ['formarble', 'formarble.controls'])
     .run(function ($rootScope, $window) {
         $rootScope.schema = $window.schema;
         $rootScope.model = {};
 
         var DEFAULTS = {
-            options: {
-                issue: 'tech-support',
-                priority: 'low'
-            }
+            issue: 'tech-support',
+            priority: 'low'
         };
 
         $rootScope.reset = function () {

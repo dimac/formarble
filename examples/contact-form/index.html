@@ -8,6 +8,7 @@
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="../../formarble.js"></script>
+    <script src="../../formarble.controls.js"></script>
     <script src="schema.js"></script>
     <script src="app.js"></script>
 </head>
@@ -27,7 +28,7 @@
                 <div class="form-group">
                     <div class="col-sm-push-4 col-sm-8">
                         <button class="btn btn-primary" ng-click="send()" ng-disabled="form.$invalid">Send</button>
-                        <button class="btn" ng-click="reset()" fm-reset ng-disabled="form.$pristine">
+                        <button class="btn" ng-click="reset()" ng-disabled="form.$pristine">
                             {{resetLabel || 'N/A'}}
                         </button>
                     </div>
@@ -36,11 +37,15 @@
         </div>
     </section>
 
-    <section>
-        Model:
-        <pre>{{model | json}}</pre>
-        Filtered:
-        <pre>{{modelFiltered | json}}</pre>
+    <section class="row">
+        <div class="col-md-6">
+            Model:
+            <pre>{{model | json}}</pre>
+        </div>
+        <div class="col-md6">
+            Filtered:
+            <pre>{{modelFiltered | json}}</pre>
+        </div>
     </section>
 </div>
 </body>

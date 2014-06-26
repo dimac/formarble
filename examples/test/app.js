@@ -1,6 +1,6 @@
 "use strict"
 
-angular.module('FormarbleExample', ['formarble'])
+angular.module('FormarbleExample', ['formarble', 'formarble.controls'])
     .run(function ($rootScope, $window) {
         $rootScope.profile = $window.schema;
         $rootScope.image = $window.schema.properties.image;

@@ -4,26 +4,22 @@ module.exports = {
     title: 'How can we help?',
 
     properties: {
-        options: {
-            properties: {
-                issue: {
-                    type: 'string',
-                    enum: ['tech-support', 'feature-request', 'bug-report'],
+        issue: {
+            type: 'string',
+            enum: ['tech-support', 'feature-request', 'bug-report'],
 
-                    display: {
-                        name: 'fm-radio-list',
-                        inline: true
-                    }
-                },
+            display: {
+                name: 'fm-radio-list',
+                inline: true
+            }
+        },
 
-                priority: {
-                    type: 'string',
-                    enum: ['low', 'normal', 'high', 'urgent'],
+        priority: {
+            type: 'string',
+            enum: ['low', 'normal', 'high', 'urgent'],
 
-                    display: {
-                        name: 'fm-radio-list'
-                    }
-                }
+            display: {
+                name: 'fm-radio-list'
             }
         },
 
