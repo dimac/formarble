@@ -191,8 +191,6 @@ function resolveDisplay(schema) {
                 } else {
                     input = { name: 'fm-radio-list' };
                 }
-            } else if ('Color' === schema.format) {
-                input = { name: 'fm-input', type: 'color' };
             } else {
                 input = { name: 'fm-input', type: 'text'};
             }
