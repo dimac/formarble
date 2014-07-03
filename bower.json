@@ -1,0 +1,19 @@
+{
+  "name": "formarble",
+  "main": ["formarble.js", "formarble.controls.js"],
+  "version": "0.0.0-a1",
+  "homepage": "https://github.com/dimac/formarble",
+  "authors": [
+    "Dima Chukhai <dima@luckyteam.co.uk>"
+  ],
+  "description": "Extend your JSON schema with form display properties and render form with Angular",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
