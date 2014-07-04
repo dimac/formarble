@@ -67,7 +67,11 @@ angular.module('formarble.controls')
                     this.selected = item;
                 }
 
-                this.isGroupOpen = function (item) {
+                this.isSelected = function (item) {
+                    return item === this.selected;
+                }
+
+                this.isOpen = function (item) {
                     var isOpen = fm.oget(item, 'display.open');
 //                    try {
                     isOpen = isOpen || this.selected && this.selected.path.slice(0, item.path.length) === item.path;
@@ -79,7 +83,7 @@ angular.module('formarble.controls')
                 }
 
                 //open first child control
-                if(!$scope.$subControls.length) {
+                if(!$scope.$isSubtree && !$scope.$subControls.length) {
                     this.select(firstChild);
                 }
             }

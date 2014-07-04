@@ -20,8 +20,12 @@
             overflow: hidden;
         }
 
-        [fm-tree-sidebar] > li.open > a {
+        [fm-tree-sidebar] > li.selected > a {
             font-weight: bold;
+        }
+
+        [fm-tree-sidebar] > li.open > a {
+            font-style: italic;
         }
     </style>
 </head>
@@ -70,9 +74,9 @@
     </div>
 </script>
 <script id="bs/tree/sidebar" type="text/ng-template">
-    <li ng-repeat="i in $items" ng-class="{open: $tree.isGroupOpen(i)}">
+    <li ng-repeat="i in $items" ng-class="{selected: $tree.isSelected(i), open: $tree.isOpen(i)}">
         <a href ng-click="$select(i)">{{i.title}}</a>
-        <ul ng-if="$tree.isGroupOpen(i)" fm-tree-sidebar="i"></ul>
+        <ul ng-if="$tree.isOpen(i)" fm-tree-sidebar="i"></ul>
     </li>
 </script>
 <script id="bs/group" type="text/ng-template">
