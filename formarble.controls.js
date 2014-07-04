@@ -141,9 +141,20 @@ angular.module('formarble.controls')
                     labelFn = $interpolate(fm.oget($control, 'display.fmInputGroup.label'));
 
                     this.$items = [];
-                    //init control model as array
-                    if (undefined === fm.oget($scope.$model, $control._path)) {
-                        fm.oset($scope.$model, $control._path, []);
+
+                    var modelValue = fm.oget($scope.$model, $control._path);
+                    // init control model as array
+                    if (angular.isUndefined(modelValue)) {
+                        modelValue = [];
+                        fm.oset($scope.$model, $control._path, modelValue);
+                    } else
+                    /**
+                     * wrap control model in array
+                     * todo: make this behavior more explicit, this may be wrong in some cases
+                     */
+                    if (!angular.isArray(modelValue)) {
+                        modelValue = [modelValue];
+                        fm.oset($scope.$model, $control._path, modelValue);
                     }
 
                     this.select = function (item) {
@@ -231,7 +242,7 @@ angular.module('formarble.controls')
                     }
 
                     //add controls for initialized models
-                    angular.forEach($scope.$value, function () {
+                    angular.forEach(modelValue, function () {
                         this.addItem();
                     }, this)
                 }

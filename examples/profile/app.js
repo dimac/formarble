@@ -5,16 +5,12 @@ angular.module('FormarbleExample', ['formarble', 'formarble.controls'])
         $rootScope.schema = $window.schema;
         $rootScope.model = {
             "image": {
-                "text": [
-                    {"text": "overlay 1"},
-                    {"text": "overlay 2"},
-                    {
+                "text": {
                         "text": "overlay 3",
                         "background": {
                             "opacity": 22
                         }
                     }
-                ]
             },
             "spin": {
                 "images": {
