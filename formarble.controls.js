@@ -49,8 +49,14 @@ angular.module('formarble.controls')
             controller: function ($scope, $element, $attrs) {
                 var control = $scope.$eval($attrs.fmTree || '$control');
 
+                var firstChild;
+
                 $scope.$isSubtree = angular.isDefined($element.parent().controller('fmTree'));
                 $scope.$subControls = $scope.$subControls.filter(function (sc) {
+                    if(!firstChild) {
+                        firstChild = sc;
+                    }
+
                     return -1 === control.display.tree.indexOf(sc._id);
                 })
 
@@ -70,6 +76,11 @@ angular.module('formarble.controls')
 //                        throw e;
 //                    }
                     return isOpen;
+                }
+
+                //open first child control
+                if(!$scope.$subControls.length) {
+                    this.select(firstChild);
                 }
             }
         }
