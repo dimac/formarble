@@ -62,7 +62,7 @@ angular.module('formarble', [])
                 })
             },
             isEmpty: function isEmpty(value) {
-                return undefined === value || null === value || '' === value || angular.equals(value, {}) || angular.equals(value, []);
+                return undefined === value || null === value || angular.equals(value, {}) || angular.equals(value, []);
             }
         };
         return  fmUtils
@@ -168,9 +168,18 @@ angular.module('formarble', [])
                     innerScope.$control = control;
                     innerScope.$subControls = ctrl.getProperties(control);
 
+                    innerScope.$setRecommended = function(){
+                        var recommendValue = angular.isDefined(control.recommend) ? control.recommend : null;
+                        fm.oset(scope.$model, control._path, recommendValue);
+                    };
+
+                    innerScope.$setEmpty = function(){
+                        fm.odel(scope.$model, control._path);
+                    };
+
                     scope.$watch(control.$model, function (value) {
                         control.$value = innerScope.$value = value;
-                        control.$empty = innerScope.$empty = fm.isEmpty(value);
+                        control.$empty = innerScope.$empty = undefined === value;
                     });
 
                     elem.data('$control', control);
@@ -192,7 +201,7 @@ angular.module('formarble', [])
             }
         }
     })
-    .directive('fmControlInput', function ($compile) {
+    .directive('fmControlInput', function ($compile, fm) {
         var ngInputPlugins = ['pattern', 'minlength', 'maxlength', 'required'];
         var htmlInputPlugins = ['min', 'max', 'step'];
 

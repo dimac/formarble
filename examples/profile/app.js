@@ -6,11 +6,14 @@ angular.module('FormarbleExample', ['formarble', 'formarble.controls'])
         $rootScope.model = {
             "image": {
                 "text": {
-                        "text": "overlay 3",
-                        "background": {
-                            "opacity": 22
-                        }
+                    "text": "overlay 3",
+                    "background": {
+                        "opacity": 22
                     }
+                },
+                "png": {
+                    "compression": 0
+                }
             },
             "spin": {
                 "images": {
@@ -44,7 +47,7 @@ angular.module('FormarbleExample', ['formarble', 'formarble.controls'])
 
         function filterEmpty(obj) {
             function notEmpty(value) {
-                if(_.isBoolean(value) || _.isNumber(value) || !_.isEmpty(value)) {
+                if (_.isBoolean(value) || _.isNumber(value) || !_.isEmpty(value)) {
                     return value;
                 }
             }
@@ -52,8 +55,7 @@ angular.module('FormarbleExample', ['formarble', 'formarble.controls'])
             function _mapper(value, key) {
                 if (_.isArray(value)) {
                     value = _(value).map(_mapper).filter(angular.isDefined).value();
-                } else
-                if (_.isPlainObject(value)) {
+                } else if (_.isPlainObject(value)) {
                     value = _(value).mapValues(_mapper).pick(angular.isDefined).value();
                 }
                 return notEmpty(value);

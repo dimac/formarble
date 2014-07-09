@@ -130,20 +130,24 @@
         <i class="glyphicon glyphicon-info-sign"></i>
     </a>
 </script>
+<script id="bs/control-empty-hint" type="text/ng-template">
+    <p class="form-control-static text-muted">
+        <a href="" title="Click to change" ng-click="$setRecommended()">{{$control.defaultHint || 'System default'}}</a>
+    </p>
+</script>
 <script id="bs/input" type="text/ng-template">
     <div class="form-group" ng-class="{'has-error': $input.$dirty && $input.$invalid}">
         <label class="control-label col-sm-4" fm-control-label></label>
 
-        <div class="col-sm-8 clearfix">
+        <div class="col-sm-8" ng-if="$empty" ng-include="'bs/control-empty-hint'"></div>
+        <div class="col-sm-8" ng-if="!$empty">
             <input class="form-control" fm-control-input/>
 
-            <p ng-if="!$empty" class="help-block pull-right">
-                <a href fm-reset><i class="glyphicon glyphicon-ban-circle"></i> Reset</a>
+            <p class="help-block pull-right">
+                <a href ng-click="$setEmpty()">use default</a>
             </p>
 
-            <p ng-if="::$control.description" class="help-block">
-                {{:: $control.description}}
-            </p>
+            <p ng-if="$control.description" class="help-block">{{$control.description}}</p>
         </div>
     </div>
 </script>
@@ -151,19 +155,17 @@
     <div class="form-group" ng-class="{'has-error': $input.$invalid}">
         <label class="control-label col-sm-4" fm-control-label></label>
 
-        <div class="col-sm-8">
+        <div class="col-sm-8" ng-if="$empty" ng-include="'bs/control-empty-hint'"></div>
+        <div class="col-sm-8" ng-if="!$empty">
             <div class="input-group">
                 <input class="form-control" type="range" fm-control-input/>
-                <span class="input-group-addon" style="min-width: 60px">{{$value || 'N/A'}}</span>
+                <span class="input-group-addon" style="min-width: 60px">{{$empty ? 'Auto' : $value}}</span>
             </div>
-
-            <p ng-if="!$empty" class="help-block pull-right">
-                <a href fm-reset><i class="glyphicon glyphicon-ban-circle"></i> Reset</a>
+            <p class="help-block pull-right">
+                <a href ng-click="$setEmpty()">use default</a>
             </p>
 
-            <p ng-if="::$control.description" class="help-block">
-                {{:: $control.description}}
-            </p>
+            <p ng-if="$control.description" class="help-block">{{$control.description}}</p>
         </div>
     </div>
 </script>
@@ -171,16 +173,16 @@
     <div class="form-group">
         <label class="control-label col-sm-4" fm-control-label></label>
 
-        <div class="col-sm-8">
+        <div class="col-sm-8" ng-if="$empty" ng-include="'bs/control-empty-hint'"></div>
+        <div class="col-sm-8" ng-if="!$empty">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" fm-control-input> {{:: $control.description}}
+                    <input type="checkbox" fm-control-input> {{$control.description}}
                 </label>
 
-                <p ng-if="!$empty" class="help-block pull-right">
-                    <a href fm-reset><i class="glyphicon glyphicon-ban-circle"></i> Reset</a>
+                <p class="help-block pull-right">
+                    <a href ng-click="$setEmpty()">use default</a>
                 </p>
-
             </div>
         </div>
     </div>
@@ -189,14 +191,15 @@
     <div class="form-group">
         <label class="control-label col-sm-4" fm-control-label for=""></label>
 
-        <div class="col-sm-8">
-            <p ng-if="!$empty" class="help-block pull-right">
-                <a href fm-reset><i class="glyphicon glyphicon-ban-circle"></i> Reset</a>
+        <div class="col-sm-8" ng-if="$empty" ng-include="'bs/control-empty-hint'"></div>
+        <div class="col-sm-8" ng-if="!$empty">
+            <p class="help-block pull-right">
+                <a href ng-click="$setEmpty()">use default</a>
             </p>
 
             <div class="radio" ng-repeat="li in $control.display.options">
                 <label>
-                    <input type="radio" fm-control-input ng-value="li.id"/> {{:: li.title}}
+                    <input type="radio" fm-control-input ng-value="li.id"/> {{li.title}}
                 </label>
             </div>
         </div>
@@ -206,11 +209,12 @@
     <div class="form-group">
         <label class="control-label col-sm-4" fm-control-label></label>
 
-        <div class="col-sm-8">
+        <div class="col-sm-8" ng-if="$empty" ng-include="'bs/control-empty-hint'"></div>
+        <div class="col-sm-8" ng-if="!$empty">
             <select class="form-control" fm-control-input></select>
 
-            <p ng-if="!$empty" class="help-block pull-right">
-                <a href fm-reset><i class="glyphicon glyphicon-ban-circle"></i> Reset</a>
+            <p class="help-block pull-right">
+                <a href ng-click="$setEmpty()">use default</a>
             </p>
         </div>
     </div>

@@ -173,15 +173,24 @@ function mapCollection(map, target) {
 }
 
 function resolveDisplay(schema) {
-    var input;
+    var input,
+        inputDefaultValue;
 
     switch (schema.type) {
         case 'boolean':
             input = { name: 'fm-checkbox'};
+            inputDefaultValue = false;
             break;
 
         case 'number':
             input = { name: 'fm-input', type: 'number'};
+
+            if(isDefined(schema.minimum) && isDefined(schema.maximum)) {
+                inputDefaultValue = Math.round(schema.minimum/2 + schema.maximum/2)
+            } else {
+                inputDefaultValue = schema.minimum || schema.maximum || 0;
+            }
+
             break;
 
         case 'string':
@@ -191,8 +200,13 @@ function resolveDisplay(schema) {
                 } else {
                     input = { name: 'fm-radio-list' };
                 }
+
+                inputDefaultValue = schema.enum[0];
+
             } else {
                 input = { name: 'fm-input', type: 'text'};
+
+                inputDefaultValue = '';
             }
             break;
 
@@ -205,6 +219,10 @@ function resolveDisplay(schema) {
     if (input) {
         resolveInputOptions(input, schema);
     }
+
+//    if (isDefined(inputDefaultValue) && !isDefined(schema.recommended)) {
+//        schema.recommended = inputDefaultValue;
+//    }
 
     return input;
 }

@@ -10,9 +10,14 @@ var text = require('./types.text');
 exports.schema = {
     properties: {
 
-        profile: { type: 'string' },
+        profile: { type: 'string', defaultHint: 'Don\'t apply profile' },
 
-        format: { type: 'string', enum: ['png', 'jpg', 'webp'] },
+        format: {
+            type: 'string',
+            enum: ['png', 'jpg', 'webp'],
+            recommend: 'jpg',
+            defaultHint: 'Preserve original image format'
+        },
 
         scale: {
             properties: {
@@ -21,7 +26,8 @@ exports.schema = {
                         { type: 'number', minimum: 0 },
                         { type: 'string', format: 'Percentage' }
                     ],
-                    description: 'Width'
+                    description: 'Width',
+                    defaultHint: 'No width scaling'
 
                 },
                 height: {
@@ -29,10 +35,11 @@ exports.schema = {
                         { type: 'number', minimum: 0 },
                         { type: 'string', format: 'Percentage' }
                     ],
-                    description: 'Height'
+                    description: 'Height',
+                    defaultHint: 'No height scaling'
 
                 },
-                option: { type: 'string', enum: ['fit', 'fill', 'ignore', 'noup'] }
+                option: { type: 'string', enum: ['fit', 'fill', 'ignore', 'noup'], defaultHint: 'Fit image', recommend: 'fit' }
             },
             description: 'Scale the image to specified width and height',
             additionalProperties: false
@@ -45,7 +52,8 @@ exports.schema = {
                         { type: 'number', minimum: 0 },
                         { type: 'string', format: 'Percentage' }
                     ],
-                    description: 'Width'
+                    description: 'Width',
+                    defaultHint: 'No width cropping'
 
                 },
                 height: {
@@ -53,7 +61,8 @@ exports.schema = {
                         { type: 'number', minimum: 0},
                         { type: 'string', format: 'Percentage' }
                     ],
-                    description: 'Height'
+                    description: 'Height',
+                    defaultHint: 'No height cropping'
 
                 },
                 x: {
@@ -62,7 +71,8 @@ exports.schema = {
                         { type: 'string', format: 'Percentage' },
                         { type: 'string', enum: ['center'] }
                     ],
-                    description: 'X offset' // out of top left corner, can be +- and %
+                    description: 'X offset', // out of top left corner, can be +- and %
+                    defaultHint: 'No X offset'
 
                 },
                 y: {
@@ -71,7 +81,8 @@ exports.schema = {
                         { type: 'string', format: 'Percentage' },
                         { type: 'string', enum: ['center'] }
                     ],
-                    description: 'Y offset' // out of top left corner, can be +- and %
+                    description: 'Y offset', // out of top left corner, can be +- and %
+                    defaultHint: 'No Y offset'
 
                 }
             },
@@ -79,7 +90,7 @@ exports.schema = {
             additionalProperties: false
         },
 
-        thumbnail: { type: 'number', minimum: 1, maximum: 256, description: 'Create square thumbnail of specified size' },
+        thumbnail: { type: 'number', minimum: 1, maximum: 256, description: 'Create square thumbnail of specified size', defaultHint: 'Don\'t create thumbnail' },
 
         tile: {
             hidden: true,
@@ -92,35 +103,42 @@ exports.schema = {
             additionalProperties: false
         },
 
-        rotate: {type: 'number', description: 'Rotate image (degrees)', minimum: -180, maximum: 180},
+        rotate: {type: 'number', description: 'Rotate image (degrees)', minimum: -180, maximum: 180, defaultHint: 'No'},
 
         // http://www.web3.lu/jpeg-chroma-subsampling/
         // http://www.sounddevices.com/notes/pix/444-vs-422-color-sampling/
         //
         // Image Magick inherits sampling factor regardless of quality setting
         //      (the documentation says they use 4:4:4 when q>=90 and 4:2:0 otherwise)
-        subsampling: { type: 'string', enum: ['4:4:4', '4:2:2', '4:2:0'] },
+        subsampling: { type: 'string', enum: ['4:4:4', '4:2:2', '4:2:0'], defaultHint: 'Preserve original subsampling'},
 
         // jpeg and webp only
         // 0 - inherit quality from parent
         // NOTE: -define jpeg:preserve-settings DOESN'T WORK (checked with coders/jpeg.c)
-        quality: { type: 'number', description: 'Image quality', minimum: 0, maximum: 100},
+        quality: {
+            type: 'number',
+            description: 'Image quality (0 - same as original)',
+            minimum: 0,
+            maximum: 100,
+            recommend: 92,
+            defaultHint: '92%'
+        },
 
-        progressive: { type: 'boolean', description: 'Create progressive image'},
+        progressive: { type: 'boolean', description: 'Create progressive image', defaultHint: 'No', recommend: false},
 
         // http://www.imagemagick.org/Usage/formats/#png_quality
         png: {
             properties: {
                 // 0 is Huffman compression, 1-9 is Zlib compression
                 compression: { type: 'number', description: 'PNG compression', minimum: 0, maximum: 9 },
-                filtering: { type: 'string', enum: ['none', 'sub', 'up', 'average', 'paeth', 'adaptive']}
+                filtering: { type: 'string', enum: ['none', 'sub', 'up', 'average', 'paeth', 'adaptive'], recommend:'up', defaultHint: 'Up'}
             },
             additionalProperties: false
         },
 
         webp: {
             properties: {
-                fallback: { type: 'string', enum: ['png', 'jpg']}
+                fallback: { type: 'string', enum: ['png', 'jpg'], recommend: 'png', defaultHint: 'PNG'}
             },
             additionalProperties: false
         },
@@ -128,12 +146,12 @@ exports.schema = {
 
 
         // effects:
-        brightness: {type: 'number', minimum: -100, maximum: 100},
-        contrast: {type: 'number', minimum: -100, maximum: 100},
-        exposure: {type: 'number', minimum: -100, maximum: 100},
-        grayscale: {type: 'boolean', description: 'Transform the image to black and white'},
-        blur: {type: 'number', description: 'Apply a blur effect to the image'},
-        tiltshift: {type: 'boolean', description: 'Apply a tilt-shift effect to the image'},
+        brightness: {type: 'number', minimum: -100, maximum: 100, defaultHint: 'No'},
+        contrast: {type: 'number', minimum: -100, maximum: 100, defaultHint: 'No'},
+        exposure: {type: 'number', minimum: -100, maximum: 100, defaultHint: 'No'},
+        grayscale: {type: 'boolean', description: 'Transform the image to black and white', defaultHint: 'No'},
+        blur: {type: 'number', description: 'Apply a blur effect to the image', defaultHint: 'No'},
+        tiltshift: {type: 'boolean', description: 'Apply a tilt-shift effect to the image', defaultHint: 'No'},
         frame: {
             properties: {
                 style: { type: 'string', enum: ['simple', 'mirror', 'edge', 'deckled', 'none'] },
@@ -155,7 +173,7 @@ exports.schema = {
                 { items: text.schema }
             ]
         },
-        colortone: { type: 'string', enum: ['sepia', 'warm', 'cold', 'sunset', 'purpletan', 'texas', 'none']},
+        colortone: { type: 'string', enum: ['sepia', 'warm', 'cold', 'sunset', 'purpletan', 'texas', 'none'], defaultHint: 'No'},
         vignette: {
             properties: {
                 color: { type: 'string', format: 'Color'},
@@ -207,7 +225,7 @@ exports.form = {
 
         format: {
             display: {
-                labels: { png: 'PNG', webp: 'WebP', jpg: 'JPG' }
+                labels: { '': 'Auto', png: 'PNG', webp: 'WebP', jpg: 'JPG' }
             }
         },
 
@@ -218,6 +236,13 @@ exports.form = {
         },
         quality: {
             display: {name: 'fm-input-range'}
+        },
+        png: {
+            properties: {
+                compression: {
+                    display: {name: 'fm-input-range'}
+                }
+            }
         },
 
         brightness: {order: 1},
