@@ -9,6 +9,7 @@
     <script src="bower_components/angular/angular.js"></script>
     <script src="../../formarble.js"></script>
     <script src="../../formarble.controls.js"></script>
+    <script src="../../controls/simple/simple.min.js"></script>
     <script src="schema.js"></script>
     <script src="app.js"></script>
 
@@ -52,7 +53,7 @@
 </div>
 </body>
 
-<script id="bs/tree" type="text/ng-template">
+<script id="bs/tree.html" type="text/ng-template">
     <h3 class="text-muted" ng-if="::!$isSubtree">
         <a href ng-click="$tree.select()">{{::$control.title}}</a>
     </h3>
@@ -73,13 +74,13 @@
         </div>
     </div>
 </script>
-<script id="bs/tree/sidebar" type="text/ng-template">
+<script id="bs/tree/sidebar.html" type="text/ng-template">
     <li ng-repeat="i in $items" ng-class="{selected: $tree.isSelected(i), open: $tree.isOpen(i)}">
         <a href ng-click="$select(i)">{{i.title}}</a>
         <ul ng-if="$tree.isOpen(i)" fm-tree-sidebar="i"></ul>
     </li>
 </script>
-<script id="bs/group" type="text/ng-template">
+<!--<script id="bs/group" type="text/ng-template">
     <div>
         <p class="text-muted">{{::$control.title}}</p>
 
@@ -105,28 +106,10 @@
     <div fm-control="$group.selected">
     </div>
 </script>
-<!--
-<script id="bs/group:tab" type="text/ng-template">
-    &lt;!&ndash; Nav tabs &ndash;&gt;
-    <ul class="nav nav-pills">
-        <li ng-class="{active: $first}"
-            ng-repeat="c in ::$subControls">
-            <a href="#{{::c.path.split('.').join('-')}}" data-toggle="tab">{{::c.title || c.description || c.path}}</a>
-        </li>
-    </ul>
-    &lt;!&ndash; Tab panes &ndash;&gt;
-    <div class="tab-content">
-        <div class="tab-pane"
-             ng-class="{active: $first}"
-             ng-repeat="c in ::$subControls"
-             id="{{::c.path.split('.').join('-')}}"
-             fm-control="c"></div>
-    </div>
-</script>-->
 
 <script id="bs/control-label" type="text/ng-template">
-    {{:: $control.title}}
-    <a class="control-help" ng-if="::$control.display.hint" title="{{::$control.display.hint}}">
+    {{$control.title}}
+    <a class="control-help" ng-if="$control.display.hint" title="{{$control.display.hint}}">
         <i class="glyphicon glyphicon-info-sign"></i>
     </a>
 </script>
@@ -218,5 +201,5 @@
             </p>
         </div>
     </div>
-</script>
+</script>-->
 </html>

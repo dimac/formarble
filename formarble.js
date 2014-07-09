@@ -63,6 +63,11 @@ angular.module('formarble', [])
             },
             isEmpty: function isEmpty(value) {
                 return undefined === value || null === value || angular.equals(value, {}) || angular.equals(value, []);
+            },
+            urlResolver: function(name){
+                return function(tElem, tAttrs){
+                    return tElem.controller('fmForm').getTemplateUrl(name);
+                }
             }
         };
         return  fmUtils
@@ -81,6 +86,10 @@ angular.module('formarble', [])
 
             controllerAs: '$form',
             controller: function ($scope, $attrs) {
+                this.getTemplateUrl = function(name){
+                    return ($attrs.fmTheme || 'default') + '/' + name + '.html';
+                }
+
                 this.getControlModel = function (control) {
                     return ['$model', control._path].join('.')
                 }
@@ -190,15 +199,21 @@ angular.module('formarble', [])
 
         }
     })
-    .directive('fmControlLabel', function () {
+    .directive('fmControlLabel', function (fm) {
         return {
-            templateUrl: 'bs/control-label',
+            templateUrl: fm.urlResolver('control-label'),
             link: function (scope, elem, attrs) {
                 var control = scope.$eval(attrs.fmControlLabel || '$control');
                 if (undefined === attrs.for) {
                     attrs.$set('for', control.$id);
                 }
             }
+        }
+    })
+    .directive('fmControlEmpty', function (fm) {
+        return {
+            priority: 600,//>= ng-if priority
+            templateUrl: fm.urlResolver('control-empty')
         }
     })
     .directive('fmControlInput', function ($compile, fm) {

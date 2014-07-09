@@ -1,6 +1,6 @@
 "use strict"
 
-angular.module('FormarbleExample', ['formarble', 'formarble.controls'])
+angular.module('FormarbleExample', ['formarble', 'formarble.controls', 'formarble/controls/simple'])
     .run(function ($rootScope, $window) {
         $rootScope.schema = $window.schema;
         $rootScope.model = {
