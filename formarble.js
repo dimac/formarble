@@ -177,19 +177,25 @@ angular.module('formarble', [])
                     innerScope.$control = control;
                     innerScope.$subControls = ctrl.getProperties(control);
 
-                    innerScope.$setRecommended = function(){
-                        var recommendValue = angular.isDefined(control.recommend) ? control.recommend : null;
-                        fm.oset(scope.$model, control._path, recommendValue);
-                    };
+                    if(!innerScope.$subControls) {
+                        innerScope.$useDefault = !angular.isDefined(fm.oget(scope.$model, control._path));
 
-                    innerScope.$setEmpty = function(){
-                        fm.odel(scope.$model, control._path);
-                    };
+                        innerScope.$setRecommended = function(){
+                            var recommendValue = angular.isDefined(control.recommend) ? control.recommend : null;
+                            fm.oset(scope.$model, control._path, recommendValue);
+                            innerScope.$useDefault = false;
+                        };
 
-                    scope.$watch(control.$model, function (value) {
-                        control.$value = innerScope.$value = value;
-                        control.$empty = innerScope.$empty = undefined === value;
-                    });
+                        innerScope.$setEmpty = function(){
+                            fm.odel(scope.$model, control._path);
+                            innerScope.$useDefault = true;
+                        };
+
+                        scope.$watch(control.$model, function (value) {
+                            control.$value = innerScope.$value = value;
+                            control.$empty = innerScope.$empty = (undefined === value) || (null === value);
+                        });
+                    }
 
                     elem.data('$control', control);
 

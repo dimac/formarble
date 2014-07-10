@@ -1,8 +1,8 @@
 <div class="form-group">
     <label class="control-label col-sm-4" fm-control-label for=""></label>
 
-    <div class="col-sm-8" ng-if="$empty" fm-control-empty></div>
-    <div class="col-sm-8" ng-if="!$empty">
+    <div class="col-sm-8" ng-if="$useDefault" fm-control-empty></div>
+    <div class="col-sm-8" ng-hide="$useDefault">
         <p class="help-block pull-right">
             <a href ng-click="$setEmpty()">use default</a>
         </p>
