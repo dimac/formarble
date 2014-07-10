@@ -55,21 +55,21 @@
     <div ng-repeat="c in ::$subControls" fm-control="c"></div>
 </script>
 <script id="bs/control-label" type="text/ng-template">
-    {{:: $control.title}}
-    <a class="control-help" ng-if="::$control.display.hint" title="{{::$control.display.hint}}">
+    {{ $control.title}}
+    <a class="control-help" ng-if="::$control.display.hint" title="{{$control.display.hint}}">
         <i class="glyphicon glyphicon-info-sign"></i>
     </a>
 </script>
 <script id="bs/textarea" type="text/ng-template">
     <div class="form-group" ng-class="{'has-error': $input.$dirty && $input.$invalid}">
         <label class="control-label col-sm-4" fm-control-label>
-        {{:: $control.title || $control.path}}
+        {{ $control.title || $control.path}}
         </label>
 
         <div class="col-sm-8">
             <textarea class="form-control" fm-control-input/>
 
-            <p class="help-block">{{:: $control.description}}</p>
+            <p class="help-block">{{ $control.description}}</p>
         </div>
     </div>
 </script>
@@ -80,7 +80,7 @@
         <div class="col-sm-8">
             <input class="form-control" fm-control-input/>
 
-            <p class="help-block">{{:: $control.description}}</p>
+            <p class="help-block">{{ $control.description}}</p>
         </div>
     </div>
 </script>
@@ -91,7 +91,7 @@
         <div class="col-sm-8">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" fm-control-input> {{:: $control.description}}
+                    <input type="checkbox" fm-control-input> {{ $control.description}}
                 </label>
             </div>
         </div>
@@ -105,7 +105,7 @@
             <div class="radio" ng-class="{'radio-inline': $control.display.inline}"
                  ng-repeat="li in $control.display.options">
                 <label>
-                    <input type="radio" fm-control-input ng-value="li.id"/> {{::
+                    <input type="radio" fm-control-input ng-value="li.id"/> {{
                     li.title}}
                 </label>
             </div>

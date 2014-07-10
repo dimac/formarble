@@ -15,12 +15,12 @@ angular.module('formarble/controls/simple').run(['$templateCache', function($tem
 
 angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
   $templateCache.put('bs/group-items.html',
-    '<p class="text-muted">{{::$control.title}}</p><ul class="nav nav-tabs"><li><a href="" ng-click="$group.addItem()"><i class="glyphicon glyphicon-plus"></i></a></li><li ng-class="{active: c.$selected}" ng-repeat="c in $group.$items"><a href="" ng-click="$group.select(c)">{{$group.getLabel(c)}}</a></li><li class="pull-right"><a href="" ng-click="$group.removeItem($group.selected)"><i class="glyphicon glyphicon-minus"></i></a></li></ul><div ng-if="!$group.selected"><h3 class="text-center text-muted">Create or select an item first</h3></div><div fm-control="$group.selected"></div>');
+    '<p class="text-muted">{{$control.title}}</p><ul class="nav nav-tabs"><li><a href="" ng-click="$group.addItem()"><i class="glyphicon glyphicon-plus"></i></a></li><li ng-class="{active: c.$selected}" ng-repeat="c in $group.$items"><a href="" ng-click="$group.select(c)">{{$group.getLabel(c)}}</a></li><li class="pull-right"><a href="" ng-click="$group.removeItem($group.selected)"><i class="glyphicon glyphicon-minus"></i></a></li></ul><div ng-if="!$group.selected"><h3 class="text-center text-muted">Create or select an item first</h3></div><div fm-control="$group.selected"></div>');
 }]);
 
 angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
   $templateCache.put('bs/group.html',
-    '<div><p class="text-muted">{{::$control.title}}</p><div ng-repeat="c in ::$subControls" fm-control="c"></div></div>');
+    '<div><p class="text-muted">{{$control.title}}</p><div ng-repeat="c in ::$subControls" fm-control="c"></div></div>');
 }]);
 
 angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
