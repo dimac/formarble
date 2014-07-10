@@ -216,3 +216,8 @@ angular.module('formarble/controls/simple').run(['$templateCache', function($tem
   $templateCache.put('bs/select.html',
     '<div class="form-group"><label class="control-label col-sm-4" fm-control-label=""></label><div class="col-sm-8" ng-if="$useDefault" fm-control-empty=""></div><div class="col-sm-8" ng-hide="$useDefault"><select class="form-control" fm-control-input=""></select><p class="help-block pull-right"><a href="" ng-click="$setEmpty()">use default</a></p></div></div>');
 }]);
+
+angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
+  $templateCache.put('bs/textarea.html',
+    '<div class="form-group" ng-class="{\'has-error\': $input.$dirty && $input.$invalid}"><label class="control-label col-sm-4" fm-control-label=""></label><div class="col-sm-8" ng-if="$useDefault" fm-control-empty=""></div><div class="col-sm-8" ng-hide="$useDefault"><textarea class="form-control" fm-control-input=""></textarea><p class="help-block pull-right"><a href="" ng-click="$setEmpty()">use default</a></p><p ng-if="$control.description" class="help-block">{{$control.description}}</p></div></div>');
+}]);

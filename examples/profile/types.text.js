@@ -47,7 +47,10 @@ exports.form = {
 
     properties: {
         text: {
-            order: 1
+            order: 1,
+            display: {
+                name: 'fm-textarea'
+            }
         },
         background: {
             properties: {
