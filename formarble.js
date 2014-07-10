@@ -72,20 +72,40 @@ angular.module('formarble', [])
         };
         return  fmUtils
     })
-    .directive('fmForm', function ($compile) {
+    .directive('fmForm', function ($compile, fm) {
         return {
             restrict: 'EA',
             require: 'fmForm',
 
             scope: {
                 $control: '=fmForm',
-                $model: '=ngModel'
+                $model: '=fmModel'
             },
 
             terminal: true,
 
             controllerAs: '$form',
             controller: function ($scope, $attrs) {
+                if(angular.isUndefined($scope.$model)) {
+                    throw new Error('Looks like fmModel attribute is not set or model is undefined yet')
+                }
+
+                this.hasValue = function (path) {
+                    return undefined !== fm.oget($scope.$model, path._path || path);
+                }
+
+                this.getValue = function (path) {
+                    return fm.oget($scope.$model, path._path || path);
+                }
+
+                this.setValue = function (path, value) {
+                    return fm.oset($scope.$model, path._path || path, value);
+                }
+
+                this.delValue = function (path) {
+                    return fm.odel($scope.$model, path._path || path);
+                }
+
                 this.getTemplateUrl = function(name){
                     return ($attrs.fmTheme || 'default') + '/' + name + '.html';
                 }
@@ -98,7 +118,11 @@ angular.module('formarble', [])
                     return control._path && control._path.split('.').join('-');
                 }
 
-                this.getProperties = function (control) {
+                this.hasChildren = function (control){
+                    return undefined !== control.properties;
+                }
+
+                this.getChildren = function (control) {
                     if (angular.isObject(control.properties)) {
                         return Object.keys(control.properties)
                             .map(function (key) {
@@ -137,7 +161,7 @@ angular.module('formarble', [])
         return {
             require: '^fmForm',
             terminal: true,
-            link: function (scope, elem, attrs, ctrl) {
+            link: function (scope, elem, attrs, form) {
                 var controlBinding = attrs.fmControl || '$control',
                     previousScope,
                     previousName;
@@ -171,23 +195,24 @@ angular.module('formarble', [])
                     attrs.$set('ngRepeat', null);
                     attrs.$set(directiveName, '');
 
-                    control.$id = ctrl.getControlId(control);
-                    control.$model = ctrl.getControlModel(control);
+                    control.$id = form.getControlId(control);
+                    control.$model = form.getControlModel(control);
 
                     innerScope.$control = control;
-                    innerScope.$subControls = ctrl.getProperties(control);
+                    innerScope.$subControls = form.getChildren(control);
 
-                    if(!angular.isDefined(control.properties)) {
-                        innerScope.$useDefault = !angular.isDefined(fm.oget(scope.$model, control._path));
+                    if(!form.hasChildren(control)) {
+                        innerScope.$useDefault = !form.hasValue(control);
 
                         innerScope.$setRecommended = function(){
-                            var recommendValue = angular.isDefined(control.recommend) ? control.recommend : null;
-                            fm.oset(scope.$model, control._path, recommendValue);
+                            if(angular.isDefined(control.recommend)){
+                                form.setValue(control, control.recommend);
+                            }
                             innerScope.$useDefault = false;
                         };
 
                         innerScope.$setEmpty = function(){
-                            fm.odel(scope.$model, control._path);
+                            form.delValue(control);
                             innerScope.$useDefault = true;
                         };
 
