@@ -44,9 +44,13 @@ angular.module('formarble', [])
 
                 var removeId = segments.pop();
                 var removePath = segments.join('.');
+                var collection = obj;
 
-                var collection = fmUtils.oget(obj, removePath);
-                if(collection) {
+                if (removePath) {
+                    collection = fmUtils.oget(obj, removePath)
+                }
+
+                if (collection) {
                     if (collection.splice) {
                         collection.splice(removeId, 1)
                     } else {
