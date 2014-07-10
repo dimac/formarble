@@ -5,7 +5,9 @@ var fs = require('fs'),
 
 var gulp = require('gulp'),
     chug = require('gulp-chug'),
-    rename = require('gulp-rename');
+    rename = require('gulp-rename'),
+    ngmin = require('gulp-ngmin'),
+    uglify = require('gulp-uglify');
 
 var controlsDir = 'controls',
     controls = fs.readdirSync(controlsDir)
@@ -13,7 +15,15 @@ var controlsDir = 'controls',
             return fs.statSync(path.join(controlsDir, name)).isDirectory();
         });
 
-gulp.task('default', function () {
+gulp.task('build-core', function () {
+    return gulp.src('formarble.js')
+        .pipe(ngmin())
+        .pipe(uglify())
+        .pipe(rename('formarble.min.js'))
+        .pipe(gulp.dest('.'))
+})
+
+gulp.task('build-controls', function () {
     var stream = gulp.src('controls/.gulpfile.js')
 
     controls.forEach(function (dest) {
@@ -25,3 +35,4 @@ gulp.task('default', function () {
     return stream;
 });
 
+gulp.task('default', ['build-core', 'build-controls']);
