@@ -4,17 +4,6 @@ angular.module('FormarbleExample', ['formarble', 'formarble/controls/simple', 'f
     .run(function ($rootScope, $window) {
         $rootScope.schema = $window.schema;
         $rootScope.model = {
-            "image": {
-                "text": {
-                    "text": "overlay 3",
-                    "background": {
-                        "opacity": 22
-                    }
-                },
-                "png": {
-                    "compression": 0
-                }
-            },
             "spin": {
                 "images": {
                     "fullscreen": {

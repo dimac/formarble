@@ -177,7 +177,7 @@ angular.module('formarble', [])
                     innerScope.$control = control;
                     innerScope.$subControls = ctrl.getProperties(control);
 
-                    if(!innerScope.$subControls) {
+                    if(!angular.isDefined(control.properties)) {
                         innerScope.$useDefault = !angular.isDefined(fm.oget(scope.$model, control._path));
 
                         innerScope.$setRecommended = function(){
