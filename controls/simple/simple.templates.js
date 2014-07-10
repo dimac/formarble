@@ -20,7 +20,7 @@ angular.module('formarble/controls/simple').run(['$templateCache', function($tem
 
 angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
   $templateCache.put('bs/group.html',
-    '<div><p class="text-muted">{{$control.title}}</p><div ng-repeat="c in ::$subControls" fm-control="c"></div></div>');
+    '<div><p class="text-muted">{{$control.title}}</p><div ng-repeat="c in $subControls" fm-control="c"></div></div>');
 }]);
 
 angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
