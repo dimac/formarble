@@ -4,7 +4,7 @@
     "formarble*.js",
     "controls/**/*.js"
   ],
-  "version": "0.0.1-0",
+  "version": "0.0.1-1",
   "homepage": "https://github.com/dimac/formarble",
   "authors": [
     "Dima Chukhai <dima@luckyteam.co.uk>"
@@ -17,6 +17,10 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "examples",
+    "package.json",
+    "gulpfile.js",
+    "index.js"
   ]
 }
