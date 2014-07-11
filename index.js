@@ -478,6 +478,12 @@ exports.ui = function (schema) {
     })
 }
 
+/**
+ * @param src
+ * @param extension
+ *
+ * @returns {Object} Deep copy of extended src
+ */
 exports.import = function (src, extension) {
     var child;
 
@@ -487,9 +493,9 @@ exports.import = function (src, extension) {
         child = _.cloneDeep(src);
     }
 
-    if (extension) {
-        _.merge(child, extension);
-    }
+    _.rest(arguments).forEach(function(ext){
+        _.merge(child, ext);
+    });
 
     return child;
 }
