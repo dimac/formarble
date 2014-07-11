@@ -479,12 +479,15 @@ exports.ui = function (schema) {
 }
 
 /**
- * @param src
- * @param extension
+ * @description
+ * Create deep copy of source object and merge all extensions into it
  *
- * @returns {Object} Deep copy of extended src
+ * @param {Object} src Source object
+ * @param {...Object} ext Extensions
+ *
+ * @returns {Object} Deep copy of extended `src`
  */
-exports.import = function (src, extension) {
+exports.import = function (src, ext) {
     var child;
 
     if (src.schema && src.form) {
