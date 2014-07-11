@@ -1,7 +1,10 @@
 {
   "name": "formarble",
-  "main": ["formarble*.js", "controls/**/*.js"],
-  "version": "0.0.0-9",
+  "main": [
+    "formarble*.js",
+    "controls/**/*.js"
+  ],
+  "version": "0.0.1-0",
   "homepage": "https://github.com/dimac/formarble",
   "authors": [
     "Dima Chukhai <dima@luckyteam.co.uk>"
