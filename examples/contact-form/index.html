@@ -4,11 +4,11 @@
     <title>Formarble example</title>
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
     <script src="bower_components/lodash/dist/lodash.js"></script>
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <!--<script src="bower_components/jquery/dist/jquery.js"></script>-->
+    <!--<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>-->
     <script src="bower_components/angular/angular.js"></script>
     <script src="../../formarble.js"></script>
-    <script src="../../formarble.controls.js"></script>
+    <script src="../../controls/simple/simple.all.js"></script>
     <script src="schema.js"></script>
     <script src="app.js"></script>
 </head>
@@ -19,18 +19,15 @@
     </header>
 
     <section>
-        <div ng-init="resetLabel = 'Reset';">
+        <div>
             <form name="form" class="form-horizontal" novalidate>
                 <div class="form-group">
                     <h2 class="col-md-push-4 col-md-8">{{schema.title}}</h2>
                 </div>
-                <div fm-form="schema" fm-theme="bs" ng-model="model"></div>
+                <div fm-form="schema" fm-theme="bs-common" fm-model="model"></div>
                 <div class="form-group">
                     <div class="col-sm-push-4 col-sm-8">
                         <button class="btn btn-primary" ng-click="send()" ng-disabled="form.$invalid">Send</button>
-                        <button class="btn" ng-click="reset()" ng-disabled="form.$pristine">
-                            {{resetLabel || 'N/A'}}
-                        </button>
                     </div>
                 </div>
             </form>
@@ -42,7 +39,7 @@
             Model:
             <pre>{{model | json}}</pre>
         </div>
-        <div class="col-md6">
+        <div class="col-md-6">
             Filtered:
             <pre>{{modelFiltered | json}}</pre>
         </div>
@@ -50,7 +47,7 @@
 </div>
 </body>
 
-<script id="bs/group" type="text/ng-template">
+<!--<script id="bs/group" type="text/ng-template">
     <h2>Group: {{$control.$model}}</h2>
     <div ng-repeat="c in ::$subControls" fm-control="c"></div>
 </script>
@@ -120,5 +117,5 @@
             <select class="form-control" fm-control-input></select>
         </div>
     </div>
-</script>
+</script>-->
 </html>

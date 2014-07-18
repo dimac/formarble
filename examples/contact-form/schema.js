@@ -4,6 +4,8 @@ window.schema = {
       "summary",
       "message"
    ],
+   "mapping": {},
+   "virtual": {},
    "properties": {
       "issue": {
          "type": "string",

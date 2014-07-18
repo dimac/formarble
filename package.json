@@ -1,6 +1,6 @@
 {
   "name": "formarble",
-  "version": "0.0.1-1",
+  "version": "0.0.2",
   "description": "Extend your JSON schema with form display properties and render form with Angular",
   "main": "index.js",
   "scripts": {
