@@ -465,6 +465,11 @@ exports.ui = function (schema) {
                 prop.display.required = true;
             }
 
+            //resolve autofocus
+            if (parent.focus == id) {
+                prop.display.autofocus = true;
+            }
+
             //resolve display level
             prop.level = parent.level + 1;
         } else {

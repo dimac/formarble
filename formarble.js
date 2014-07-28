@@ -254,7 +254,7 @@ angular.module('formarble', [])
     })
     .directive('fmControlInput', function ($compile, fm) {
         var ngInputPlugins = ['pattern', 'minlength', 'maxlength', 'required'];
-        var htmlInputPlugins = ['min', 'max', 'step'];
+        var htmlInputPlugins = ['min', 'max', 'step', 'autofocus'];
 
         function toNgName(name) {
             return 'ng' + name.charAt(0).toUpperCase() + name.slice(1);

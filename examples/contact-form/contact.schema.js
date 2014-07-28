@@ -34,5 +34,6 @@ module.exports = {
             display: {name: 'fm-textarea'}
         }
     },
-    required: ['summary', 'message']
+    required: ['issue', 'priority', 'summary', 'message'],
+    focus: 'summary'
 };

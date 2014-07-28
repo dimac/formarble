@@ -1,9 +1,12 @@
 window.schema = {
    "title": "How can we help?",
    "required": [
+      "issue",
+      "priority",
       "summary",
       "message"
    ],
+   "focus": "summary",
    "mapping": {},
    "virtual": {},
    "properties": {
@@ -30,7 +33,8 @@ window.schema = {
                   "title": "Bug report"
                }
             ],
-            "inline": true
+            "inline": true,
+            "required": true
          },
          "_id": "issue",
          "_path": "issue",
@@ -66,7 +70,8 @@ window.schema = {
                   "id": "urgent",
                   "title": "Urgent"
                }
-            ]
+            ],
+            "required": true
          },
          "_id": "priority",
          "_path": "priority",
@@ -85,7 +90,8 @@ window.schema = {
             "name": "fm-input",
             "type": "text",
             "maxlength": 100,
-            "required": true
+            "required": true,
+            "autofocus": true
          },
          "title": "Summary",
          "_order": 1003,
