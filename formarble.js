@@ -116,7 +116,7 @@ angular.module('formarble', [])
                 }
 
                 this.getControlModel = function (control) {
-                    return ['$model', control._path].join('.')
+                    return ['$model', control._path].join('.').replace(/\.(\d+)(?=\.)/g, '[$1]');
                 }
 
                 this.getControlId = function (control) {
