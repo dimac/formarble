@@ -1,10 +1,23 @@
 "use strict";
 /* jshint expr:true, unused:false */
-var es = require('event-stream'),
-    path = require('path');
+var fs = require('fs'),
+    es = require('event-stream'),
+    path = require('path'),
+    gutil = require('gulp-util'),
+    argv = require('minimist')(process.argv.slice(2));
+
+var baseDir = path.resolve('build');//absolute path
+var controlsBaseDir = path.resolve('src/controls');
+
+if(argv.module && fs.existsSync(path.join(controlsBaseDir, argv.module))) {
+    gutil.log(gutil.colors.green('Compiling module ' + argv.module, 'at', path.join(controlsBaseDir, argv.module)));
+    process.chdir(path.join(controlsBaseDir, argv.module));
+} else {
+    gutil.log(gutil.colors.red('No or bad module specified!'));
+    process.exit(1);
+}
 
 var gulp = require('gulp'),
-    gutil = require('gulp-util'),
     plumber = require('gulp-plumber'),
     concat = require('gulp-concat'),
     rename = require('gulp-rename'),
@@ -15,17 +28,18 @@ var gulp = require('gulp'),
     sourcemaps = require("gulp-sourcemaps");
 
 var name = path.basename(process.cwd()),
+    buildDir = path.relative(process.cwd(), path.resolve(baseDir, name)),
     moduleName = 'formarble/controls/' + name,
     sources = {
         module: name + '.js',
         templates: 'templates/**/*.html'
     },
     dest = {
-        dist: name + '.all.js',
-        distMin: name + '.all.min.js',
+        dist: path.join(buildDir, name + '.js'),
+        distMin: path.join(buildDir, name + '.min.js'),
 
-        module: name + '.controls.js',
-        templates: name + '.templates.js'
+        //module: path.join(buildDir, name + '.controls.js'),
+        //templates: path.join(buildDir, name + '.templates.js')
     };
 
 function handleErrors() {
@@ -59,12 +73,12 @@ var pipe = {
                 moduleName: moduleName,
                 declareModule: false
             }))
-            .pipe(concat(dest.templates))
-            .pipe(gulp.dest('.'))
+            //.pipe(concat(dest.templates))
+            //.pipe(gulp.dest('.'))
     }
 };
 
-gulp.task('templates', function (event) {
+gulp.task('all', function (event) {
     var module = pipe.module(gulp.src(sources.module)),
         templates = pipe.html(gulp.src(sources.templates));
 
@@ -78,6 +92,6 @@ gulp.task('templates', function (event) {
 
 });
 
-gulp.task('default', ['templates']);
+gulp.task('default', ['all']);
 
 

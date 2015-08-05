@@ -16,19 +16,19 @@
     "lodash": "~2.4.1"
   },
   "devDependencies": {
-    "gulp": "~3.8.6",
-    "gulp-util": "~2.2.19",
-    "gulp-rename": "~1.2.0",
-    "gulp-chug": "~0.2.3",
-    "gulp-ng-html2js": "~0.1.7",
-    "gulp-plumber": "~0.6.3",
-    "gulp-concat": "~2.3.0",
-    "gulp-uglify": "~0.3.1",
-    "gulp-minify-html": "~0.1.4",
-    "event-stream": "~3.1.5",
-    "gulp-sourcemaps": "~0.4.5",
-    "gulp-ngmin": "~0.3.0",
+    "event-stream": "^3.3.1",
+    "gulp": "^3.9.0",
     "gulp-bump": "~0.1.10",
+    "gulp-chug": "^0.4.2",
+    "gulp-concat": "~2.3.0",
+    "gulp-minify-html": "~0.1.4",
+    "gulp-ng-html2js": "~0.1.7",
+    "gulp-ngmin": "~0.3.0",
+    "gulp-plumber": "~0.6.3",
+    "gulp-rename": "~1.2.0",
+    "gulp-sourcemaps": "~0.4.5",
+    "gulp-uglify": "~0.3.1",
+    "gulp-util": "~2.2.19",
     "minimist": "~0.2.0"
   }
 }

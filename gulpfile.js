@@ -1,7 +1,8 @@
 "use strict";
 /* jshint expr:true, unused:false */
 var fs = require('fs'),
-    path = require('path');
+    path = require('path'),
+    es = require('event-stream');
 
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
@@ -12,30 +13,31 @@ var gulp = require('gulp'),
     bump = require('gulp-bump');
 
 var args = require('minimist')(process.argv.slice(3)),
-    controlsDir = 'controls',
+    buildDir = 'build',
+    controlsDir = 'src/controls',
     controls = fs.readdirSync(controlsDir)
         .filter(function (name) {
             return fs.statSync(path.join(controlsDir, name)).isDirectory();
         });
 
 gulp.task('build-core', function () {
-    return gulp.src('formarble.js')
+    return gulp.src('src/formarble.js')
+        .pipe(gulp.dest(buildDir))
         .pipe(ngmin())
         .pipe(uglify())
         .pipe(rename('formarble.min.js'))
-        .pipe(gulp.dest('.'))
-})
+        .pipe(gulp.dest(buildDir))
+});
 
 gulp.task('build-controls', function () {
-    var stream = gulp.src('controls/.gulpfile.js')
-
-    controls.forEach(function (dest) {
-        stream
-            .pipe(rename(path.join(dest, 'gulpfile.js')))
-            .pipe(chug());
+    var streams = controls.map(function (dest) {
+        return gulp.src('gulpfile-controls.js', {read: false})
+            .pipe(chug({
+                args: ['--module=' + dest]
+            }));
     });
 
-    return stream;
+    return es.merge(streams);
 });
 
 gulp.task('version', function() {
