@@ -1,0 +1,26 @@
+<div class="hidden-lg btn-toolbar">
+
+    <div class="btn-group btn-group-sm"
+         ng-repeat-start="i in $tree.breadcrumb track by i.path"
+         ng-if="i.treeItems.length">
+
+        <button class="btn btn-default" ng-click="$select(i)" ng-class="{'btn-primary': $tree.isSelected(i)}">{{i.title}}</button>
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li ng-repeat="i in i.treeItems">
+                <a href="" ng-click="$select(i)">{{i.title}}</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="btn-group btn-group-sm"
+         ng-repeat-end
+         ng-if="!i.treeItems.length">
+
+        <button type="button" class="btn btn-primary active">
+            {{i.title}}
+        </button>
+    </div>
+</div>

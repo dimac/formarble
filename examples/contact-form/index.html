@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formarble example</title>
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <script src="../bower_components/lodash/dist/lodash.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/formarble/build/formarble.js"></script>
+    <script src="../bower_components/formarble/build/simple/simple.js"></script>
+    <script src="schema.js"></script>
+    <script src="app.js"></script>
+</head>
+<body ng-app="FormarbleExample">
+<div class="container">
+    <header>
+        <h1 class="text-muted">Formarble example</h1>
+    </header>
+
+    <section>
+        <div>
+            <form name="form" class="form-horizontal" novalidate>
+                <div class="form-group">
+                    <h2 class="col-md-push-4 col-md-8">{{schema.title}}</h2>
+                </div>
+                <div fm-form="schema" fm-theme="bs-common" fm-model="model"></div>
+                <div class="form-group">
+                    <div class="col-sm-push-4 col-sm-8">
+                        <button class="btn btn-primary" ng-click="send()" ng-disabled="form.$invalid">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="col-sm-6">
+            <p>Model:</p>
+            <pre>{{model | json}}</pre>
+        </div>
+        <div class="col-sm-6">
+            <p>Filtered:</p>
+            <pre>{{modelFiltered | json}}</pre>
+        </div>
+    </section>
+    <section>
+        <p>Original schema:</p>
+        <pre>
+{
+    title: 'How can we help?',
+
+    properties: {
+        issue: {
+            type: 'string',
+            enum: ['tech-support', 'feature-request', 'bug-report'],
+
+            //hint for formarble to show list as a radio list
+            display: {
+                name: 'fm-radio-list',
+                inline: true
+            }
+        },
+
+        priority: {
+            type: 'string',
+            enum: ['low', 'normal', 'high', 'urgent'],
+
+            display: {
+                name: 'fm-radio-list'
+            }
+        },
+
+        summary: {
+            type: 'string',
+            maxLength: 100
+        },
+
+        message: {
+            type: 'string',
+            maxLength: 2048,
+            display: {name: 'fm-textarea'}
+        }
+    },
+    required: ['summary', 'message']
+};
+        </pre>
+    </section>
+
+</div>
+</body>
+
+</html>
