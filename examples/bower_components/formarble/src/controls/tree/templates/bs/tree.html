@@ -3,8 +3,7 @@
 </h3>
 <div class="row">
     <div class="col-lg-3" ng-if="!$isSubtree">
-        <div class="visible-lg hidden-sm" fm-tree-overview="$control"></div>
-        <div class="hidden-lg" fm-tree-overview="$control" fm-tree-breadcrumb></div>
+        <ol fm-tree-sidebar="$control"></ol>
     </div>
     <div ng-class=" {'col-lg-12': $isSubtree, 'col-lg-9': !$isSubtree}">
         <div ng-if="!$tree.selected && $subControls.length">

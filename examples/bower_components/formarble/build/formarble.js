@@ -149,9 +149,7 @@ angular.module('formarble', [])
                                 return a._order - b._order;
                             })
                     }
-                    return [];
                 }
-
             },
             link: function (scope, elem) {
                 if (!elem.find('[fm-control]').length) {
@@ -206,10 +204,7 @@ angular.module('formarble', [])
                     control.$model = form.getControlModel(control);
 
                     innerScope.$control = control;
-                    innerScope.$subControls = form.getChildren(control).map(function(_c){
-                        _c.$parent = control;
-                        return _c;
-                    });
+                    innerScope.$subControls = form.getChildren(control);
 
                     if(!form.hasChildren(control)) {
                         innerScope.$useDefault = !form.hasValue(control);

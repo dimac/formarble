@@ -1,4 +1,4 @@
 <li ng-repeat="i in $items" ng-class="{selected: $tree.isSelected(i), open: $tree.isOpen(i)}">
     <a href ng-click="$select(i)">{{i.title}}</a>
-    <ul ng-if="$tree.isOpen(i)" fm-tree-overview="i"></ul>
+    <ul ng-if="$tree.isOpen(i)" fm-tree-sidebar="i"></ul>
 </li>

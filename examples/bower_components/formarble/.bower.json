@@ -4,7 +4,7 @@
     "formarble*.js",
     "controls/**/*.js"
   ],
-  "version": "0.3.0",
+  "version": "0.0.5",
   "homepage": "https://github.com/dimac/formarble",
   "authors": [
     "Dima Chukhai <dima@luckyteam.co.uk>"
@@ -23,13 +23,14 @@
     "gulpfile.js",
     "index.js"
   ],
-  "_release": "0.3.0",
+  "_release": "0.0.5",
   "_resolution": {
     "type": "version",
-    "tag": "0.3.0",
-    "commit": "3b909caf629ca4f5dfd4dfee98d39a0bc88758af"
+    "tag": "0.0.5",
+    "commit": "12ca1a09803da6df3731f3fe481e7549733985f4"
   },
-  "_source": "git@github.com:dimac/formarble.git",
-  "_target": "*",
-  "_originalSource": "git@github.com:dimac/formarble.git"
+  "_source": "git://github.com/dimac/formarble.git",
+  "_target": "~0.0.5",
+  "_originalSource": "dimac/formarble",
+  "_direct": true
 }
