@@ -1,0 +1,16 @@
+<div class="form-group row" ng-class="{'has-error': $input.$invalid}">
+    <label class="form-control-label col-sm-4" fm-control-label></label>
+
+    <div class="col-sm-8" ng-if="$useDefault" fm-control-empty></div>
+    <div class="col-sm-8" ng-hide="$useDefault">
+        <div class="input-group">
+            <input class="form-control" type="range" fm-control-input/>
+            <span class="input-group-addon" style="min-width: 60px">{{$empty ? 'Auto' : $value}}</span>
+        </div>
+        <p class="help-block pull-xs-right">
+            <a href ng-click="$setEmpty()">use default</a>
+        </p>
+
+        <p ng-if="$control.description" class="help-block">{{$control.description}}</p>
+    </div>
+</div>

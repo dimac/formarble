@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Formarble example</title>
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <script src="../bower_components/lodash/dist/lodash.js"></script>
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../../build/formarble.js"></script>
+    <script src="../../build/tree/tree.js"></script>
+    <script src="../../build/simple/simple.js"></script>
+    <script src="schema.js"></script>
+    <script src="app.js"></script>
+
+    <style>
+        .nav-tabs li > a {
+            max-width: 200px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        [fm-tree-sidebar] > li.selected > a {
+            font-weight: bold;
+        }
+
+        [fm-tree-sidebar] > li.open > a {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body ng-app="FormarbleExample">
+<div class="container">
+    <h1>Profile example</h1>
+
+    <div>
+        <form class="form-horizontal" fm-form="schema" fm-theme="bs-4" fm-model="model">
+            <div fm-control="$control"></div>
+        </form>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            Model:
+            <pre>{{model | json}}</pre>
+        </div>
+        <div class="col-md-6">
+            Model (filtered):
+            <pre>{{modelFiltered | json}}</pre>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

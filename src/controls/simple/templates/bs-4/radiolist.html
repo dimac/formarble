@@ -1,0 +1,16 @@
+<div class="form-group row">
+    <label class="form-control-label col-sm-4" fm-control-label for=""></label>
+
+    <div class="col-sm-8" ng-if="$useDefault" fm-control-empty></div>
+    <div class="col-sm-8" ng-hide="$useDefault">
+        <p class="help-block col-sm-2 pull-xs-right">
+            <a href ng-click="$setEmpty()">use default</a>
+        </p>
+
+        <div class="radio" ng-repeat="li in $control.display.options">
+            <label>
+                <input type="radio" fm-control-input ng-value="li.id"/> {{li.title}}
+            </label>
+        </div>
+    </div>
+</div>
