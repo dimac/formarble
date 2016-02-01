@@ -224,7 +224,7 @@ angular.module('formarble/controls/simple').run(['$templateCache', function($tem
 
 angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
   $templateCache.put('bs-4/checkbox.html',
-    '<div class="form-group row"><label class="form-control-label col-sm-4" fm-control-label=""></label><div class="col-sm-8" ng-if="$useDefault" fm-control-empty=""></div><div class="col-sm-8" ng-hide="$useDefault"><div class="checkbox"><label><input type="checkbox" fm-control-input=""> {{$control.description}}</label><p class="help-block pull-xs-right"><a href="" ng-click="$setEmpty()">use default</a></p></div></div></div>');
+    '<div class="form-group row"><label class="form-control-label col-sm-4" fm-control-label=""></label><div class="col-sm-8" ng-if="$useDefault" fm-control-empty=""></div><div class="col-sm-8" ng-hide="$useDefault"><div class="checkbox"><label><input type="checkbox" fm-control-input=""> {{$control.description}}</label><p class="help-block"><a href="" ng-click="$setEmpty()">Reset to default</a></p></div></div></div>');
 }]);
 
 angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
@@ -249,27 +249,27 @@ angular.module('formarble/controls/simple').run(['$templateCache', function($tem
 
 angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
   $templateCache.put('bs-4/input-range.html',
-    '<div class="form-group row" ng-class="{\'has-error\': $input.$invalid}"><label class="form-control-label col-sm-4" fm-control-label=""></label><div class="col-sm-8" ng-if="$useDefault" fm-control-empty=""></div><div class="col-sm-8" ng-hide="$useDefault"><div class="input-group"><input class="form-control" type="range" fm-control-input=""> <span class="input-group-addon" style="min-width: 60px">{{$empty ? \'Auto\' : $value}}</span></div><p class="help-block pull-xs-right"><a href="" ng-click="$setEmpty()">use default</a></p><p ng-if="$control.description" class="help-block">{{$control.description}}</p></div></div>');
+    '<div class="form-group row" ng-class="{\'has-error\': $input.$invalid}"><label class="form-control-label col-sm-4" fm-control-label=""></label><div class="col-sm-8" ng-if="$useDefault" fm-control-empty=""></div><div class="col-sm-8" ng-hide="$useDefault"><div class="input-group"><input class="form-control" type="range" fm-control-input=""> <span class="input-group-addon" style="min-width: 60px">{{$empty ? \'Auto\' : $value}}</span></div><p class="help-block"><a href="" ng-click="$setEmpty()">Reset to default</a></p><p ng-if="$control.description" class="help-block">{{$control.description}}</p></div></div>');
 }]);
 
 angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
   $templateCache.put('bs-4/input.html',
-    '<div class="form-group row" ng-class="{\'has-error\': $input.$dirty && $input.$invalid}"><label class="form-control-label col-sm-4" fm-control-label=""></label><div class="col-sm-8" ng-if="$useDefault" fm-control-empty=""></div><div class="col-sm-8" ng-hide="$useDefault"><input class="form-control" fm-control-input=""><p class="help-block pull-xs-right"><a href="" ng-click="$setEmpty()">use default</a></p><p ng-if="$control.description" class="help-block">{{$control.description}}</p></div></div>');
+    '<div class="form-group row" ng-class="{\'has-error\': $input.$dirty && $input.$invalid}"><label class="form-control-label col-sm-4" fm-control-label=""></label><div class="col-sm-8" ng-if="$useDefault" fm-control-empty=""></div><div class="col-sm-8" ng-hide="$useDefault"><input class="form-control" fm-control-input=""><p class="help-block"><a href="" ng-click="$setEmpty()">Reset to default</a></p><p ng-if="$control.description" class="help-block">{{$control.description}}</p></div></div>');
 }]);
 
 angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
   $templateCache.put('bs-4/radiolist.html',
-    '<div class="form-group row"><label class="form-control-label col-sm-4" fm-control-label="" for=""></label><div class="col-sm-8" ng-if="$useDefault" fm-control-empty=""></div><div class="col-sm-8" ng-hide="$useDefault"><p class="help-block col-sm-2 pull-xs-right"><a href="" ng-click="$setEmpty()">use default</a></p><div class="radio" ng-repeat="li in $control.display.options"><label><input type="radio" fm-control-input="" ng-value="li.id"> {{li.title}}</label></div></div></div>');
+    '<div class="form-group row"><label class="form-control-label col-sm-4" fm-control-label="" for=""></label><div class="col-sm-8" ng-if="$useDefault" fm-control-empty=""></div><div class="col-sm-8" ng-hide="$useDefault"><div class="radio" ng-repeat="li in $control.display.options"><label><input type="radio" fm-control-input="" ng-value="li.id"> {{li.title}}</label></div><div class="radio"><a href="" ng-click="$setEmpty()">Reset to default</a></div></div></div>');
 }]);
 
 angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
   $templateCache.put('bs-4/select.html',
-    '<div class="form-group row"><label class="form-control-label col-sm-4" fm-control-label=""></label><div class="col-sm-8" ng-if="$useDefault" fm-control-empty=""></div><div class="col-sm-8" ng-hide="$useDefault"><select class="form-control" fm-control-input=""></select><p class="help-block pull-xs-right"><a href="" ng-click="$setEmpty()">use default</a></p></div></div>');
+    '<div class="form-group row"><label class="form-control-label col-sm-4" fm-control-label=""></label><div class="col-sm-8" ng-if="$useDefault" fm-control-empty=""></div><div class="col-sm-8" ng-hide="$useDefault"><select class="form-control" fm-control-input=""></select><p class="help-block"><a href="" ng-click="$setEmpty()">Reset to default</a></p></div></div>');
 }]);
 
 angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
   $templateCache.put('bs-4/textarea.html',
-    '<div class="form-group row" ng-class="{\'has-error\': $input.$dirty && $input.$invalid}"><label class="form-control-label col-sm-4" fm-control-label=""></label><div class="col-sm-8" ng-if="$useDefault" fm-control-empty=""></div><div class="col-sm-8" ng-hide="$useDefault"><textarea class="form-control" fm-control-input=""></textarea><p class="help-block pull-xs-right"><a href="" ng-click="$setEmpty()">use default</a></p><p ng-if="$control.description" class="help-block">{{$control.description}}</p></div></div>');
+    '<div class="form-group row" ng-class="{\'has-error\': $input.$dirty && $input.$invalid}"><label class="form-control-label col-sm-4" fm-control-label=""></label><div class="col-sm-8" ng-if="$useDefault" fm-control-empty=""></div><div class="col-sm-8" ng-hide="$useDefault"><textarea class="form-control" fm-control-input=""></textarea><p class="help-block"><a href="" ng-click="$setEmpty()">Reset to default</a></p><p ng-if="$control.description" class="help-block">{{$control.description}}</p></div></div>');
 }]);
 
 angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
