@@ -14,9 +14,10 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.3",
+    "angular": "~1.5",
     "lodash": "~2",
-    "bootstrap": "~3.1.1",
-    "formarble": "git@github.com:dimac/formarble.git"
+    "bootstrap": "~3",
+    "bootstrap4": "twbs/bootstrap#v4-dev",
+    "formarble": "dimac/formarble"
   }
 }
