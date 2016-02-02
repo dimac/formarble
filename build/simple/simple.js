@@ -311,3 +311,43 @@ angular.module('formarble/controls/simple').run(['$templateCache', function($tem
   $templateCache.put('bs-common/textarea.html',
     '<div class="form-group" ng-class="{\'has-error\': $input.$dirty && $input.$invalid}"><label class="control-label col-sm-4" fm-control-label=""></label><div class="col-sm-8"><textarea class="form-control" fm-control-input=""></textarea><p ng-if="$control.description" class="help-block">{{$control.description}}</p></div></div>');
 }]);
+
+angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
+  $templateCache.put('bs4-common/checkbox.html',
+    '<div class="form-group row"><label class="form-control-label col-sm-4" fm-control-label=""></label><div class="col-sm-8"><div class="checkbox"><label><input type="checkbox" fm-control-input=""> {{$control.description}}</label></div></div></div>');
+}]);
+
+angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
+  $templateCache.put('bs4-common/control-label.html',
+    '{{$control.title}} <a class="control-help" ng-if="$control.display.hint" title="{{$control.display.hint}}"><i class="glyphicon glyphicon-info-sign"></i></a>');
+}]);
+
+angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
+  $templateCache.put('bs4-common/group.html',
+    '<div><div ng-repeat="c in $subControls" fm-control="c"></div></div>');
+}]);
+
+angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
+  $templateCache.put('bs4-common/input-range.html',
+    '<div class="form-group row" ng-class="{\'has-error\': $input.$invalid}"><label class="form-control-label col-sm-4" fm-control-label=""></label><div class="col-sm-8"><div class="input-group"><input class="form-control" type="range" fm-control-input=""> <span class="input-group-addon" style="min-width: 60px">{{$empty ? \'Auto\' : $value}}</span></div><p ng-if="$control.description" class="help-block">{{$control.description}}</p></div></div>');
+}]);
+
+angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
+  $templateCache.put('bs4-common/input.html',
+    '<div class="form-group row" ng-class="{\'has-error\': $input.$dirty && $input.$invalid}"><label class="form-control-label col-sm-4" fm-control-label=""></label><div class="col-sm-8"><input class="form-control" fm-control-input=""><p ng-if="$control.description" class="help-block">{{$control.description}}</p></div></div>');
+}]);
+
+angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
+  $templateCache.put('bs4-common/radiolist.html',
+    '<div class="form-group row"><label class="form-control-label col-sm-4" fm-control-label="" for=""></label><div class="col-sm-8"><div class="radio" ng-repeat="li in $control.display.options"><label><input type="radio" fm-control-input="" ng-value="li.id"> {{li.title}}</label></div></div></div>');
+}]);
+
+angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
+  $templateCache.put('bs4-common/select.html',
+    '<div class="form-group row"><label class="form-control-label col-sm-4" fm-control-label=""></label><div class="col-sm-8"><select class="form-control" fm-control-input=""></select></div></div>');
+}]);
+
+angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
+  $templateCache.put('bs4-common/textarea.html',
+    '<div class="form-group row" ng-class="{\'has-error\': $input.$dirty && $input.$invalid}"><label class="form-control-label col-sm-4" fm-control-label=""></label><div class="col-sm-8"><textarea class="form-control" fm-control-input=""></textarea><p ng-if="$control.description" class="help-block">{{$control.description}}</p></div></div>');
+}]);
