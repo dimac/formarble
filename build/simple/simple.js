@@ -279,7 +279,7 @@ angular.module('formarble/controls/simple').run(['$templateCache', function($tem
 
 angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
   $templateCache.put('bs4/group-items.html',
-    '<p class="text-muted">{{$control.title}}</p><ul class="nav nav-tabs"><li><a href="" ng-click="$group.addItem()"><i class="fa fa-plus"></i></a></li><li ng-class="{active: c.$selected}" ng-repeat="c in $group.$items"><a href="" ng-click="$group.select(c)">{{$group.getLabel(c)}}</a></li><li class="pull-xs-right"><a href="" ng-click="$group.removeItem($group.selected)"><i class="fa fa-minus"></i></a></li></ul><div ng-if="!$group.selected"><h3 class="text-xs-center text-muted">Create or select an item first</h3></div><div fm-control="$group.selected"></div>');
+    '<p class="text-muted">{{$control.title}}</p><ul class="nav nav-tabs"><li class="nav-item"><a class="nav-link" href="" ng-click="$group.addItem()"><i class="fa fa-plus"></i></a></li><li class="nav-item" ng-repeat="c in $group.$items"><a class="nav-link" ng-class="{active: c.$selected}" href="" ng-click="$group.select(c)">{{$group.getLabel(c)}}</a></li><li class="nav-item"><a class="nav-link" href="" ng-click="$group.removeItem($group.selected)"><i class="fa fa-minus"></i></a></li></ul><div ng-if="!$group.selected"><h3 class="text-xs-center text-muted">Create or select an item first</h3></div><div fm-control="$group.selected"></div>');
 }]);
 
 angular.module('formarble/controls/simple').run(['$templateCache', function($templateCache) {
